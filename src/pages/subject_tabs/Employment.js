@@ -450,7 +450,7 @@ export default function Employment({ id, updateProfileData }) {
                 inputFormat="MM/dd/yyyy"
                 value={end_date}
                 fullWidth
-                minDate={end_date}
+                minDate={start_date}
                 onChange={(newValue) => {
                     handleEndDate(newValue);
                 }}
