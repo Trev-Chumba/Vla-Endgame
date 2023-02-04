@@ -118,7 +118,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
     const stringRegExp= /^[aA-zZ\s]+$/
     const numericRegExp= /^[0-9]+$/
     const id_regex = /^[0-9]{1,9}$/
-    const kra_regex = "/^[A]{1}[0-9]{9}[a-zA-Z]{1}$/"
+    const kra_regex = /^[A]{1}[0-9]{9}[a-zA-Z]{1}$/
 
     
 
