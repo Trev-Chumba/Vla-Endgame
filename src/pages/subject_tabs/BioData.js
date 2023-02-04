@@ -117,6 +117,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
     const stringRegExp= /^[aA-zZ\s]+$/
     const numericRegExp= /^[0-9]+$/
+    const id_regex = /^[0-9]{1,9}$/
 
     
 
@@ -124,7 +125,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
     const RegisterSchema = Yup.object().shape({
         subject_name: Yup.string().required('First name required'),
         email: Yup.string().email('Email must be a valid email address'),
-        idNo: Yup.string().required('ID Number is required').matches(numericRegExp,"Only digits allowed"),
+        idNo: Yup.string().required('ID Number is required').matches(id_regex,"Only valid Kenyan ID allowed"),
         street_name: Yup.string().max(50,"Too long!"),
         dob: Yup.date(),
         gender: Yup.string().required("select gender"),
