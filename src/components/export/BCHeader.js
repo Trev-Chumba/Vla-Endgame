@@ -58,7 +58,7 @@ today = mm + '/' + dd + '/' + yyyy;
             <Text style={styles.Text}>TO :{caseDetails.cSource}</Text>
 
             {/* <Text style={styles.Text}>THRO' :{caseDetails.through}</Text> */}
-            {caseDetails.through == ''?  <Text style={styles.Text}>THRO' :{caseDetails.through}</Text>: null }
+            {caseDetails.through == ''? null : <Text style={styles.Text}>THRO':  {caseDetails.through}</Text> }
            
 
             <Text style={styles.Text}>FROM : {caseDetails.subject}  </Text>

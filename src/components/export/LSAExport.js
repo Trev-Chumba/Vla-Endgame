@@ -17,7 +17,7 @@ export default function LSAExport(props) {
     const assets = props.data.assets || []
     const liabilities = props.data.liabilities || []
     const travels = props.data.travels || []
-    const caseDetails = props.data.caseDetails || []
+    const caseDetails =  props.data.caseDetails || {}
 
     const styles = StyleSheet.create({
 
