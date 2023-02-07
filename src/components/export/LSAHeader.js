@@ -4,7 +4,7 @@ import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/render
 export const LSAHeader = (props) => {
 
     const caseDetails  = props.data|| {}
-    
+  
 
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
@@ -44,7 +44,7 @@ export const LSAHeader = (props) => {
 
             <View style={styles.Line} />
             <Text style={styles.Text}>TO :{caseDetails.cSource}</Text>
-            <Text style={styles.Text}>THRO':COMMISSIONER - INTELLIGENCE AND STRATEGIC OPERATIONS </Text>
+            {caseDetails.through == ''? null : <Text style={styles.Text}>THRO':  {caseDetails.through}</Text> }
             <Text style={styles.Text}>FROM : {caseDetails.subject}  </Text>
             <Text style={styles.Text}>REF :  {caseDetails.reference}    </Text>
             <Text style={styles.Text}>DATE : {today}   </Text>
