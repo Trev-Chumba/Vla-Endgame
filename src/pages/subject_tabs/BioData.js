@@ -117,6 +117,8 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
     const stringRegExp= /^[aA-zZ\s]+$/
     const numericRegExp= /^[0-9]+$/
+    const id_regex = /^[0-9]{1,9}$/
+    const kra_regex = /^[A]{1}[0-9]{9}[a-zA-Z]{1}$/
 
     
 
@@ -124,20 +126,20 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
     const RegisterSchema = Yup.object().shape({
         subject_name: Yup.string().required('First name required'),
         email: Yup.string().email('Email must be a valid email address'),
-        idNo: Yup.string().required('ID Number is required').matches(numericRegExp,"Only digits allowed"),
+        idNo: Yup.string().required('ID Number is required').matches(id_regex,"Only valid Kenyan ID allowed"),
         street_name: Yup.string().max(50,"Too long!"),
         dob: Yup.date(),
         gender: Yup.string().required("select gender"),
         ethnicity: Yup.string().matches(stringRegExp,'No numbers allowed'),
-        tel1: Yup.string().required("provide primary telephone number"),
-        tel2: Yup.string(),
+        tel1: Yup.string().required("provide primary telephone number").matches(phoneRegExp, 'Please input valid mobile/telephone number'),
+        tel2: Yup.string().matches(phoneRegExp, "Please input valid mobile/telephone number"),
         tel3: Yup.string(),
         nationality: Yup.string().max(50,"Too Long!"),
         county: Yup.string(),
         division: Yup.string(),
         location: Yup.string(),
         sub_location: Yup.string(),
-        kra_pin: Yup.string().max(12,"Too Long!"),
+        kra_pin: Yup.string().max(12,"Too Long!").matches(kra_regex, "Please input valid KRA pin"),
         occupation: Yup.string(),
         place_of_work: Yup.string(),
         height: Yup.string(),

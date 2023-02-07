@@ -411,6 +411,7 @@ export default function Employment({ id, updateProfileData }) {
                             />
                           </LocalizationProvider>
 
+<<<<<<< HEAD
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DesktopDatePicker
                               disableFuture
@@ -427,6 +428,23 @@ export default function Employment({ id, updateProfileData }) {
                               )}
                             />
                           </LocalizationProvider>
+=======
+        
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DesktopDatePicker
+                disableFuture
+                label="End Date"
+                inputFormat="MM/dd/yyyy"
+                value={end_date}
+                fullWidth
+                minDate={start_date}
+                onChange={(newValue) => {
+                    handleEndDate(newValue);
+                }}
+                renderInput={(params) => <TextField  {...params} sx={{ width: '100%' }}/>}
+                />                    
+            </LocalizationProvider>  
+>>>>>>> 8c2ca25c5b475c8061e504ae007be011fbde691d
 
                           {/* 
                           <LocalizationProvider
