@@ -267,7 +267,7 @@ export default function Employment({ id, updateProfileData }) {
 
             setSubjectEmployment(values);
 
-            setAttachment(false);
+            setAttachment(undefined);
           } else {
             showErrorAlert('SAVE FAILED');
           }
