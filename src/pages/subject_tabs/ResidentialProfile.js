@@ -223,7 +223,7 @@ export default function ResidentialProfile({ id, updateProfileData }) {
       .matches(stringRegExp, 'Only Characters allowed'),
     physicalAddress: Yup.string().matches(stringRegExp, 'Only Characters allowed'),
     otherAddress: Yup.string().matches(stringRegExp, 'Only Characters allowed'),
-    postalAddress: Yup.string().matches(poRegex, 'Only Valid Adresses allowed'), //(PO Box|POBox|PO. Box|P.O. Box|P O Box|P.O Box|Postal Box|Post Office Box|PO)
+    postalAddress: Yup.string(), //(PO Box|POBox|PO. Box|P.O. Box|P O Box|P.O Box|Postal Box|Post Office Box|PO)
     coordinates: Yup.string(),
     remarks: Yup.string()
   });
