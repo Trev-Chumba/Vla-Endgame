@@ -56,7 +56,11 @@ today = mm + '/' + dd + '/' + yyyy;
             <View style={styles.Line} />
 
             <Text style={styles.Text}>TO :{caseDetails.cSource}</Text>
-            <Text style={styles.Text}>THRO' :{caseDetails.through}</Text>
+
+            {/* <Text style={styles.Text}>THRO' :{caseDetails.through}</Text> */}
+            {caseDetails.through == ''?  <Text style={styles.Text}>THRO' :{caseDetails.through}</Text>: null }
+           
+
             <Text style={styles.Text}>FROM : {caseDetails.subject}  </Text>
             <Text style={styles.Text}>REF :  {caseDetails.reference}    </Text>
             <Text style={styles.Text}>DATE : {today}   </Text>

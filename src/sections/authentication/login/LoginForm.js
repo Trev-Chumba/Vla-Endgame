@@ -64,7 +64,7 @@ export default function LoginForm({ setValueX }) {
       FetchApi.post(LOGIN_USER, values, (status, data) => {
         setIsSubmitting(false);
 
-        if ((status && data.status != '0') || data.status != '500') {
+        if ((status && data.status != '0') || status && data.status != '500') {
           setLoginStatus(true);
 
           setUserData(data);
