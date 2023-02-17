@@ -237,12 +237,12 @@ export default function CommDashboard() {
     //get inquiry
     FetchApi.post(GET_COMM_STATS, requestBody, (status, data) => {
       if (status) {
-        console.log(data);
+        console.log('Comm stats :::', data);
         setRecommendationsData(
           //data on the y-axi
           Object.values(data.statusCount)
         );
-        console.log(recommendationsData);
+        console.log(' Recommendations DATA ::', recommendationsData);
         setRecommendationsOptions({
           labels: Object.keys(data.statusCount),
 

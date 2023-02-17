@@ -42,6 +42,7 @@ export default function LSAExport(props) {
             fontSize: 13,
             marginVertical: 10,
             fontWeight: 'demibold'
+
         },
 
         textTableHeader: {
@@ -74,6 +75,7 @@ export default function LSAExport(props) {
             borderWidth: 1,
             padding: 5,
             flex: 1
+        
         }
 
     })
