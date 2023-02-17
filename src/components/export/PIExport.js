@@ -3,12 +3,7 @@ import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/
 import { BcHeader } from "./BCHeader";
 import { fontFamily } from "@mui/system";
 
-Font.register(
-    {
-        family:"Noto",
-        src:'https://fonts.googleapis.com/css2?family=Noto+Sans:wght@200&display=swap'
-    }
-)
+
 
 export default function PIExport(props) {
 
@@ -80,6 +75,7 @@ export default function PIExport(props) {
         <Page size='A4' style={styles.page}>
 
 
+
             <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed />
             <Text style={styles.textSubHeader} > Hello</Text>
 
@@ -91,7 +87,7 @@ export default function PIExport(props) {
 
                 <BcHeader />
 
-                <Text style={styles.textSubHeader}>1.0 Reason for Backgrounds Checks</Text>
+                <Text style={styles.textSubHeader}>1.0 Reason for Backgrounds Check</Text>
 
                 <Text style={styles.textBody}>
                     {caseDetails.cReasons}
