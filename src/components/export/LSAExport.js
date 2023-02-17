@@ -90,7 +90,8 @@ export default function LSAExport(props) {
             display: 'flex',
             flexDirection: 'column',
             marginHorizontal: 10,
-            marginVertical: 10
+            marginVertical: 10,
+    
         },
 
         tr: {
@@ -116,9 +117,9 @@ export default function LSAExport(props) {
             <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed />
 
             <View style={styles.body}>
-
+                <Text style={{right:2, position: "absolute",fontSize:9, fontFamily:'Georgia_bold', color:'red'}}>CONFIDENTIAL</Text>
                 <Image style={{ marginHorizontal: 'auto', height: 70 }} src={'/vla/static/kra_logo_name.jpg'} fixed />
-
+                <Text style={{marginHorizontal:'auto', fontSize:9, marginVertical:10, fontFamily:'Georgia_bold'}} fixed>ISO 9001:2015 CERTIFIED</Text>
                 <LSAHeader data={caseDetails} />
 
                 <Text style={styles.textSubHeader}>1.0 Executive Summary</Text>
@@ -139,7 +140,7 @@ export default function LSAExport(props) {
 
 
 
-                <View style={styles.table} >
+                <View style={styles.table}  >
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Photo Of Subject
@@ -174,7 +175,7 @@ export default function LSAExport(props) {
 
 
 
-                <View style={styles.table} >
+                <View style={styles.table}  wrap = {false}>
                     <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
@@ -386,7 +387,7 @@ export default function LSAExport(props) {
 
                 <Text style={styles.textSubHeader}>3.0 Residential Addresses</Text>
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Address
@@ -442,7 +443,7 @@ export default function LSAExport(props) {
 
                 <Text style={styles.textSubHeader}>4.0 Secondary Information</Text>
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Person Type
@@ -573,7 +574,7 @@ export default function LSAExport(props) {
                 <Text style={styles.textSubHeader}>7.0.1 Wealth Declaration - DAILS</Text>
 
                 <View style={styles.table}>
-                    <View style={styles.tr}>
+                    <View style={styles.tr} wrap = {false} >
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Type of Asset
                         </Text>
@@ -623,7 +624,7 @@ export default function LSAExport(props) {
 
 
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             S/No
@@ -663,7 +664,7 @@ export default function LSAExport(props) {
 
                 <Text style={styles.textSubHeader}>7.0.3 Summary of Accounts Identified</Text>
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Bank/Sacco/Telco Name
@@ -738,7 +739,7 @@ export default function LSAExport(props) {
 
                 <Text style={styles.textSubHeader}>8.0 Companies/Business Interests</Text>
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Company Name
@@ -798,7 +799,7 @@ export default function LSAExport(props) {
 
                 <Text style={styles.textSubHeader}>9.0 Assets</Text>
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             S/No
@@ -851,7 +852,7 @@ export default function LSAExport(props) {
 
                 <Text style={styles.textSubHeader}>9.0 Liabilities</Text>
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             S/No
@@ -904,7 +905,7 @@ export default function LSAExport(props) {
 
                 <Text style={styles.textSubHeader}>11.0 Integrity and Ethical Issues </Text>
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
