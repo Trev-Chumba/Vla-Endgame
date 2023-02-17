@@ -119,7 +119,7 @@ export default function LSAExport(props) {
             <View style={styles.body}>
                 <Text style={{right:2, position: "absolute",fontSize:9, fontFamily:'Georgia_bold', color:'red'}}>CONFIDENTIAL</Text>
                 <Image style={{ marginHorizontal: 'auto', height: 70 }} src={'/vla/static/kra_logo_name.jpg'} fixed />
-                <Text style={{marginHorizontal:'auto', fontSize:9, marginVertical:10, fontFamily:'Georgia_bold'}} fixed>ISO 9001:2015 CERTIFIED</Text>
+                <Text style={{marginHorizontal:'auto', fontSize:9,  fontFamily:'Georgia_bold', marginTop: -2, marginBottom:4}} fixed>ISO 9001:2015 CERTIFIED</Text>
                 <LSAHeader data={caseDetails} />
 
                 <Text style={styles.textSubHeader}>1.0 Executive Summary</Text>
