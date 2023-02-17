@@ -69,19 +69,22 @@ export const BcHeader = (props) => {
       <View style={styles.Line} />
 
       <Text style={styles.Text}>TO :{caseDetails.cSource}</Text>
-
+      {/* <Text>{'\n'}</Text> */}
       {/* <Text style={styles.Text}>THRO' :{caseDetails.through}</Text> */}
       {caseDetails.through == '' ? null : (
         <Text style={styles.Text}>THRO': {caseDetails.through}</Text>
       )}
-
+      {/* <Text>{'\n'}</Text> */}
       <Text style={styles.Text}>FROM : {caseDetails.subject} </Text>
+      {/* <Text>{'\n'}</Text> */}
       <Text style={styles.Text}>REF : {caseDetails.reference} </Text>
+      {/* <Text>{'\n'}</Text> */}
       <Text style={styles.Text}>DATE : {today} </Text>
 
       <View style={styles.Line} />
 
       <Text style={styles.Text}>RE : BACKGROUND REPORT FOR CANDIDATES</Text>
+      <Text>{'\n'}</Text>
       <Text style={styles.Text}>INQUIRY NO : {caseDetails.caseNo} </Text>
 
       <View style={styles.Line} />
