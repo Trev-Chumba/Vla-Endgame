@@ -219,8 +219,8 @@ export default function AssociatesProfiles({ id, updateProfileData }) {
       .required('name required')
       .matches(stringRegExp, 'Only Characters are allowed')
       .max(50, 'Too long'),
-    idNO: Yup.string(numericRegExp, 'Enter a valid ID Number').max(15, 'Too long'),
-    kraPin: Yup.string().max(15, 'TooLong!'),
+    idNo: Yup.string().matches(numericRegExp, 'Only digits allowed'),
+    kraPin: Yup.string().max(15, 'Too Long!'),
     //mobile: Yup.number().max(10, 'Too Long!'),
     mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid').max(10, 'Too long'),
 
