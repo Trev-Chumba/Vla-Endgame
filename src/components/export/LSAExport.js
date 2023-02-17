@@ -969,7 +969,7 @@ export default function LSAExport(props) {
 
 
                 <Text style={{ marginTop: 'auto', marginHorizontal: 'auto', fontFamily:'Georgiaz', fontSize: 12, color:'red' }} fixed>
-                    TULIPE USHURU, TUJITEGEMEE
+                    Tulipe Ushuru, Tujitegemee!
                 </Text>
 
             </View>
