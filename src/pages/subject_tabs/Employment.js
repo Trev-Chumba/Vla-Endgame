@@ -5,8 +5,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -22,18 +21,26 @@ import {
   TableContainer,
   TablePagination,
   Grid,
-  CardHeader, CardContent,
-  TextField, CardActions,Typography
-} from "@mui/material";
-import React, { useState } from "react";
+  CardHeader,
+  CardContent,
+  TextField,
+  CardActions,
+  Typography
+} from '@mui/material';
+import React, { useState } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
-import { useAlert } from 'react-alert'
+import { useAlert } from 'react-alert';
 import Page from 'src/components/Page';
 import Scrollbar from 'src/components/Scrollbar';
 import { UserListHead, UserListToolbar } from 'src/sections/@dashboard/user';
 
 import USERLIST from 'src/_mocks_/user';
-import { SET_EMPLOYMENT_PROFILE, GET_EMPLOYMENT_PROFILE, UPDATE_EMPLOYMENT_PROFILE,BASE_URL } from 'src/api/Endpoints';
+import {
+  SET_EMPLOYMENT_PROFILE,
+  GET_EMPLOYMENT_PROFILE,
+  UPDATE_EMPLOYMENT_PROFILE,
+  BASE_URL
+} from 'src/api/Endpoints';
 import { ProfileContext } from 'src/context/ProfileContext';
 import { UserContext } from 'src/context/UserContext';
 import { useContext } from 'react';
@@ -47,7 +54,9 @@ const TABLE_HEAD = [
   { id: 'role_played', label: 'Role Played', alignRight: false },
   { id: 'start_date', label: 'Start Date', alignRight: false },
   { id: 'end_date', label: 'End Date', alignRight: false },
+  //{ id: 'remarks', label: 'Remarks', alignRight: false },
   { id: 'attachmnents', label: 'Attachments', alignRight: false },
+  //{ id: 'gross_salary', label: 'Gross Salary', alignRight: false },
   // { id: 'status', label: 'Status', alignRight: false },
   { id: '' }
 ];
@@ -77,29 +86,27 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.employer.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(
+      array,
+      (_user) => _user.employer.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
   }
   return stabilizedThis.map((el) => el[0]);
 }
 
-
-
 export default function Employment({ id, updateProfileData }) {
-
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [allData, setAllData] = useState([])
-  const { userData } = useContext(UserContext)
-  const [userID, setUserID] = useState(userData.userID)
+  const [allData, setAllData] = useState([]);
+  const { userData } = useContext(UserContext);
+  const [userID, setUserID] = useState(userData.userID);
 
   // const [allData, setAllData] = useState([])
   const [filteredUsers, setFilteredUsers] = useState([]);
-
-
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -146,246 +153,213 @@ export default function Employment({ id, updateProfileData }) {
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
     const employment = applySortFilter(allData, getComparator(order, orderBy), filterName);
-    setFilteredUsers(employment)
+    setFilteredUsers(employment);
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
-
   const alert = useAlert();
 
-  const [otherResidents, setOtherResidents] = useState([])
+  const [otherResidents, setOtherResidents] = useState([]);
 
-  const { profile, setEmployment, employment } = useContext(ProfileContext)
+  const { profile, setEmployment, employment } = useContext(ProfileContext);
 
   // console.log("PROFILE DATA EMPLOY:::", profile)
 
-  const [employmentData, setEmploymentData] = useState(employment)
+  const [employmentData, setEmploymentData] = useState(employment);
   // const [start_date, setValue] = useState(null);
   // const [end_date, setEndDate] = useState(null);
 
-  const [attachments, setAttachment] = useState(undefined)
+  const [attachments, setAttachment] = useState(undefined);
 
-
-  const [subjectId, setSubjectID] = useState(profile.subjectID)
+  const [subjectId, setSubjectID] = useState(profile.subjectID);
   const showErrorAlert = (message) => {
-    alert.error(message)
-  }
+    alert.error(message);
+  };
 
   const showSuccessAlert = (message) => {
-    alert.success(message)
-  }
+    alert.success(message);
+  };
 
   const addResidents = () => {
-    setOtherResidents([{}])
-  }
+    setOtherResidents([{}]);
+  };
 
   const removeResidentAt = () => {
-    otherResidents.pop()
-    setOtherResidents(otherResidents)
-  }
+    otherResidents.pop();
+    setOtherResidents(otherResidents);
+  };
 
   const showAlert = () => {
-    alert.success("SAVED SUCCESSFULLY")
-  }
+    alert.success('SAVED SUCCESSFULLY');
+  };
 
   // Date Picker
 
-  const [start_date, setStartDate] = useState(null);  
-    const [end_date, setEndDate] = useState(null);
-    
-    const handleStartDate = (value) => {
-      setStartDate(value)
-      setEndDate(value)
-    }
-  
-    const handleEndDate = (value) => {
-      setEndDate(value)
-    }
-    const phoneRegExp = /^((\\+[1-9]{1,4})|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-    const stringRegExp= /^[aA-zZ\s]+$/
-    const numericRegExp= /^[0-9]+$/
+  const [start_date, setStartDate] = useState(null);
+  const [end_date, setEndDate] = useState(null);
+
+  const handleStartDate = (value) => {
+    setStartDate(value);
+    setEndDate(value);
+  };
+
+  const handleEndDate = (value) => {
+    setEndDate(value);
+  };
+  const phoneRegExp =
+    /^((\\+[1-9]{1,4})|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+  const stringRegExp = /^[aA-zZ\s]+$/;
+  const numericRegExp = /^[0-9]+$/;
   const RegisterSchema = Yup.object().shape({
-    employer: Yup.string().required('Employer is required').max(50,"Too Long!"),
-    employer_location: Yup.string().max(50,"Too Long!"),
-    employer_contact: Yup.string().max(50,"Too Long!"),
-    role_played: Yup.string().max(50,"Too Long!"),
+    employer: Yup.string().required('Employer is required').max(50, 'Too Long!'),
+    employer_location: Yup.string().max(50, 'Too Long!'),
+    employer_contact: Yup.string().max(50, 'Too Long!'),
+    role_played: Yup.string().max(50, 'Too Long!'),
     start_date: Yup.date(),
     end_date: Yup.date(),
     remarks: Yup.string(),
-    grossSalary: Yup.string().matches(numericRegExp,"Only digits are allowed")
+    grossSalary: Yup.string().matches(numericRegExp, 'Only digits are allowed')
   });
   useEffect(() => {
-
-    getEmploymentData()
-  }, [])
-
+    getEmploymentData();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
-      employer: employmentData.employer || "",
-      employer_location: employmentData.employer_location || "",
-      employer_contact: employmentData.employer_contact || "",
-      role_played: employmentData.role_played || "",
-      start_date: employmentData.start_date || "",
-      end_date: employmentData.end_date || "",
-      remarks: employmentData.remarks || "",
-      grossSalary: employmentData.grossSalary || "",
-      attachments: employmentData.attachments || "",
+      employer: employmentData.employer || '',
+      employer_location: employmentData.employer_location || '',
+      employer_contact: employmentData.employer_contact || '',
+      role_played: employmentData.role_played || '',
+      start_date: employmentData.start_date || '',
+      end_date: employmentData.end_date || '',
+      remarks: employmentData.remarks || '',
+      grossSalary: employmentData.grossSalary || '',
+      attachments: employmentData.attachments || ''
     },
     validationSchema: RegisterSchema,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
-
       values.start_date = start_date;
       values.end_date = end_date;
       values.subject_ID = subjectId;
-      values.userID=userID;
+      values.userID = userID;
       values.employmentID = employmentData.employment_ID;
-      if(!values.start_date){
-        values.start_date=employmentData.start_date
+      if (!values.start_date) {
+        values.start_date = employmentData.start_date;
       }
-      if(!values.end_date){
-        values.end_date=employmentData.end_date
+      if (!values.end_date) {
+        values.end_date = employmentData.end_date;
       }
 
-      console.log(values)
+      console.log('VALUES::', values);
+      console.log('EMP DATA::', employmentData);
       // console.log("StartDate",typeof(start_date))
 
-
       if (attachments) {
-
         const formData = new FormData();
-        formData.append("file", attachments[0])
+        formData.append('file', attachments[0]);
 
         FetchApi.upload(formData, (status, data) => {
-
           if (status) {
-            const fileUrl = BASE_URL + "/" + data.url;
-            values.attachments = fileUrl
+            const fileUrl = BASE_URL + '/' + data.url;
+            values.attachments = fileUrl;
 
-            setSubjectEmployment(values)
+            setSubjectEmployment(values);
 
-            setAttachment(undefined)
+            setAttachment(undefined);
           } else {
-            showErrorAlert("SAVE FAILED")
+            showErrorAlert('SAVE FAILED');
           }
-
-        })
-
-
+        });
       } else {
-
-        setSubjectEmployment(values)
-        showSuccessAlert()
+        setSubjectEmployment(values);
+        showSuccessAlert();
       }
 
-
-
-      resetForm({ values: '' })
-
+      resetForm({ values: '' });
     }
   });
-
-
 
   const getEmploymentData = () => {
     if (id) {
       const requestBody = {
         userID: userID,
         subjectID: subjectId
-      }
-      console.log("What I'm sending", requestBody)
+      };
+      console.log("What I'm sending", requestBody);
 
       FetchApi.post(GET_EMPLOYMENT_PROFILE, requestBody, (status, data) => {
         if (status) {
           // setName(data.subject_Name)
-          console.log("API DATA", data)
+          console.log('API DATA', data);
           const employment = applySortFilter(data, getComparator(order, orderBy), filterName);
           // const users = applySortFilter(data, getComparator(order, orderBy), filterName);
-          setFilteredUsers(employment)
+          setFilteredUsers(employment);
 
-          setAllData(employment)
-
+          setAllData(employment);
 
           //ALSO UPDATE THE PROFILE CONTEXT
           // setEmployment(data)
         } else {
-          console.log("some error occured")
+          console.log('some error occured');
         }
-      })
+      });
     }
-  }
-
-
+  };
 
   const setSubjectEmployment = (values) => {
-    FetchApi.post(employmentData.employment_ID ? UPDATE_EMPLOYMENT_PROFILE : SET_EMPLOYMENT_PROFILE, values, (status, data) => {
-      if (status) {
+    FetchApi.post(
+      employmentData.employment_ID ? UPDATE_EMPLOYMENT_PROFILE : SET_EMPLOYMENT_PROFILE,
+      values,
+      (status, data) => {
+        if (status) {
+          console.log('SET EMPLOYMENT RESP::::', data);
+          // const users = applySortFilter(data, getComparator(order, orderBy), filterName);
+          // setFilteredUsers(users)
+          // setAllData(users)
 
-        console.log("SET EMPLOYMENT RESP::::", data)
-        // const users = applySortFilter(data, getComparator(order, orderBy), filterName);
-        // setFilteredUsers(users)
-        // setAllData(users)
+          const residence = applySortFilter(data, getComparator(order, orderBy), filterName);
+          // const users = applySortFilter(data, getComparator(order, orderBy), filterName);
+          setFilteredUsers(residence);
 
-        const residence = applySortFilter(data, getComparator(order, orderBy), filterName);
-        // const users = applySortFilter(data, getComparator(order, orderBy), filterName);
-        setFilteredUsers(residence)
+          setEmploymentData(data);
 
-        setEmploymentData(data)
+          setAllData([...allData, data]);
 
-        setAllData([...allData, data])
+          //ALSO UPDATE THE PROFILE CONTEXT
+          setEmployment(allData);
 
-        //ALSO UPDATE THE PROFILE CONTEXT
-        setEmployment(allData)
+          updateProfileData();
 
-        updateProfileData()
-        
-        showSuccessAlert("SAVED SUCCESSFULLY")
-
-      } else {
-        showErrorAlert("SAVE FAILED")
+          showSuccessAlert('SAVED SUCCESSFULLY');
+        } else {
+          showErrorAlert('SAVE FAILED');
+        }
       }
-    })
-  }
-
-
-
+    );
+  };
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   return (
-
-
     <Page title="KRA - VLA | Home">
       <Container maxWidth="xl">
         <Container>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
               <Grid container spacing={2} sx={{ width: '100%' }}>
-
                 <Grid item md={12}>
                   <Card sx={{ width: '100%', paddingBottom: 3 }}>
-                    <CardHeader
-                      title="Employment History"
-
-                    />
+                    <CardHeader title="Employment History" />
                   </Card>
                 </Grid>
 
-
-
-
-
-
-                <Grid item md={12} >
+                <Grid item md={12}>
                   <Card sx={{ width: '100%', paddingBottom: 1 }}>
-                    <CardHeader
-                      title="Employment"
-                    />
+                    <CardHeader title="Employment" />
                     <CardContent>
                       <Stack spacing={3}>
-
                         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                           <TextField
                             fullWidth
@@ -410,11 +384,7 @@ export default function Employment({ id, updateProfileData }) {
                             error={Boolean(touched.employer_contact && errors.employer_contact)}
                             helperText={touched.employer_contact && errors.employer_contact}
                           />
-
-
                         </Stack>
-
-
 
                         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                           <TextField
@@ -425,40 +395,40 @@ export default function Employment({ id, updateProfileData }) {
                             helperText={touched.role_played && errors.role_played}
                           />
 
-<LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DesktopDatePicker
-                disableFuture
-                name="startDate"
-                value={start_date}
-                onChange={(newValue) => {
-                handleStartDate(newValue);
-                }}
-                label="Start Date"
-                inputFormat="MM/dd/yyyy"    
-                
-                renderInput={(params) => <TextField   
-                {...params} sx={{ width: '100%' }}/>}
-            />                    
-            </LocalizationProvider>          
-        
+                          <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DesktopDatePicker
+                              disableFuture
+                              name="startDate"
+                              value={start_date}
+                              onChange={(newValue) => {
+                                handleStartDate(newValue);
+                              }}
+                              label="Start Date"
+                              inputFormat="MM/dd/yyyy"
+                              renderInput={(params) => (
+                                <TextField {...params} sx={{ width: '100%' }} />
+                              )}
+                            />
+                          </LocalizationProvider>
 
-        
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DesktopDatePicker
-                disableFuture
-                label="End Date"
-                inputFormat="MM/dd/yyyy"
-                value={end_date}
-                fullWidth
-                minDate={start_date}
-                onChange={(newValue) => {
-                    handleEndDate(newValue);
-                }}
-                renderInput={(params) => <TextField  {...params} sx={{ width: '100%' }}/>}
-                />                    
-            </LocalizationProvider>  
+                          <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DesktopDatePicker
+                              disableFuture
+                              label="End Date"
+                              inputFormat="MM/dd/yyyy"
+                              value={end_date}
+                              fullWidth
+                              minDate={start_date}
+                              onChange={(newValue) => {
+                                handleEndDate(newValue);
+                              }}
+                              renderInput={(params) => (
+                                <TextField {...params} sx={{ width: '100%' }} />
+                              )}
+                            />
+                          </LocalizationProvider>
 
-{/* 
+                          {/* 
                           <LocalizationProvider
 
                             dateAdapter={AdapterDateFns}>
@@ -490,84 +460,62 @@ export default function Employment({ id, updateProfileData }) {
                               renderInput={(params) => <TextField fullWidth {...params} />}
                             />
                           </LocalizationProvider> */}
-
                         </Stack>
                         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-
-                        <TextField
+                          <TextField
                             fullWidth
                             label="Gross Salary"
                             {...getFieldProps('grossSalary')}
-                            inputMode= 'numeric'
+                            inputMode="numeric"
                           />
-
-
                         </Stack>
                         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                        <Button
-                          fullWidth
-                          component="label"
-                          variant='outlined'
-                        >
-                          Add Attachment
-                          <input
-                            type="file"
-                            hidden
-                            onChange={(event) => setAttachment(event.target.files)} />
+                          <Button fullWidth component="label" variant="outlined">
+                            Add Attachment
+                            <input
+                              type="file"
+                              hidden
+                              onChange={(event) => setAttachment(event.target.files)}
+                            />
+                          </Button>
 
-                        </Button>
-
-                        {
-                          attachments ? <Typography>{attachments[0].name}</Typography> : <Typography>{employmentData.attachments}</Typography>
-                        }
-
-                        
+                          {attachments ? (
+                            <Typography>{attachments[0].name}</Typography>
+                          ) : (
+                            <Typography>{employmentData.attachments}</Typography>
+                          )}
                         </Stack>
                         <Stack>
                           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-
-
                             <TextField
                               fullWidth
                               label="Remarks"
                               multiline
                               rows={3}
                               {...getFieldProps('remarks')}
-
                             />
-
                           </Stack>
                         </Stack>
-
                       </Stack>
                       <CardActions sx={{ marginTop: 2 }}>
-                        <Button variant="contained"
-                        // sx={{ background: '#009900' }}
-                          onClick={handleSubmit} >Save</Button>
+                        <Button
+                          variant="contained"
+                          // sx={{ background: '#009900' }}
+                          onClick={handleSubmit}
+                        >
+                          Save
+                        </Button>
                       </CardActions>
-
-
-
                     </CardContent>
                   </Card>
                 </Grid>
-
-
-
-
               </Grid>
             </Form>
           </FormikProvider>
-
-
         </Container>
 
-
         <Container>
-
-          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-
-          </Stack>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}></Stack>
 
           <Card>
             <UserListToolbar
@@ -592,18 +540,27 @@ export default function Employment({ id, updateProfileData }) {
                     {filteredUsers
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => {
-                        const { subject_ID, attachments, employer, employer_location, role_played,
-                          start_date, end_date, employer_contact } = row;
+                        const {
+                          subject_ID,
+                          attachments,
+                          employer,
+                          employer_location,
+                          role_played,
+                          start_date,
+                          end_date,
+                          remarks,
+                          employer_contact
+                        } = row;
                         const isItemSelected = selected.indexOf(employer) !== -1;
 
                         return (
                           <TableRow
-                            // hover
-                            // key={subject_ID}
-                            // tabIndex={-1}
-                            // role="checkbox"
-                            // selected={isItemSelected}
-                            // aria-checked={isItemSelected}
+                          // hover
+                          // key={subject_ID}
+                          // tabIndex={-1}
+                          // role="checkbox"
+                          // selected={isItemSelected}
+                          // aria-checked={isItemSelected}
                           >
                             <TableCell padding="checkbox">
                               <Checkbox
@@ -625,9 +582,12 @@ export default function Employment({ id, updateProfileData }) {
                             <TableCell align="left">{role_played}</TableCell>
                             <TableCell align="left">{start_date}</TableCell>
                             <TableCell align="left">{end_date}</TableCell>
+                            {/* <TableCell align="left">{remarks}</TableCell> */}
 
                             <TableCell align="left">
-                              <a href={attachments} target="_blank" rel="noopener noreferrer">{attachments}</a>
+                              <a href={attachments} target="_blank" rel="noopener noreferrer">
+                                {attachments}
+                              </a>
                             </TableCell>
 
                             {/* <Label
@@ -638,16 +598,10 @@ export default function Employment({ id, updateProfileData }) {
                         </Label> */}
                             {/* </TableCell> */}
 
-
-
                             <TableCell align="right">
-                              <Button
-                                onClick={() => setEmploymentData(row)}
-                              >
+                              <Button onClick={() => setEmploymentData(row)}>
                                 <FontAwesomeIcon icon={faEye} />
                               </Button>
-
-
                             </TableCell>
                           </TableRow>
                         );
@@ -668,7 +622,6 @@ export default function Employment({ id, updateProfileData }) {
                 </TableRow>
               </TableBody>
             )} */}
-
                 </Table>
               </TableContainer>
             </Scrollbar>
@@ -683,17 +636,8 @@ export default function Employment({ id, updateProfileData }) {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </Card>
-
-
-
         </Container>
-
-
-
       </Container>
     </Page>
-
-
-  )
-
+  );
 }

@@ -1,212 +1,164 @@
-import React from "react";
-import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
-import { BcHeader } from "./BCHeader";
-import { fontFamily } from "@mui/system";
-
-
+import React from 'react';
+import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
+import { BcHeader } from './BCHeader';
 
 export default function PIExport(props) {
+  const bioData = props.data.bio || {};
+  const caseDetails = props.data.caseDetails || {};
 
-    const bioData = props.data.bio || {}
-    const caseDetails = props.data.caseDetails || {}
+  const styles = StyleSheet.create({
+    page: {
+      flexDirection: 'row',
+      padding: 20,
+      paddingHorizontal: 30,
+      justifyContent: 'space-between'
+    },
 
+    sideHead: {
+      height: '100%',
+      width: '5%'
+    },
 
-    const styles = StyleSheet.create({
+    body: {
+      flexDirection: 'column',
+      width: '90%'
+    },
 
-        page: {
-            flexDirection: 'row',
-            padding: 20,
-            paddingHorizontal: 30,
-            justifyContent: 'space-between'
-        },
+    textSubHeader: {
+      fontSize: 13,
+      marginVertical: 10,
+      fontWeight: 'demibold'
+    },
 
-        sideHead: {
-            height: '100%',
-            width: '5%'
-        },
+    textTableHeader: {
+      fontSize: 15,
+      fontWeight: 'demibold'
+    },
 
-        body: {
-            flexDirection: 'column',
-            width: '90%'
-        },
+    textBody: {
+      fontWeight: 'normal',
+      fontSize: 10
+    },
 
-        textSubHeader: {
-            fontSize: 13,
-            marginVertical: 10,
-            fontWeight: 'demibold',
-        
-        },
+    table: {
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      marginHorizontal: 10,
+      marginVertical: 10
+    },
 
-        textTableHeader: {
-            fontSize: 15,
-            fontWeight: 'demibold'
-        },
+    tr: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: '100%',
+      margin: 0
+    },
 
-        textBody: {
-            fontWeight: 'normal',
-            fontSize: 10
-        },
+    td: {
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 5,
+      width: '20%'
+    }
+  });
 
-        table: {
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            marginHorizontal: 10,
-            marginVertical: 10
-        },
+  return (
+    <Page size="A4" style={styles.page}>
+      <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed />
 
-        tr: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%',
-            margin: 0
-        },
+      <View style={styles.body}>
+        <Image
+          style={{ marginHorizontal: 'auto', height: 70 }}
+          src={'/vla/static/kra_logo_name.jpg'}
+          fixed
+        />
 
-        td: {
-            borderColor: 'gray',
-            borderWidth: 1,
-            padding: 5,
-            width: '20%'
-        }
+        <BcHeader />
 
-    })
+        <Text style={styles.textSubHeader}>1.0 Reason for Background Check</Text>
 
-    return (
-        <Page size='A4' style={styles.page}>
+        <Text style={styles.textBody}>{caseDetails.cReasons}</Text>
 
-
-
-            <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed />
-            <Text style={styles.textSubHeader} > Hello</Text>
-
-            <View style={styles.body}>
-
-
-                <Image style={{ marginHorizontal: 'auto', height: 70 }} src={'/vla/static/kra_logo_name.jpg'} fixed />
-
-
-                <BcHeader />
-
-                <Text style={styles.textSubHeader}>1.0 Reason for Backgrounds Check</Text>
-
-                <Text style={styles.textBody}>
-                    {caseDetails.cReasons}
-                </Text>
-
-                <View style={styles.table} >
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+        <View style={styles.table}>
+          <View style={styles.tr}>
+            {/* <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             No
-                        </Text>
+                        </Text> */}
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+            {/* <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             P/No.
-                        </Text>
+                        </Text> */}
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Name
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>S/No.</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Status
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>ID No.</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Position Applied
-                        </Text>
-                    </View>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Name of Applicant</Text>
 
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            1
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Status</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            {bioData.idNo}
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Position Applied</Text>
+          </View>
 
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            {bioData.subject_Name}
-                        </Text>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textBody }}>1</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            {caseDetails.candidateStatus}
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.idNo}</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            {caseDetails.positionApplied}
-                        </Text>
-                    </View>
-                </View>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.subject_Name}</Text>
 
-                <Text style={styles.textSubHeader}>2.0 Objective of the Vetting</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.candidateStatus}</Text>
 
-                <Text style={styles.textBody}>
-                    {caseDetails.objectives}
-                </Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.positionApplied}</Text>
+          </View>
+        </View>
 
-                <Text style={styles.textSubHeader}>3.0 Findings</Text>
+        <Text style={styles.textSubHeader}>2.0 Objective of the Vetting</Text>
 
-                <View style={styles.table}>
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            No
-                        </Text>
+        <Text style={styles.textBody}>{caseDetails.objectives}</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            P/No.
-                        </Text>
+        <Text style={styles.textSubHeader}>3.0 Findings</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Inquiry No.
-                        </Text>
+        <View style={styles.table}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>No</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Name
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>P/No.</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Remarks
-                        </Text>
-                    </View>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Inquiry No.</Text>
 
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            1
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Name</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            {bioData.idNo}
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+          </View>
 
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            {caseDetails.caseNo}
-                        </Text>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textBody }}>1</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            {bioData.subject_Name}
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.idNo}</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            {caseDetails.recommendation}
-                        </Text>
-                    </View>
-                </View>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.caseNo}</Text>
 
-                <Text style={styles.textSubHeader}>4.0 Recommendation</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.subject_Name}</Text>
 
-                <Text style={styles.textBody}>
-                    { caseDetails.recommendation }
-                </Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.recommendation}</Text>
+          </View>
+        </View>
 
+        <Text style={styles.textSubHeader}>4.0 Recommendation</Text>
 
-                <Text style={{ marginTop: 'auto', marginHorizontal: 'auto', fontStyle: 'italic', fontSize: 14 }} fixed>
-                    TULIPE USHURU TUJITEGEMEE
-                </Text>
+        <Text style={styles.textBody}>{caseDetails.recommendation}</Text>
 
-            </View>
-
-        </Page>
-    )
-
+        <Text
+          style={{ marginTop: 'auto', marginHorizontal: 'auto', fontStyle: 'italic', fontSize: 14 }}
+          fixed
+        >
+          TULIPE USHURU TUJITEGEMEE
+        </Text>
+      </View>
+    </Page>
+  );
 }
+
+
