@@ -1,6 +1,35 @@
 import React from "react";
-import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
 import { LSAHeader } from './LSAHeader';
+import Georgia from '../../fonts/Georgia.ttf';
+import georgiab from '../../fonts/georgiab.ttf';
+import georgiaz from '../../fonts/georgiaz.ttf'
+
+Font.register({
+    family: 'Georgia',
+    fonts: [
+      {
+        src: Georgia,
+        fontWeight: 'bold'
+      }
+    ]
+  });
+  
+  Font.register({
+    family: 'Georgia_bold',
+    fonts: [
+      {
+        src: georgiab
+      }
+    ]
+  });
+
+  Font.register(
+    {
+        family:'Georgiaz',
+        src: georgiaz
+    }
+  )
 
 
 export default function LSAExport(props) {
@@ -39,19 +68,20 @@ export default function LSAExport(props) {
         },
 
         textSubHeader: {
-            fontSize: 13,
+            fontSize: 12,
             marginVertical: 10,
-            fontWeight: 'demibold'
+            fontFamily: 'Georgia_bold',   
 
         },
 
         textTableHeader: {
-            fontSize: 15,
-            fontWeight: 'demibold'
+            fontSize: 12,
+            fontFamily: 'Georgia_bold'
         },
 
         textBody: {
             fontWeight: 'normal',
+            fontFamily: 'Georgia',
             fontSize: 10
         },
 
@@ -937,8 +967,8 @@ export default function LSAExport(props) {
 
 
 
-                <Text style={{ marginTop: 'auto', marginHorizontal: 'auto', fontStyle: 'italic', fontSize: 14 }} fixed>
-                    TULIPE USHURU TUJITEGEMEE
+                <Text style={{ marginTop: 'auto', marginHorizontal: 'auto', fontFamily:'Georgiaz', fontSize: 12, color:'red' }} fixed>
+                    TULIPE USHURU, TUJITEGEMEE
                 </Text>
 
             </View>
