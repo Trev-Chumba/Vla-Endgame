@@ -1,7 +1,14 @@
 import React from "react";
-import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
 import { BcHeader } from "./BCHeader";
+import { fontFamily } from "@mui/system";
 
+Font.register(
+    {
+        family:"Noto",
+        src:'https://fonts.googleapis.com/css2?family=Noto+Sans:wght@200&display=swap'
+    }
+)
 
 export default function PIExport(props) {
 
@@ -31,7 +38,8 @@ export default function PIExport(props) {
         textSubHeader: {
             fontSize: 13,
             marginVertical: 10,
-            fontWeight: 'demibold'
+            fontWeight: 'demibold',
+        
         },
 
         textTableHeader: {
@@ -73,7 +81,7 @@ export default function PIExport(props) {
 
 
             <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed />
-
+            <Text style={styles.textSubHeader} > Hello</Text>
 
             <View style={styles.body}>
 
@@ -83,7 +91,7 @@ export default function PIExport(props) {
 
                 <BcHeader />
 
-                <Text style={styles.textSubHeader}>1.0 Reason for Background Check</Text>
+                <Text style={styles.textSubHeader}>1.0 Reason for Backgrounds Checks</Text>
 
                 <Text style={styles.textBody}>
                     {caseDetails.cReasons}
