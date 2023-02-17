@@ -1,6 +1,35 @@
 import React from "react";
-import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
 import { LSAHeader } from './LSAHeader';
+import Georgia from '../../fonts/Georgia.ttf';
+import georgiab from '../../fonts/georgiab.ttf';
+import georgiaz from '../../fonts/georgiaz.ttf'
+
+Font.register({
+    family: 'Georgia',
+    fonts: [
+      {
+        src: Georgia,
+        fontWeight: 'bold'
+      }
+    ]
+  });
+  
+  Font.register({
+    family: 'Georgia_bold',
+    fonts: [
+      {
+        src: georgiab
+      }
+    ]
+  });
+
+  Font.register(
+    {
+        family:'Georgiaz',
+        src: georgiaz
+    }
+  )
 
 
 export default function LSAExport(props) {
@@ -39,19 +68,20 @@ export default function LSAExport(props) {
         },
 
         textSubHeader: {
-            fontSize: 13,
+            fontSize: 12,
             marginVertical: 10,
-            fontWeight: 'demibold'
+            fontFamily: 'Georgia_bold',   
 
         },
 
         textTableHeader: {
-            fontSize: 15,
-            fontWeight: 'demibold'
+            fontSize: 12,
+            fontFamily: 'Georgia_bold'
         },
 
         textBody: {
             fontWeight: 'normal',
+            fontFamily: 'Georgia',
             fontSize: 10
         },
 
@@ -60,7 +90,8 @@ export default function LSAExport(props) {
             display: 'flex',
             flexDirection: 'column',
             marginHorizontal: 10,
-            marginVertical: 10
+            marginVertical: 10,
+    
         },
 
         tr: {
@@ -86,9 +117,9 @@ export default function LSAExport(props) {
             <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed />
 
             <View style={styles.body}>
-
+                <Text style={{right:2, position: "absolute",fontSize:9, fontFamily:'Georgia_bold', color:'red'}}>CONFIDENTIAL</Text>
                 <Image style={{ marginHorizontal: 'auto', height: 70 }} src={'/vla/static/kra_logo_name.jpg'} fixed />
-
+                <Text style={{marginHorizontal:'auto', fontSize:9,  fontFamily:'Georgia_bold', marginTop: -2, marginBottom:4}} fixed>ISO 9001:2015 CERTIFIED</Text>
                 <LSAHeader data={caseDetails} />
 
                 <Text style={styles.textSubHeader}>1.0 Executive Summary</Text>
@@ -109,7 +140,7 @@ export default function LSAExport(props) {
 
 
 
-                <View style={styles.table} >
+                <View style={styles.table}  >
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Photo Of Subject
@@ -144,7 +175,7 @@ export default function LSAExport(props) {
 
 
 
-                <View style={styles.table} >
+                <View style={styles.table}  wrap = {false}>
                     <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
@@ -356,7 +387,7 @@ export default function LSAExport(props) {
 
                 <Text style={styles.textSubHeader}>3.0 Residential Addresses</Text>
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Address
@@ -412,7 +443,7 @@ export default function LSAExport(props) {
 
                 <Text style={styles.textSubHeader}>4.0 Secondary Information</Text>
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Person Type
@@ -543,7 +574,7 @@ export default function LSAExport(props) {
                 <Text style={styles.textSubHeader}>7.0.1 Wealth Declaration - DAILS</Text>
 
                 <View style={styles.table}>
-                    <View style={styles.tr}>
+                    <View style={styles.tr} wrap = {false} >
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Type of Asset
                         </Text>
@@ -593,7 +624,7 @@ export default function LSAExport(props) {
 
 
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             S/No
@@ -633,7 +664,7 @@ export default function LSAExport(props) {
 
                 <Text style={styles.textSubHeader}>7.0.3 Summary of Accounts Identified</Text>
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Bank/Sacco/Telco Name
@@ -708,7 +739,7 @@ export default function LSAExport(props) {
 
                 <Text style={styles.textSubHeader}>8.0 Companies/Business Interests</Text>
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Company Name
@@ -768,7 +799,7 @@ export default function LSAExport(props) {
 
                 <Text style={styles.textSubHeader}>9.0 Assets</Text>
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             S/No
@@ -821,7 +852,7 @@ export default function LSAExport(props) {
 
                 <Text style={styles.textSubHeader}>9.0 Liabilities</Text>
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             S/No
@@ -874,7 +905,7 @@ export default function LSAExport(props) {
 
                 <Text style={styles.textSubHeader}>11.0 Integrity and Ethical Issues </Text>
 
-                <View style={styles.table}>
+                <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
@@ -937,8 +968,8 @@ export default function LSAExport(props) {
 
 
 
-                <Text style={{ marginTop: 'auto', marginHorizontal: 'auto', fontStyle: 'italic', fontSize: 14 }} fixed>
-                    TULIPE USHURU TUJITEGEMEE
+                <Text style={{ marginTop: 'auto', marginHorizontal: 'auto', fontFamily:'Georgiaz', fontSize: 12, color:'red' }} fixed>
+                    TULIPE USHURU, TUJITEGEMEE
                 </Text>
 
             </View>

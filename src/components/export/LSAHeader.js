@@ -1,5 +1,7 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
+import Georgia from '../../fonts/Georgia.ttf';
+import georgiab from '../../fonts/georgiab.ttf';
 
 export const LSAHeader = (props) => {
   const caseDetails = props.data || {};
@@ -10,6 +12,25 @@ export const LSAHeader = (props) => {
   var yyyy = today.getFullYear();
 
   today = mm + '/' + dd + '/' + yyyy;
+
+  Font.register({
+    family: 'Georgia',
+    fonts: [
+      {
+        src: Georgia,
+        fontWeight: 'bold'
+      }
+    ]
+  });
+  
+  Font.register({
+    family: 'Georgia_bold',
+    fonts: [
+      {
+        src: georgiab
+      }
+    ]
+  });
 
   // const caseData = props.data.caseDetails || []
 
@@ -29,8 +50,9 @@ export const LSAHeader = (props) => {
       marginVertical: 5
     },
     Text: {
-      fontSize: 10,
-      marginVertical: 2
+      fontSize: 12,
+      marginVertical: 2,
+      fontFamily: 'Georgia_bold'
     }
   });
 
@@ -56,6 +78,7 @@ export const LSAHeader = (props) => {
       <Text style={styles.Text}>
         INVESTIGATION REPORT ON ALLEGATIONS OF BEING IN POSSESSION OF UNEXPLAINED WEALTH BY{' '}
       </Text>
+      <Text>{"\n"}</Text>
       <Text style={styles.Text}>HOD REGISTER NO -INQUIRY NO . : {caseDetails.caseNo} </Text>
 
       <View style={styles.Line} />
