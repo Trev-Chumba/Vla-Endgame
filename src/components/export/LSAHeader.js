@@ -3,6 +3,43 @@ import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/
 import Georgia from '../../fonts/Georgia.ttf';
 import georgiab from '../../fonts/georgiab.ttf';
 
+Font.register({
+  family: 'Georgia',
+  fonts: [
+    {
+      src: Georgia,
+      fontWeight: 'bold'
+    }
+  ]
+});
+
+Font.register({
+  family: 'Georgia_bold',
+  fonts: [
+    {
+      src: georgiab
+    }
+  ]
+});
+
+export const chunkSubstr = (str, size) => {
+  const numChunks = Math.ceil(str.length / size);
+  const chunks = new Array(numChunks);
+  
+  for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+  chunks[i] = str.substr(o, size);
+  }
+  
+  return chunks;
+  };
+  
+  Font.registerHyphenationCallback((word) => {
+  if (word.length > 12) {
+  return chunkSubstr(word, 10);
+  } else {
+  return [word];
+  }
+  });
 export const LSAHeader = (props) => {
   const caseDetails = props.data || {};
 
@@ -13,24 +50,8 @@ export const LSAHeader = (props) => {
 
   today = mm + '/' + dd + '/' + yyyy;
 
-  Font.register({
-    family: 'Georgia',
-    fonts: [
-      {
-        src: Georgia,
-        fontWeight: 'bold'
-      }
-    ]
-  });
   
-  Font.register({
-    family: 'Georgia_bold',
-    fonts: [
-      {
-        src: georgiab
-      }
-    ]
-  });
+  
 
   // const caseData = props.data.caseDetails || []
 

@@ -3,9 +3,10 @@ import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/
 import { BcHeader } from './BCHeader';
 import Georgia from '../../fonts/Georgia.ttf';
 import georgiab from '../../fonts/georgiab.ttf';
-import GillSansz from '../../fonts/GillSansz.otf';
+import gillItalic from '../../fonts/GillSansz.otf'
 import { red } from '@mui/material/colors';
-import { boxSizing } from '@mui/system';
+import { unset, wrap } from 'lodash';
+import { Hidden } from '@mui/material';
 
 Font.register({
   family: 'Georgia',
@@ -25,14 +26,32 @@ Font.register({
     }
   ]
 });
-
 Font.register({
-  family: 'GillSans',
+
+  family:'Gill_Bold_Italic',
   fonts: [
     {
-      src: GillSansz
+      src: gillItalic
     }
   ]
+});
+export const chunkSubstr = (str, size) => {
+const numChunks = Math.ceil(str.length / size);
+const chunks = new Array(numChunks);
+
+for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+chunks[i] = str.substr(o, size);
+}
+
+return chunks;
+};
+
+Font.registerHyphenationCallback((word) => {
+if (word.length > 12) {
+return chunkSubstr(word, 10);
+} else {
+return [word];
+}
 });
 
 export default function BcAndVtExPort(props) {
@@ -73,12 +92,11 @@ export default function BcAndVtExPort(props) {
     textBody: {
       //fontWeight: 'normal',
       fontFamily: 'Georgia',
-      fontSize: 12
+      fontSize: 12,
     },
 
     table: {
-      width: 'auto',
-      minWidth: '100%',
+      width: '100%',
       display: 'flex',
       flexDirection: 'column',
       marginHorizontal: 10,
@@ -87,20 +105,19 @@ export default function BcAndVtExPort(props) {
 
     tr: {
       flexDirection: 'row',
+      display:'flex',
       justifyContent: 'space-between',
       width: '100%',
       margin: 0
     },
 
-    tr1: {
-      width: '10%'
-    },
-
     td: {
-      borderColor: 'gray',
+      flexDirection: 'row',
+       borderColor: 'gray',
       borderWidth: 1,
       padding: 5,
-      width: '20%'
+      flex: 1
+      
     }
   });
 
@@ -109,34 +126,11 @@ export default function BcAndVtExPort(props) {
       <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed />
 
       <View style={styles.body}>
-        <Text
-          style={{
-            right: 2,
-            position: 'absolute',
-            fontSize: 9,
-            fontFamily: 'Georgia_bold',
-            color: 'red'
-          }}
-        >
-          CONFIDENTIAL
-        </Text>
         <Image
           style={{ marginHorizontal: 'auto', height: 70 }}
           src={'/vla/static/kra_logo_name.jpg'}
           fixed
         />
-        <Text
-          style={{
-            marginHorizontal: 'auto',
-            fontSize: 9,
-            fontFamily: 'Georgia_bold',
-            marginTop: -2,
-            marginBottom: 4
-          }}
-          fixed
-        >
-          ISO 9001:2015 CERTIFIED
-        </Text>
         <BcHeader data={caseDetails} />
         console.log("Export",caseDetails)
         <Text style={styles.textSubHeader}>1.0 Reason for Background Check</Text>
@@ -175,15 +169,14 @@ export default function BcAndVtExPort(props) {
           <View style={styles.tr}>
             <Text style={{ ...styles.td, ...styles.textBody }}>1</Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.idNo}</Text>
-            <Text style={{ ...styles.td, ...styles.textBody, overflow: 'hidden' }}>
-              {caseDetails.caseNo}
-            </Text>
+          <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.caseNo} </Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.subject_Name}</Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.remarks}</Text>
           </View>
         </View>
         <Text style={styles.textSubHeader}>4.0 Recommendation</Text>
         <Text style={styles.textBody}>{caseDetails.recomentation}</Text>
+        {/* <Image style={{ width: 100 }} src={'/vla/static/footer.png'} /> */}
         {/* <Image
           style={{
             marginHorizontal: 'auto',
@@ -191,21 +184,20 @@ export default function BcAndVtExPort(props) {
             width: 230,
             height: 20
           }}
-          src={'/vla/static/footer.jpg'}
-          fixed
+       
         /> */}
         <Text
-          style={{
-            marginTop: 'auto',
-            marginHorizontal: 'auto',
-            fontFamily: 'GillSans',
-            fontSize: 15,
-            color: 'red'
-          }}
-          fixed
-        >
-          Tulipe Ushuru, Tujitegemee
-        </Text>
+            style={{
+                marginTop: 'auto',
+                marginHorizontal: 'auto',
+                fontStyle: 'Gill_Bold_Italic',
+                fontSize: 12,
+                color: 'red'
+            }}
+            fixed
+            >
+            TULIPE USHURU,TUJITEGEMEE!
+            </Text>
       </View>
     </Page>
   );
