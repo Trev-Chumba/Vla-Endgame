@@ -3,7 +3,10 @@ import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/
 import { BcHeader } from './BCHeader';
 import Georgia from '../../fonts/Georgia.ttf';
 import georgiab from '../../fonts/georgiab.ttf';
+import gillItalic from '../../fonts/GillSansz.otf'
 import { red } from '@mui/material/colors';
+import { unset, wrap } from 'lodash';
+import { Hidden } from '@mui/material';
 
 Font.register({
   family: 'Georgia',
@@ -22,6 +25,33 @@ Font.register({
       src: georgiab
     }
   ]
+});
+Font.register({
+
+  family:'Gill_Bold_Italic',
+  fonts: [
+    {
+      src: gillItalic
+    }
+  ]
+});
+export const chunkSubstr = (str, size) => {
+const numChunks = Math.ceil(str.length / size);
+const chunks = new Array(numChunks);
+
+for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+chunks[i] = str.substr(o, size);
+}
+
+return chunks;
+};
+
+Font.registerHyphenationCallback((word) => {
+if (word.length > 12) {
+return chunkSubstr(word, 10);
+} else {
+return [word];
+}
 });
 
 export default function BcAndVtExPort(props) {
@@ -62,7 +92,7 @@ export default function BcAndVtExPort(props) {
     textBody: {
       //fontWeight: 'normal',
       fontFamily: 'Georgia',
-      fontSize: 12
+      fontSize: 12,
     },
 
     table: {
@@ -75,16 +105,19 @@ export default function BcAndVtExPort(props) {
 
     tr: {
       flexDirection: 'row',
+      display:'flex',
       justifyContent: 'space-between',
       width: '100%',
       margin: 0
     },
 
     td: {
-      borderColor: 'gray',
+      flexDirection: 'row',
+       borderColor: 'gray',
       borderWidth: 1,
       padding: 5,
-      width: '20%'
+      flex: 1
+      
     }
   });
 
@@ -136,7 +169,7 @@ export default function BcAndVtExPort(props) {
           <View style={styles.tr}>
             <Text style={{ ...styles.td, ...styles.textBody }}>1</Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.idNo}</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.caseNo}</Text>
+          <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.caseNo} </Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.subject_Name}</Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.remarks}</Text>
           </View>
@@ -144,28 +177,27 @@ export default function BcAndVtExPort(props) {
         <Text style={styles.textSubHeader}>4.0 Recommendation</Text>
         <Text style={styles.textBody}>{caseDetails.recomentation}</Text>
         {/* <Image style={{ width: 100 }} src={'/vla/static/footer.png'} /> */}
-        <Image
+        {/* <Image
           style={{
             marginHorizontal: 'auto',
             marginTop: 'auto',
             width: 230,
             height: 20
           }}
-          src={'/vla/static/footer.jpg'}
-          fixed
-        />
-        {/* <Text
+       
+        /> */}
+        <Text
             style={{
                 marginTop: 'auto',
                 marginHorizontal: 'auto',
-                fontStyle: 'italic',
+                fontStyle: 'Gill_Bold_Italic',
                 fontSize: 12,
                 color: 'red'
             }}
             fixed
             >
             TULIPE USHURU,TUJITEGEMEE!
-            </Text> */}
+            </Text>
       </View>
     </Page>
   );

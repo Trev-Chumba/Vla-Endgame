@@ -4,6 +4,7 @@ import { LSAHeader } from './LSAHeader';
 import Georgia from '../../fonts/Georgia.ttf';
 import georgiab from '../../fonts/georgiab.ttf';
 import georgiaz from '../../fonts/georgiaz.ttf'
+import gillItalic from '../../fonts/GillSansz.otf'
 
 Font.register({
     family: 'Georgia',
@@ -29,8 +30,34 @@ Font.register({
         family:'Georgiaz',
         src: georgiaz
     }
-  )
+  );
+  Font.register({
 
+    family:'Gill_Bold_Italic',
+    fonts: [
+      {
+        src: gillItalic
+      }
+    ]
+  });
+  export const chunkSubstr = (str, size) => {
+    const numChunks = Math.ceil(str.length / size);
+    const chunks = new Array(numChunks);
+    
+    for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+    chunks[i] = str.substr(o, size);
+    }
+    
+    return chunks;
+    };
+    
+    Font.registerHyphenationCallback((word) => {
+    if (word.length > 12) {
+    return chunkSubstr(word, 10);
+    } else {
+    return [word];
+    }
+    });
 
 export default function LSAExport(props) {
 
@@ -64,7 +91,8 @@ export default function LSAExport(props) {
 
         body: {
             flexDirection: 'column',
-            width: '90%'
+            width: '90%',
+           
         },
 
         textSubHeader: {
@@ -86,6 +114,7 @@ export default function LSAExport(props) {
         },
 
         table: {
+            maxWidth:'100%',
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
@@ -105,8 +134,8 @@ export default function LSAExport(props) {
             borderColor: 'gray',
             borderWidth: 1,
             padding: 5,
-            flex: 1
-        
+            flex: 1,
+            
         }
 
     })
@@ -624,6 +653,42 @@ export default function LSAExport(props) {
 
 
 
+                {/* <View style={styles.table} wrap = {false}>
+                    <View style={styles.tr}>
+                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+                            S/No
+                        </Text>
+
+                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+                            Description
+                        </Text>
+
+                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+                            Approximate Amount
+                        </Text>
+
+                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+                            Remarks
+                        </Text>
+
+                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+                            Date of declaration
+                        </Text>
+
+
+                    </View>
+
+
+
+                </View> */}
+
+
+
+                <Text style={styles.textSubHeader}>7.0.2 Salaries and Remunerations</Text>
+
+                <Text>
+                    {caseDetails.salaries}
+                </Text>
                 <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
@@ -652,15 +717,6 @@ export default function LSAExport(props) {
 
 
                 </View>
-
-
-
-                <Text style={styles.textSubHeader}>7.0.2 Salaries and Remunerations</Text>
-
-                <Text>
-                    {caseDetails.salaries}
-                </Text>
-
 
                 <Text style={styles.textSubHeader}>7.0.3 Summary of Accounts Identified</Text>
 
@@ -826,7 +882,7 @@ export default function LSAExport(props) {
                             return (
                                 <View style={styles.tr}>
                                     <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {index}
+                                        {index + 1}
                                     </Text>
 
                                     <Text style={{ ...styles.td, ...styles.textBody }}>
@@ -968,7 +1024,7 @@ export default function LSAExport(props) {
 
 
 
-                <Text style={{ marginTop: 'auto', marginHorizontal: 'auto', fontFamily:'Georgiaz', fontSize: 12, color:'red' }} fixed>
+                <Text style={{ marginTop: 'auto', marginHorizontal: 'auto', fontFamily:'Gill_Bold_Italic', fontSize: 15, color:'red' }} fixed>
                     Tulipe Ushuru, Tujitegemee!
                 </Text>
 
