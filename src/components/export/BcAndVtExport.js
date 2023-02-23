@@ -3,7 +3,9 @@ import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/
 import { BcHeader } from './BCHeader';
 import Georgia from '../../fonts/Georgia.ttf';
 import georgiab from '../../fonts/georgiab.ttf';
+import GillSansz from '../../fonts/GillSansz.otf';
 import { red } from '@mui/material/colors';
+import { boxSizing } from '@mui/system';
 
 Font.register({
   family: 'Georgia',
@@ -20,6 +22,15 @@ Font.register({
   fonts: [
     {
       src: georgiab
+    }
+  ]
+});
+
+Font.register({
+  family: 'GillSans',
+  fonts: [
+    {
+      src: GillSansz
     }
   ]
 });
@@ -66,7 +77,8 @@ export default function BcAndVtExPort(props) {
     },
 
     table: {
-      width: '100%',
+      width: 'auto',
+      minWidth: '100%',
       display: 'flex',
       flexDirection: 'column',
       marginHorizontal: 10,
@@ -78,6 +90,10 @@ export default function BcAndVtExPort(props) {
       justifyContent: 'space-between',
       width: '100%',
       margin: 0
+    },
+
+    tr1: {
+      width: '10%'
     },
 
     td: {
@@ -93,11 +109,34 @@ export default function BcAndVtExPort(props) {
       <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed />
 
       <View style={styles.body}>
+        <Text
+          style={{
+            right: 2,
+            position: 'absolute',
+            fontSize: 9,
+            fontFamily: 'Georgia_bold',
+            color: 'red'
+          }}
+        >
+          CONFIDENTIAL
+        </Text>
         <Image
           style={{ marginHorizontal: 'auto', height: 70 }}
           src={'/vla/static/kra_logo_name.jpg'}
           fixed
         />
+        <Text
+          style={{
+            marginHorizontal: 'auto',
+            fontSize: 9,
+            fontFamily: 'Georgia_bold',
+            marginTop: -2,
+            marginBottom: 4
+          }}
+          fixed
+        >
+          ISO 9001:2015 CERTIFIED
+        </Text>
         <BcHeader data={caseDetails} />
         console.log("Export",caseDetails)
         <Text style={styles.textSubHeader}>1.0 Reason for Background Check</Text>
@@ -136,15 +175,16 @@ export default function BcAndVtExPort(props) {
           <View style={styles.tr}>
             <Text style={{ ...styles.td, ...styles.textBody }}>1</Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.idNo}</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.caseNo}</Text>
+            <Text style={{ ...styles.td, ...styles.textBody, overflow: 'hidden' }}>
+              {caseDetails.caseNo}
+            </Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.subject_Name}</Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.remarks}</Text>
           </View>
         </View>
         <Text style={styles.textSubHeader}>4.0 Recommendation</Text>
         <Text style={styles.textBody}>{caseDetails.recomentation}</Text>
-        {/* <Image style={{ width: 100 }} src={'/vla/static/footer.png'} /> */}
-        <Image
+        {/* <Image
           style={{
             marginHorizontal: 'auto',
             marginTop: 'auto',
@@ -153,19 +193,19 @@ export default function BcAndVtExPort(props) {
           }}
           src={'/vla/static/footer.jpg'}
           fixed
-        />
-        {/* <Text
-            style={{
-                marginTop: 'auto',
-                marginHorizontal: 'auto',
-                fontStyle: 'italic',
-                fontSize: 12,
-                color: 'red'
-            }}
-            fixed
-            >
-            TULIPE USHURU,TUJITEGEMEE!
-            </Text> */}
+        /> */}
+        <Text
+          style={{
+            marginTop: 'auto',
+            marginHorizontal: 'auto',
+            fontFamily: 'GillSans',
+            fontSize: 15,
+            color: 'red'
+          }}
+          fixed
+        >
+          Tulipe Ushuru, Tujitegemee
+        </Text>
       </View>
     </Page>
   );

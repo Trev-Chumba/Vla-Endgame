@@ -275,6 +275,7 @@ export default function ResidentialProfile({ id, updateProfileData }) {
   });
 
   const setSubjectResidence = (values) => {
+    console.log('VALUES:::', values);
     FetchApi.post(
       residentialData.res_INFO_ID ? UPDATE_RESIDENTIAL : SET_RESIDENTIAL,
       values,
