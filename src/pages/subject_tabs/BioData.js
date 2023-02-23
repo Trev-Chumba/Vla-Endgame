@@ -86,6 +86,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
           setDbDob(dbob);
 
           console.log('JDAte ', dbob);
+          console.log('Inside the post method');
 
           //ALSO UPDATE THE PROFILE CONTEXT
           setProfile(data);
