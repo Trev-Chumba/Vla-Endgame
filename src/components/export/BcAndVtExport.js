@@ -126,11 +126,9 @@ export default function BcAndVtExPort(props) {
       <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed />
 
       <View style={styles.body}>
-        <Image
-          style={{ marginHorizontal: 'auto', height: 70 }}
-          src={'/vla/static/kra_logo_name.jpg'}
-          fixed
-        />
+      <Text style={{right:2, position: "absolute",fontSize:9, fontFamily:'Georgia_bold', color:'red'}}>CONFIDENTIAL</Text>
+                <Image style={{ marginHorizontal: 'auto', height: 70 }} src={'/vla/static/kra_logo_name.jpg'} fixed />
+                <Text style={{marginHorizontal:'auto', fontSize:9,  fontFamily:'Georgia_bold', marginTop: -2, marginBottom:4}} fixed>ISO 9001:2015 CERTIFIED</Text>
         <BcHeader data={caseDetails} />
         console.log("Export",caseDetails)
         <Text style={styles.textSubHeader}>1.0 Reason for Background Check</Text>
@@ -190,13 +188,13 @@ export default function BcAndVtExPort(props) {
             style={{
                 marginTop: 'auto',
                 marginHorizontal: 'auto',
-                fontStyle: 'Gill_Bold_Italic',
-                fontSize: 12,
+                fontFamily: 'Gill_Bold_Italic',
+                fontSize: 15,
                 color: 'red'
             }}
             fixed
             >
-            TULIPE USHURU,TUJITEGEMEE!
+            Tulipe Ushuru, Tujitegemee!
             </Text>
       </View>
     </Page>
