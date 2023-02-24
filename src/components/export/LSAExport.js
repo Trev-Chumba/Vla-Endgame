@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
 import { LSAHeader } from './LSAHeader';
 import Georgia from '../../fonts/Georgia.ttf';
@@ -7,23 +7,23 @@ import georgiaz from '../../fonts/georgiaz.ttf'
 import gillItalic from '../../fonts/GillSansz.otf'
 
 Font.register({
-    family: 'Georgia',
-    fonts: [
-      {
-        src: Georgia,
-        fontWeight: 'bold'
-      }
-    ]
-  });
-  
-  Font.register({
-    family: 'Georgia_bold',
-    fonts: [
-      {
-        src: georgiab
-      }
-    ]
-  });
+  family: 'Georgia',
+  fonts: [
+    {
+      src: Georgia,
+      fontWeight: 'bold'
+    }
+  ]
+});
+
+Font.register({
+  family: 'Georgia_bold',
+  fonts: [
+    {
+      src: georgiab
+    }
+  ]
+});
 
   Font.register(
     {
@@ -31,33 +31,33 @@ Font.register({
         src: georgiaz
     }
   );
-  Font.register({
+Font.register({
 
     family:'Gill_Bold_Italic',
-    fonts: [
-      {
-        src: gillItalic
-      }
-    ]
-  });
-  export const chunkSubstr = (str, size) => {
-    const numChunks = Math.ceil(str.length / size);
-    const chunks = new Array(numChunks);
-    
-    for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+  fonts: [
+    {
+      src: gillItalic
+    }
+  ]
+});
+export const chunkSubstr = (str, size) => {
+  const numChunks = Math.ceil(str.length / size);
+  const chunks = new Array(numChunks);
+
+  for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
     chunks[i] = str.substr(o, size);
-    }
-    
-    return chunks;
-    };
-    
-    Font.registerHyphenationCallback((word) => {
-    if (word.length > 12) {
+  }
+
+  return chunks;
+};
+
+Font.registerHyphenationCallback((word) => {
+  if (word.length > 12) {
     return chunkSubstr(word, 10);
-    } else {
+  } else {
     return [word];
-    }
-    });
+  }
+});
 
 export default function LSAExport(props) {
 
@@ -75,89 +75,104 @@ export default function LSAExport(props) {
     const travels = props.data.travels || []
     const caseDetails =  props.data.caseDetails || {}
 
-    const styles = StyleSheet.create({
+  const styles = StyleSheet.create({
 
-        page: {
-            flexDirection: 'row',
-            padding: 20,
-            paddingHorizontal: 30,
-            justifyContent: 'space-between'
-        },
+    page: {
+      flexDirection: 'row',
+      padding: 20,
+      paddingHorizontal: 30,
+      justifyContent: 'space-between'
+    },
 
-        sideHead: {
-            height: '100%',
-            width: '5%'
-        },
+    sideHead: {
+      height: '100%',
+      width: '5%'
+    },
 
-        body: {
-            flexDirection: 'column',
+    body: {
+      flexDirection: 'column',
             width: '90%',
            
-        },
+    },
 
-        textSubHeader: {
-            fontSize: 12,
-            marginVertical: 10,
+    textSubHeader: {
+      fontSize: 12,
+      marginVertical: 10,
             fontFamily: 'Georgia_bold',   
 
-        },
+    },
 
-        textTableHeader: {
-            fontSize: 12,
-            fontFamily: 'Georgia_bold'
-        },
+    textTableHeader: {
+      fontSize: 12,
+      fontFamily: 'Georgia_bold'
+    },
 
-        textBody: {
-            fontWeight: 'normal',
-            fontFamily: 'Georgia',
-            fontSize: 10
-        },
+    textBody: {
+      fontWeight: 'normal',
+      fontFamily: 'Georgia',
+      fontSize: 10
+    },
 
-        table: {
+    table: {
             maxWidth:'100%',
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            marginHorizontal: 10,
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      marginHorizontal: 10,
             marginVertical: 10,
     
-        },
+    },
 
-        tr: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%',
-            margin: 0
-        },
+    tr: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: '100%',
+      margin: 0
+    },
 
-        td: {
-            borderColor: 'gray',
-            borderWidth: 1,
-            padding: 5,
+    td: {
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 5,
             flex: 1,
-            
-        }
+
+    td1: {
+      flexDirection: 'row',
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 5,
+      width: '10%'
+    },
+
+    td2: {
+      flexDirection: 'row',
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 5,
+      //width: '10%'
+      width: '15%'
+    }
 
     })
 
-    return (
+  return (
         <Page size='A4' style={styles.page}>
 
-            <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed />
+      <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed />
 
-            <View style={styles.body}>
+      <View style={styles.body}>
                 <Text style={{right:2, position: "absolute",fontSize:9, fontFamily:'Georgia_bold', color:'red'}}>CONFIDENTIAL</Text>
                 <Image style={{ marginHorizontal: 'auto', height: 70 }} src={'/vla/static/kra_logo_name.jpg'} fixed />
                 <Text style={{marginHorizontal:'auto', fontSize:9,  fontFamily:'Georgia_bold', marginTop: -2, marginBottom:4}} fixed>ISO 9001:2015 CERTIFIED</Text>
-                <LSAHeader data={caseDetails} />
+        <LSAHeader data={caseDetails} />
 
-                <Text style={styles.textSubHeader}>1.0 Executive Summary</Text>
+        <Text style={styles.textSubHeader}>1.0 Executive Summary</Text>
 
                 <Text style={styles.textBody}>
                     {caseDetails.esummary}
                 </Text>
 
-                <Text style={styles.textSubHeader}>2.0 Objective of the Lifestyle Audit</Text>
+        <Text style={styles.textSubHeader}>2.0 Objective of the Lifestyle Audit</Text>
 
                 <Text style={styles.textBody}>
                     {caseDetails.objectives}
@@ -165,12 +180,12 @@ export default function LSAExport(props) {
 
 
 
-                <Text style={styles.textSubHeader}>3.0 Personal Profile</Text>
+        <Text style={styles.textSubHeader}>3.0 Personal Profile</Text>
 
 
 
                 <View style={styles.table}  >
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Photo Of Subject
                         </Text>
@@ -183,9 +198,9 @@ export default function LSAExport(props) {
                             Physical Description
                         </Text>
 
-                    </View>
+          </View>
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
 
                         </Text>
@@ -198,14 +213,14 @@ export default function LSAExport(props) {
 
                         </Text>
 
-                    </View>
+          </View>
 
-                </View>
+        </View>
 
 
 
                 <View style={styles.table}  wrap = {false}>
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Name
@@ -215,10 +230,10 @@ export default function LSAExport(props) {
                             {bioData.subject_Name}
                         </Text>
 
-                    </View>
+          </View>
 
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Alias/ Street Name
                         </Text>
@@ -227,9 +242,9 @@ export default function LSAExport(props) {
                             {bioData.street_Name}
                         </Text>
 
-                    </View>
+          </View>
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             DOB/Age
@@ -239,23 +254,23 @@ export default function LSAExport(props) {
                             {bioData.dob}
                         </Text>
 
-                    </View>
+          </View>
 
 
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Place of Birth
                         </Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.place_of_Birth}
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+              {bioData.place_of_Birth}
+            </Text>
 
-                    </View>
+          </View>
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             ID/PP No/Passport No
@@ -265,10 +280,10 @@ export default function LSAExport(props) {
                             {bioData.idNo}
                         </Text>
 
-                    </View>
+          </View>
 
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             KRA Pin
@@ -278,10 +293,10 @@ export default function LSAExport(props) {
                             {bioData.kra_pin}
                         </Text>
 
-                    </View>
+          </View>
 
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Occupation
@@ -291,10 +306,10 @@ export default function LSAExport(props) {
                             {bioData.occupation}
                         </Text>
 
-                    </View>
+          </View>
 
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Gender
@@ -304,10 +319,10 @@ export default function LSAExport(props) {
                             {bioData.gender}
                         </Text>
 
-                    </View>
+          </View>
 
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Ethnicity
@@ -317,10 +332,10 @@ export default function LSAExport(props) {
                             {bioData.ethnicity}
                         </Text>
 
-                    </View>
+          </View>
 
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Nationality
@@ -330,10 +345,10 @@ export default function LSAExport(props) {
                             {bioData.nationality}
                         </Text>
 
-                    </View>
+          </View>
 
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Clan
@@ -343,10 +358,10 @@ export default function LSAExport(props) {
                             {bioData.clan}
                         </Text>
 
-                    </View>
+          </View>
 
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Family
@@ -356,10 +371,10 @@ export default function LSAExport(props) {
                             {bioData.family}
                         </Text>
 
-                    </View>
+          </View>
 
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             County
@@ -369,10 +384,10 @@ export default function LSAExport(props) {
                             {bioData.county}
                         </Text>
 
-                    </View>
+          </View>
 
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Division
@@ -382,10 +397,10 @@ export default function LSAExport(props) {
                             {bioData.division}
                         </Text>
 
-                    </View>
+          </View>
 
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Location
@@ -395,10 +410,10 @@ export default function LSAExport(props) {
                             {bioData.location}
                         </Text>
 
-                    </View>
+          </View>
 
 
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Sub Location
@@ -408,16 +423,16 @@ export default function LSAExport(props) {
                             {bioData.sub_location}
                         </Text>
 
-                    </View>
+          </View>
 
 
-                </View>
+        </View>
 
 
-                <Text style={styles.textSubHeader}>3.0 Residential Addresses</Text>
+        <Text style={styles.textSubHeader}>3.0 Residential Addresses</Text>
 
                 <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Address
                         </Text>
@@ -437,12 +452,12 @@ export default function LSAExport(props) {
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Remarks
                         </Text>
-                    </View>
+          </View>
 
                     {
                         residential.map((resident) => {
-                            return (
-                                <View style={styles.tr}>
+            return (
+              <View style={styles.tr}>
                                     <Text style={{ ...styles.td, ...styles.textBody }}>
                                         {resident.currentAddress}
                                     </Text>
@@ -462,18 +477,18 @@ export default function LSAExport(props) {
                                     <Text style={{ ...styles.td, ...styles.textBody }}>
                                         {resident.remarks}
                                     </Text>
-                                </View>
+              </View>
                             )
                         })
                     }
 
 
-                </View>
+        </View>
 
-                <Text style={styles.textSubHeader}>4.0 Secondary Information</Text>
+        <Text style={styles.textSubHeader}>4.0 Secondary Information</Text>
 
                 <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Person Type
                         </Text>
@@ -497,12 +512,12 @@ export default function LSAExport(props) {
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Remarks
                         </Text>
-                    </View>
+          </View>
 
                     {
                         secondaryInfo.map((info) => {
-                            return (
-                                <View style={styles.tr}>
+            return (
+              <View style={styles.tr}>
                                     <Text style={{ ...styles.td, ...styles.textBody }}>
                                         {info.type}
                                     </Text>
@@ -527,19 +542,19 @@ export default function LSAExport(props) {
                                     <Text style={{ ...styles.td, ...styles.textBody }}>
                                         {info.remarks}
                                     </Text>
-                                </View>
+              </View>
                             )
                         })
                     }
 
-                </View>
+        </View>
 
 
 
-                <Text style={styles.textSubHeader}>5.0 Associates Profile</Text>
+        <Text style={styles.textSubHeader}>5.0 Associates Profile</Text>
 
-                <View style={styles.table}>
-                    <View style={styles.tr}>
+        <View style={styles.table}>
+          <View style={styles.tr}>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Name
@@ -560,13 +575,13 @@ export default function LSAExport(props) {
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Remarks
                         </Text>
-                    </View>
+          </View>
 
 
                     {
                         associates.map((info) => {
-                            return (
-                                <View style={styles.tr}>
+            return (
+              <View style={styles.tr}>
 
                                     <Text style={{ ...styles.td, ...styles.textBody }}>
                                         {info.name}
@@ -588,21 +603,21 @@ export default function LSAExport(props) {
                                     <Text style={{ ...styles.td, ...styles.textBody }}>
                                         {info.remarks}
                                     </Text>
-                                </View>
+              </View>
                             )
                         })
                     }
 
 
-                </View>
+        </View>
 
 
 
-                <Text style={styles.textSubHeader}>7.0 Financial Profile</Text>
+        <Text style={styles.textSubHeader}>7.0 Financial Profile</Text>
 
-                <Text style={styles.textSubHeader}>7.0.1 Wealth Declaration - DAILS</Text>
+        <Text style={styles.textSubHeader}>7.0.1 Wealth Declaration - DAILS</Text>
 
-                <View style={styles.table}>
+        <View style={styles.table}>
                     <View style={styles.tr} wrap = {false} >
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Type of Asset
@@ -620,12 +635,12 @@ export default function LSAExport(props) {
                             Remarks
                         </Text>
 
-                    </View>
+          </View>
 
                     {
                         assets.map((info) => {
-                            return (
-                                <View style={styles.tr}>
+            return (
+              <View style={styles.tr}>
 
                                     <Text style={{ ...styles.td, ...styles.textBody }}>
                                         {info.type}
@@ -643,17 +658,17 @@ export default function LSAExport(props) {
                                     <Text style={{ ...styles.td, ...styles.textBody }}>
                                         {info.remarks}
                                     </Text>
-                                </View>
+              </View>
                             )
                         })
                     }
 
 
-                </View>
+        </View>
 
 
 
-                {/* <View style={styles.table} wrap = {false}>
+        {/* <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             S/No
@@ -684,44 +699,23 @@ export default function LSAExport(props) {
 
 
 
-                <Text style={styles.textSubHeader}>7.0.2 Salaries and Remunerations</Text>
+        <Text style={styles.textSubHeader}>7.0.2 Salaries and Remunerations</Text>
 
-                <Text>
-                    {caseDetails.salaries}
-                </Text>
-                <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            S/No
-                        </Text>
+        <Text>{caseDetails.salaries}</Text>
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/No</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Description</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Approximate Amount</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of declaration</Text>
+          </View>
+        </View>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Description
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Approximate Amount
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Remarks
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Date of declaration
-                        </Text>
-
-
-                    </View>
-
-
-
-                </View>
-
-                <Text style={styles.textSubHeader}>7.0.3 Summary of Accounts Identified</Text>
+        <Text style={styles.textSubHeader}>7.0.3 Summary of Accounts Identified</Text>
 
                 <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Bank/Sacco/Telco Name
                         </Text>
@@ -751,12 +745,12 @@ export default function LSAExport(props) {
                         </Text>
 
 
-                    </View>
+          </View>
 
                     {
                         financial.map((finItem) => {
-                            return (
-                                <View style={styles.tr}>
+            return (
+              <View style={styles.tr}>
                                     <Text style={{ ...styles.td, ...styles.textBody }}>
                                       { finItem.serviceProvider}
                                     </Text>
@@ -784,19 +778,19 @@ export default function LSAExport(props) {
                                     <Text style={{ ...styles.td, ...styles.textBody }}>
                                       { finItem.remarks}
                                     </Text>
-                                </View>
+              </View>
                             )
                         })
                     }
 
 
-                </View>
+        </View>
 
 
-                <Text style={styles.textSubHeader}>8.0 Companies/Business Interests</Text>
+        <Text style={styles.textSubHeader}>8.0 Companies/Business Interests</Text>
 
                 <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Company Name
                         </Text>
@@ -809,21 +803,21 @@ export default function LSAExport(props) {
                             Date of Registration
                         </Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Relationship with Subject
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+              Relationship with Subject
+            </Text>
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             Remarks
                         </Text>
 
 
-                    </View>
+          </View>
 
                     {
                         companies.map((finItem) => {
-                            return (
-                                <View style={styles.tr}>
+            return (
+              <View style={styles.tr}>
                                     <Text style={{ ...styles.td, ...styles.textBody }}>
                                       { finItem.companyName }
                                     </Text>
@@ -844,30 +838,24 @@ export default function LSAExport(props) {
                                     <Text style={{ ...styles.td, ...styles.textBody }}>
                                     { finItem.remarks}
                                     </Text>
-                                </View>
+              </View>
                             )
                         })
                     }
 
 
-                </View>
+        </View>
 
 
-                <Text style={styles.textSubHeader}>9.0 Assets</Text>
+        <Text style={styles.textSubHeader}>9.0 Assets</Text>
 
                 <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            S/No
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Description of Assets
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Estimation Acquisition Value
-                        </Text>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/No</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Description of Assets</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+              Estimation Acquisition Value
+            </Text>
 
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
@@ -875,52 +863,38 @@ export default function LSAExport(props) {
                         </Text>
 
 
-                    </View>
+          </View>
 
                     {
                         assets.map((asset, index) => {
-                            return (
-                                <View style={styles.tr}>
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {index + 1}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.description}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.estValue}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.remarks}
-                                    </Text>
-                                </View>
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td1, ...styles.textBody }}>{index + 1}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.description}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.estValue}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.remarks}</Text>
+              </View>
                             )
                         })
                     }
 
 
-                </View>
+        </View>
 
 
 
-                <Text style={styles.textSubHeader}>9.0 Liabilities</Text>
+        <Text style={styles.textSubHeader}>9.0 Liabilities</Text>
 
                 <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            S/No
-                        </Text>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/No</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+              Description of Liability
+            </Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Description of Liability
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Estimation Acquisition Value
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+              Estimation Acquisition Value
+            </Text>
 
 
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
@@ -928,107 +902,72 @@ export default function LSAExport(props) {
                         </Text>
 
 
-                    </View>
+          </View>
 
                     {
                         liabilities.map((asset, index) => {
-                            return (
-                                <View style={styles.tr}>
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {index}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.description}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.estValue}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.remarks}
-                                    </Text>
-                                </View>
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td1, ...styles.textBody }}>{index}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.description}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.estValue}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.remarks}</Text>
+              </View>
                             )
                         })
                     }
 
 
-                </View>
+        </View>
 
 
 
-                <Text style={styles.textSubHeader}>11.0 Integrity and Ethical Issues </Text>
+        <Text style={styles.textSubHeader}>11.0 Integrity and Ethical Issues </Text>
 
                 <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            S/No
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Type of Offense
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Details
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Action Taken
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Remarks
-                        </Text>
-
-
-                    </View>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/No</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Type of Offense</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Details</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Action Taken</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+          </View>
 
                     {
                         agencies.map((asset, index) => {
-                            return (
-                                <View style={styles.tr}>
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {index}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.offence}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.details}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.findings}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.remarks}
-                                    </Text>
-                                </View>
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td1, ...styles.textBody }}>{index}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.offence}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.details}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.findings}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.remarks}</Text>
+              </View>
                             )
                         })
                     }
 
 
-                </View>
+        </View>
 
 
-                <Text style={styles.textSubHeader}>11.0 Lifestyle Audit Findings </Text>
-                <Text style={styles.textBody}>{caseDetails.findings} </Text>
+        <Text style={styles.textSubHeader}>11.0 Lifestyle Audit Findings </Text>
+        <Text style={styles.textBody}>{caseDetails.findings} </Text>
 
+        <Text
+          style={{
+            marginTop: 'auto',
+            marginHorizontal: 'auto',
+            fontFamily: 'Gill_Bold_Italic',
+            fontSize: 15,
+            color: 'red'
+          }}
+          fixed
+        >
+          Tulipe Ushuru, Tujitegemee!
+        </Text>
 
-
-                <Text style={{ marginTop: 'auto', marginHorizontal: 'auto', fontFamily:'Gill_Bold_Italic', fontSize: 15, color:'red' }} fixed>
-                    Tulipe Ushuru, Tujitegemee!
-                </Text>
-
-            </View>
+      </View>
 
 
 

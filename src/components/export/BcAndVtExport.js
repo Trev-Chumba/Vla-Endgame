@@ -3,7 +3,7 @@ import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/
 import { BcHeader } from './BCHeader';
 import Georgia from '../../fonts/Georgia.ttf';
 import georgiab from '../../fonts/georgiab.ttf';
-import gillItalic from '../../fonts/GillSansz.otf'
+import gillItalic from '../../fonts/GillSansz.otf';
 import { red } from '@mui/material/colors';
 import { unset, wrap } from 'lodash';
 import { Hidden } from '@mui/material';
@@ -27,8 +27,7 @@ Font.register({
   ]
 });
 Font.register({
-
-  family:'Gill_Bold_Italic',
+  family: 'Gill_Bold_Italic',
   fonts: [
     {
       src: gillItalic
@@ -36,22 +35,22 @@ Font.register({
   ]
 });
 export const chunkSubstr = (str, size) => {
-const numChunks = Math.ceil(str.length / size);
-const chunks = new Array(numChunks);
+  const numChunks = Math.ceil(str.length / size);
+  const chunks = new Array(numChunks);
 
-for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-chunks[i] = str.substr(o, size);
-}
+  for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+    chunks[i] = str.substr(o, size);
+  }
 
-return chunks;
+  return chunks;
 };
 
 Font.registerHyphenationCallback((word) => {
-if (word.length > 12) {
-return chunkSubstr(word, 10);
-} else {
-return [word];
-}
+  if (word.length > 12) {
+    return chunkSubstr(word, 10);
+  } else {
+    return [word];
+  }
 });
 
 export default function BcAndVtExPort(props) {
@@ -92,7 +91,7 @@ export default function BcAndVtExPort(props) {
     textBody: {
       //fontWeight: 'normal',
       fontFamily: 'Georgia',
-      fontSize: 12,
+      fontSize: 12
     },
 
     table: {
@@ -105,19 +104,36 @@ export default function BcAndVtExPort(props) {
 
     tr: {
       flexDirection: 'row',
-      display:'flex',
-      justifyContent: 'space-between',
+      display: 'flex',
+      //justifyContent: 'space-between',
       width: '100%',
       margin: 0
     },
 
     td: {
       flexDirection: 'row',
-       borderColor: 'gray',
+      borderColor: 'gray',
       borderWidth: 1,
       padding: 5,
+      //width: '10%'
       flex: 1
-      
+    },
+
+    td1: {
+      flexDirection: 'row',
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 5,
+      width: '10%'
+    },
+
+    td2: {
+      flexDirection: 'row',
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 5,
+      //width: '10%'
+      width: '15%'
     }
   });
 
@@ -138,17 +154,17 @@ export default function BcAndVtExPort(props) {
         <View style={styles.table}>
           <View style={styles.tr}>
             {/* <Text style={{ ...styles.td, ...styles.textTableHeader }}>No</Text> */}
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>S/NO</Text>
+            <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/NO</Text>
             {/* <Text style={{ ...styles.td, ...styles.textTableHeader }}>P/No.</Text> */}
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>ID NO</Text>
+            <Text style={{ ...styles.td2, ...styles.textTableHeader }}>ID NO</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>NAME OF APPLICANT</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>STATUS</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>POSITION APPLIED</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textBody }}>1</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.idNo}</Text>
+            <Text style={{ ...styles.td1, ...styles.textBody }}>1</Text>
+            <Text style={{ ...styles.td2, ...styles.textBody }}>{bioData.idNo}</Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.subject_Name}</Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.candidateType}</Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.position}</Text>
@@ -159,17 +175,17 @@ export default function BcAndVtExPort(props) {
         <Text style={styles.textSubHeader}>3.0 Findings</Text>
         <View style={styles.table}>
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>S/NO</Text>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>ID NO.</Text>
+            <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/NO</Text>
+            <Text style={{ ...styles.td2, ...styles.textTableHeader }}>ID NO.</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>INQUIRY NO.</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>NAME OF APPLICANT</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>REMARKS</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textBody }}>1</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.idNo}</Text>
-          <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.caseNo} </Text>
+            <Text style={{ ...styles.td1, ...styles.textBody }}>1</Text>
+            <Text style={{ ...styles.td2, ...styles.textBody }}>{bioData.idNo}</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.caseNo} </Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.subject_Name}</Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.remarks}</Text>
           </View>
@@ -187,17 +203,17 @@ export default function BcAndVtExPort(props) {
        
         /> */}
         <Text
-            style={{
-                marginTop: 'auto',
-                marginHorizontal: 'auto',
-                fontStyle: 'Gill_Bold_Italic',
-                fontSize: 12,
-                color: 'red'
-            }}
-            fixed
-            >
-            TULIPE USHURU,TUJITEGEMEE!
-            </Text>
+          style={{
+            marginTop: 'auto',
+            marginHorizontal: 'auto',
+            fontFamily: 'Gill_Bold_Italic',
+            fontSize: 15,
+            color: 'red'
+          }}
+          fixed
+        >
+          Tulipe Ushuru,Tujitegemee!
+        </Text>
       </View>
     </Page>
   );
