@@ -124,7 +124,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
     ethnicity: Yup.string().matches(stringRegExp, 'No numbers allowed'),
     tel1: Yup.string()
       .required('provide primary telephone number')
-      .matches(phoneRegExp, 'Please input valid mobile/telephone number'),
+      .matches(phoneRegExp, 'Please input valid mobile/telephone number').min(10, 'Too short').max(11,'Too long'),
     tel2: Yup.string().matches(phoneRegExp, 'Please input valid mobile/telephone number'),
     tel3: Yup.string(),
     nationality: Yup.string().max(50, 'Too Long!'),
@@ -132,7 +132,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
     division: Yup.string(),
     location: Yup.string(),
     sub_location: Yup.string(),
-    kra_pin: Yup.string().max(12, 'Too Long!').matches(kra_regex, 'Please input valid KRA pin'),
+    kra_pin: Yup.string().max(12, 'Too Long!'),
     occupation: Yup.string(),
     place_of_work: Yup.string(),
     height: Yup.string(),
@@ -175,7 +175,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
       facebook_username: profileData.facebook_username || '',
       place_of_birth: profileData.place_of_birth || '',
       remarks: profileData.remarks || ''
-    },
+    }, 
     validationSchema: RegisterSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
@@ -476,11 +476,25 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
                         helperText={touched.tel1 && errors.tel1}
                       />
 
-                      <TextField fullWidth label="Alt Phone Number" {...getFieldProps('tel2')} />
+                      <TextField
+                        fullWidth
+                        label="Alt Phone Number"
+                        {...getFieldProps('tel2')}
+                        error={Boolean(touched.tel2 && errors.tel2)}
+                        helperText={touched.tel2 && errors.tel2}
+                      />
+
+                      {/* <TextField fullWidth label="Alt Phone Number" {...getFieldProps('tel2')} /> */}
 
                       <TextField fullWidth label="Alt Phone Number 2" {...getFieldProps('tel3')} />
 
-                      <TextField fullWidth label="Email" {...getFieldProps('email')} />
+                      <TextField
+                        fullWidth
+                        label="Email"
+                        {...getFieldProps('email')}
+                        error={Boolean(touched.email && errors.email)}
+                        helperText={touched.email && errors.email}
+                      />
                     </Stack>
                   </Stack>
                 </CardContent>

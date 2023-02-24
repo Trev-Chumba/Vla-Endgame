@@ -494,6 +494,8 @@ export default function LSAExport(props) {
 
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Type</Text>
 
+                <Text style={styles.textSubHeader}>10.0 Liabilities</Text>
+
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Current Balance</Text>
 
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of Enquiry</Text>
