@@ -1,659 +1,446 @@
-import React from "react";
+import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
 import { LSAHeader } from './LSAHeader';
 import Georgia from '../../fonts/Georgia.ttf';
 import georgiab from '../../fonts/georgiab.ttf';
-import georgiaz from '../../fonts/georgiaz.ttf'
-import gillItalic from '../../fonts/GillSansz.otf'
+import georgiaz from '../../fonts/georgiaz.ttf';
+import gillItalic from '../../fonts/GillSansz.otf';
 
 Font.register({
-    family: 'Georgia',
-    fonts: [
-      {
-        src: Georgia,
-        fontWeight: 'bold'
-      }
-    ]
-  });
-  
-  Font.register({
-    family: 'Georgia_bold',
-    fonts: [
-      {
-        src: georgiab
-      }
-    ]
-  });
-
-  Font.register(
+  family: 'Georgia',
+  fonts: [
     {
-        family:'Georgiaz',
-        src: georgiaz
+      src: Georgia,
+      fontWeight: 'bold'
     }
-  );
-  Font.register({
+  ]
+});
 
-    family:'Gill_Bold_Italic',
-    fonts: [
-      {
-        src: gillItalic
-      }
-    ]
-  });
-  export const chunkSubstr = (str, size) => {
-    const numChunks = Math.ceil(str.length / size);
-    const chunks = new Array(numChunks);
-    
-    for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+Font.register({
+  family: 'Georgia_bold',
+  fonts: [
+    {
+      src: georgiab
+    }
+  ]
+});
+
+Font.register({
+  family: 'Georgiaz',
+  src: georgiaz
+});
+Font.register({
+  family: 'Gill_Bold_Italic',
+  fonts: [
+    {
+      src: gillItalic
+    }
+  ]
+});
+export const chunkSubstr = (str, size) => {
+  const numChunks = Math.ceil(str.length / size);
+  const chunks = new Array(numChunks);
+
+  for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
     chunks[i] = str.substr(o, size);
-    }
-    
-    return chunks;
-    };
-    
-    Font.registerHyphenationCallback((word) => {
-    if (word.length > 12) {
+  }
+
+  return chunks;
+};
+
+Font.registerHyphenationCallback((word) => {
+  if (word.length > 12) {
     return chunkSubstr(word, 10);
-    } else {
+  } else {
     return [word];
-    }
-    });
+  }
+});
 
 export default function LSAExport(props) {
+  const bioData = props.data.bio || {};
+  const associates = props.data.associates || [];
+  const financial = props.data.financial || [];
+  const agencies = props.data.agencies || [];
+  const secondaryInfo = props.data.secondaryInfo || [];
+  const employment = props.data.employment || [];
+  const companies = props.data.companies || [];
+  const integrity = props.data.integrity || [];
+  const residential = props.data.residential || [];
+  const assets = props.data.assets || [];
+  const liabilities = props.data.liabilities || [];
+  const travels = props.data.travels || [];
+  const caseDetails = props.data.caseDetails || {};
+
+  const styles = StyleSheet.create({
+    page: {
+      flexDirection: 'row',
+      padding: 20,
+      paddingHorizontal: 30,
+      justifyContent: 'space-between'
+    },
+
+    sideHead: {
+      height: '100%',
+      width: '5%'
+    },
+
+    body: {
+      flexDirection: 'column',
+      width: '90%'
+    },
+
+    textSubHeader: {
+      fontSize: 12,
+      marginVertical: 10,
+      fontFamily: 'Georgia_bold'
+    },
+
+    textTableHeader: {
+      fontSize: 12,
+      fontFamily: 'Georgia_bold'
+    },
+
+    textBody: {
+      fontWeight: 'normal',
+      fontFamily: 'Georgia',
+      fontSize: 10
+    },
+
+    table: {
+      maxWidth: '100%',
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      marginHorizontal: 10,
+      marginVertical: 10
+    },
+
+    tr: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: '100%',
+      margin: 0
+    },
+
+    td: {
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 5,
+      flex: 1
+    },
+
+    td1: {
+      flexDirection: 'row',
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 5,
+      width: '10%'
+    },
+
+    td2: {
+      flexDirection: 'row',
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 5,
+      //width: '10%'
+      width: '15%'
+    }
+  });
+
+  return (
+    <Page size="A4" style={styles.page}>
+      <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed />
+
+      <View style={styles.body}>
+        <Text
+          style={{
+            right: 2,
+            position: 'absolute',
+            fontSize: 9,
+            fontFamily: 'Georgia_bold',
+            color: 'red'
+          }}
+        >
+          CONFIDENTIAL
+        </Text>
+        <Image
+          style={{ marginHorizontal: 'auto', height: 70 }}
+          src={'/vla/static/kra_logo_name.jpg'}
+          fixed
+        />
+        <Text
+          style={{
+            marginHorizontal: 'auto',
+            fontSize: 9,
+            fontFamily: 'Georgia_bold',
+            marginTop: -2,
+            marginBottom: 4
+          }}
+          fixed
+        >
+          ISO 9001:2015 CERTIFIED
+        </Text>
+        <LSAHeader data={caseDetails} />
 
-    const bioData = props.data.bio || {}
-    const associates = props.data.associates || []
-    const financial = props.data.financial || []
-    const agencies = props.data.agencies || []
-    const secondaryInfo = props.data.secondaryInfo || []
-    const employment = props.data.employment || []
-    const companies = props.data.companies || []
-    const integrity = props.data.integrity || []
-    const residential = props.data.residential || []
-    const assets = props.data.assets || []
-    const liabilities = props.data.liabilities || []
-    const travels = props.data.travels || []
-    const caseDetails =  props.data.caseDetails || {}
-
-    const styles = StyleSheet.create({
-
-        page: {
-            flexDirection: 'row',
-            padding: 20,
-            paddingHorizontal: 30,
-            justifyContent: 'space-between'
-        },
-
-        sideHead: {
-            height: '100%',
-            width: '5%'
-        },
-
-        body: {
-            flexDirection: 'column',
-            width: '90%',
-           
-        },
+        <Text style={styles.textSubHeader}>1.0 Executive Summary</Text>
 
-        textSubHeader: {
-            fontSize: 12,
-            marginVertical: 10,
-            fontFamily: 'Georgia_bold',   
+        <Text style={styles.textBody}>{caseDetails.esummary}</Text>
 
-        },
+        <Text style={styles.textSubHeader}>2.0 Objective of the Lifestyle Audit</Text>
 
-        textTableHeader: {
-            fontSize: 12,
-            fontFamily: 'Georgia_bold'
-        },
+        <Text style={styles.textBody}>{caseDetails.objectives}</Text>
 
-        textBody: {
-            fontWeight: 'normal',
-            fontFamily: 'Georgia',
-            fontSize: 10
-        },
+        <Text style={styles.textSubHeader}>3.0 Personal Profile</Text>
 
-        table: {
-            maxWidth:'100%',
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            marginHorizontal: 10,
-            marginVertical: 10,
-    
-        },
+        <View style={styles.table}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Photo Of Subject</Text>
 
-        tr: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%',
-            margin: 0
-        },
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of Photo</Text>
 
-        td: {
-            borderColor: 'gray',
-            borderWidth: 1,
-            padding: 5,
-            flex: 1,
-            
-        }
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Physical Description</Text>
+          </View>
 
-    })
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}></Text>
 
-    return (
-        <Page size='A4' style={styles.page}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}></Text>
 
-            <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed />
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}></Text>
+          </View>
+        </View>
 
-            <View style={styles.body}>
-                <Text style={{right:2, position: "absolute",fontSize:9, fontFamily:'Georgia_bold', color:'red'}}>CONFIDENTIAL</Text>
-                <Image style={{ marginHorizontal: 'auto', height: 70 }} src={'/vla/static/kra_logo_name.jpg'} fixed />
-                <Text style={{marginHorizontal:'auto', fontSize:9,  fontFamily:'Georgia_bold', marginTop: -2, marginBottom:4}} fixed>ISO 9001:2015 CERTIFIED</Text>
-                <LSAHeader data={caseDetails} />
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Name</Text>
 
-                <Text style={styles.textSubHeader}>1.0 Executive Summary</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.subject_Name}</Text>
+          </View>
 
-                <Text style={styles.textBody}>
-                    {caseDetails.esummary}
-                </Text>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Alias/ Street Name</Text>
 
-                <Text style={styles.textSubHeader}>2.0 Objective of the Lifestyle Audit</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.street_Name}</Text>
+          </View>
 
-                <Text style={styles.textBody}>
-                    {caseDetails.objectives}
-                </Text>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>DOB/Age</Text>
 
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.dob}</Text>
+          </View>
 
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Place of Birth</Text>
 
-                <Text style={styles.textSubHeader}>3.0 Personal Profile</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+              {bioData.place_of_Birth}
+            </Text>
+          </View>
 
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>ID/PP No/Passport No</Text>
 
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.idNo}</Text>
+          </View>
 
-                <View style={styles.table}  >
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Photo Of Subject
-                        </Text>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>KRA Pin</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Date of Photo
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.kra_pin}</Text>
+          </View>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Physical Description
-                        </Text>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Occupation</Text>
 
-                    </View>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.occupation}</Text>
+          </View>
 
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Gender</Text>
 
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.gender}</Text>
+          </View>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Ethnicity</Text>
 
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.ethnicity}</Text>
+          </View>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Nationality</Text>
 
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.nationality}</Text>
+          </View>
 
-                    </View>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Clan</Text>
 
-                </View>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.clan}</Text>
+          </View>
 
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Family</Text>
 
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.family}</Text>
+          </View>
 
-                <View style={styles.table}  wrap = {false}>
-                    <View style={styles.tr}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>County</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Name
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.county}</Text>
+          </View>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.subject_Name}
-                        </Text>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Division</Text>
 
-                    </View>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.division}</Text>
+          </View>
 
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Location</Text>
 
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Alias/ Street Name
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.location}</Text>
+          </View>
 
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            {bioData.street_Name}
-                        </Text>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Sub Location</Text>
 
-                    </View>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.sub_location}</Text>
+          </View>
+        </View>
 
-                    <View style={styles.tr}>
+        <Text style={styles.textSubHeader}>3.0 Residential Addresses</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            DOB/Age
-                        </Text>
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Address</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.dob}
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Physical Address</Text>
 
-                    </View>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Postal Address</Text>
 
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Coordinates</Text>
 
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+          </View>
 
-                    <View style={styles.tr}>
+          {residential.map((resident) => {
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{resident.currentAddress}</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Place of Birth
-                        </Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{resident.physicalAddress}</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.place_of_Birth}
-                        </Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{resident.postalAddress}</Text>
 
-                    </View>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{resident.coordinates}</Text>
 
-                    <View style={styles.tr}>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{resident.remarks}</Text>
+              </View>
+            );
+          })}
+        </View>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            ID/PP No/Passport No
-                        </Text>
+        <Text style={styles.textSubHeader}>4.0 Secondary Information</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.idNo}
-                        </Text>
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Person Type</Text>
 
-                    </View>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Name</Text>
 
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>ID No</Text>
 
-                    <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>KRA Pin</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            KRA Pin
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of birth</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.kra_pin}
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+          </View>
 
-                    </View>
+          {secondaryInfo.map((info) => {
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.type}</Text>
 
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.name}</Text>
 
-                    <View style={styles.tr}>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.id_no}</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Occupation
-                        </Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.kra_pin}</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.occupation}
-                        </Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.dob}</Text>
 
-                    </View>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.remarks}</Text>
+              </View>
+            );
+          })}
+        </View>
 
+        <Text style={styles.textSubHeader}>5.0 Associates Profile</Text>
 
-                    <View style={styles.tr}>
+        <View style={styles.table}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Name</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Gender
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>ID No</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.gender}
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>KRA Pin</Text>
 
-                    </View>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Relationship</Text>
 
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+          </View>
 
-                    <View style={styles.tr}>
+          {associates.map((info) => {
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.name}</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Ethnicity
-                        </Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.idNO}</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.ethnicity}
-                        </Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.kraPin}</Text>
 
-                    </View>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.relationship}</Text>
 
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.remarks}</Text>
+              </View>
+            );
+          })}
+        </View>
 
-                    <View style={styles.tr}>
+        <Text style={styles.textSubHeader}>7.0 Financial Profile</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Nationality
-                        </Text>
+        <Text style={styles.textSubHeader}>7.0.1 Wealth Declaration - DAILS</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.nationality}
-                        </Text>
+        <View style={styles.table}>
+          <View style={styles.tr} wrap={false}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Type of Asset</Text>
 
-                    </View>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Value</Text>
 
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Description</Text>
 
-                    <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+          </View>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Clan
-                        </Text>
+          {assets.map((info) => {
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.type}</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.clan}
-                        </Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.estValue}</Text>
 
-                    </View>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.description}</Text>
 
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.remarks}</Text>
+              </View>
+            );
+          })}
+        </View>
 
-                    <View style={styles.tr}>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Family
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.family}
-                        </Text>
-
-                    </View>
-
-
-                    <View style={styles.tr}>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            County
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.county}
-                        </Text>
-
-                    </View>
-
-
-                    <View style={styles.tr}>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Division
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.division}
-                        </Text>
-
-                    </View>
-
-
-                    <View style={styles.tr}>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Location
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.location}
-                        </Text>
-
-                    </View>
-
-
-                    <View style={styles.tr}>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Sub Location
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            {bioData.sub_location}
-                        </Text>
-
-                    </View>
-
-
-                </View>
-
-
-                <Text style={styles.textSubHeader}>3.0 Residential Addresses</Text>
-
-                <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Address
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Physical Address
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Postal Address
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Coordinates
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Remarks
-                        </Text>
-                    </View>
-
-                    {
-                        residential.map((resident) => {
-                            return (
-                                <View style={styles.tr}>
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {resident.currentAddress}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {resident.physicalAddress}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {resident.postalAddress}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {resident.coordinates}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {resident.remarks}
-                                    </Text>
-                                </View>
-                            )
-                        })
-                    }
-
-
-                </View>
-
-                <Text style={styles.textSubHeader}>4.0 Secondary Information</Text>
-
-                <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Person Type
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Name
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            ID No
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            KRA Pin
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Date of birth
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Remarks
-                        </Text>
-                    </View>
-
-                    {
-                        secondaryInfo.map((info) => {
-                            return (
-                                <View style={styles.tr}>
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {info.type}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {info.name}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {info.id_no}
-                                    </Text>
-
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {info.kra_pin}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {info.dob}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {info.remarks}
-                                    </Text>
-                                </View>
-                            )
-                        })
-                    }
-
-                </View>
-
-
-
-                <Text style={styles.textSubHeader}>5.0 Associates Profile</Text>
-
-                <View style={styles.table}>
-                    <View style={styles.tr}>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Name
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            ID No
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            KRA Pin
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Relationship
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Remarks
-                        </Text>
-                    </View>
-
-
-                    {
-                        associates.map((info) => {
-                            return (
-                                <View style={styles.tr}>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {info.name}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {info.idNO}
-                                    </Text>
-
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {info.kraPin}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {info.relationship}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {info.remarks}
-                                    </Text>
-                                </View>
-                            )
-                        })
-                    }
-
-
-                </View>
-
-
-
-                <Text style={styles.textSubHeader}>7.0 Financial Profile</Text>
-
-                <Text style={styles.textSubHeader}>7.0.1 Wealth Declaration - DAILS</Text>
-
-                <View style={styles.table}>
-                    <View style={styles.tr} wrap = {false} >
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Type of Asset
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Value
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Description
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Remarks
-                        </Text>
-
-                    </View>
-
-                    {
-                        assets.map((info) => {
-                            return (
-                                <View style={styles.tr}>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {info.type}
-                                    </Text>
-
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {info.estValue}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {info.description}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {info.remarks}
-                                    </Text>
-                                </View>
-                            )
-                        })
-                    }
-
-
-                </View>
-
-
-
-                {/* <View style={styles.table} wrap = {false}>
+        {/* <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
                         <Text style={{ ...styles.td, ...styles.textTableHeader }}>
                             S/No
@@ -682,357 +469,188 @@ export default function LSAExport(props) {
 
                 </View> */}
 
+        <Text style={styles.textSubHeader}>7.0.2 Salaries and Remunerations</Text>
 
+        <Text>{caseDetails.salaries}</Text>
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/No</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Description</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Approximate Amount</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of declaration</Text>
+          </View>
+        </View>
 
-                <Text style={styles.textSubHeader}>7.0.2 Salaries and Remunerations</Text>
+        <Text style={styles.textSubHeader}>7.0.3 Summary of Accounts Identified</Text>
 
-                <Text>
-                    {caseDetails.salaries}
-                </Text>
-                <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            S/No
-                        </Text>
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Bank/Sacco/Telco Name</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Description
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Name</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Approximate Amount
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Number</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Remarks
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Date of declaration
-                        </Text>
-
-
-                    </View>
-
-
-
-                </View>
-
-                <Text style={styles.textSubHeader}>7.0.3 Summary of Accounts Identified</Text>
-
-                <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Bank/Sacco/Telco Name
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Account Name
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Account Number
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Account Type
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Current Balance
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Date of Enquiry
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Remarks
-                        </Text>
-
-
-                    </View>
-
-                    {
-                        financial.map((finItem) => {
-                            return (
-                                <View style={styles.tr}>
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                      { finItem.serviceProvider}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                    { finItem.accountName}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                    { finItem.accountNumber}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                     { finItem.accountType}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                    { finItem.balances}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                     { finItem.dateOfInquiry }
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                      { finItem.remarks}
-                                    </Text>
-                                </View>
-                            )
-                        })
-                    }
-
-
-                </View>
-
-
-                <Text style={styles.textSubHeader}>8.0 Companies/Business Interests</Text>
-
-                <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Company Name
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Registration Number
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Date of Registration
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Relationship with Subject
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Remarks
-                        </Text>
-
-
-                    </View>
-
-                    {
-                        companies.map((finItem) => {
-                            return (
-                                <View style={styles.tr}>
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                      { finItem.companyName }
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                    { finItem.regNo }
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        { finItem.dateofReg }
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        { finItem.relationship}
-                                    </Text>
-
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                    { finItem.remarks}
-                                    </Text>
-                                </View>
-                            )
-                        })
-                    }
-
-
-                </View>
-
-
-                <Text style={styles.textSubHeader}>9.0 Assets</Text>
-
-                <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            S/No
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Description of Assets
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Estimation Acquisition Value
-                        </Text>
-
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Remarks
-                        </Text>
-
-
-                    </View>
-
-                    {
-                        assets.map((asset, index) => {
-                            return (
-                                <View style={styles.tr}>
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {index + 1}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.description}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.estValue}
-                                    </Text>
-
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.remarks}
-                                    </Text>
-                                </View>
-                            )
-                        })
-                    }
-
-
-                </View>
-
-
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Type</Text>
 
                 <Text style={styles.textSubHeader}>10.0 Liabilities</Text>
 
-                <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            S/No
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Current Balance</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Description of Liability
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of Enquiry</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Estimation Acquisition Value
-                        </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+          </View>
 
+          {financial.map((finItem) => {
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{finItem.serviceProvider}</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Remarks
-                        </Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{finItem.accountName}</Text>
 
+                <Text style={{ ...styles.td, ...styles.textBody }}>{finItem.accountNumber}</Text>
 
-                    </View>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{finItem.accountType}</Text>
 
-                    {
-                        liabilities.map((asset, index) => {
-                            return (
-                                <View style={styles.tr}>
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {index}
-                                    </Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{finItem.balances}</Text>
 
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.description}
-                                    </Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{finItem.dateOfInquiry}</Text>
 
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.estValue}
-                                    </Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{finItem.remarks}</Text>
+              </View>
+            );
+          })}
+        </View>
 
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.remarks}
-                                    </Text>
-                                </View>
-                            )
-                        })
-                    }
+        <Text style={styles.textSubHeader}>8.0 Companies/Business Interests</Text>
 
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Company Name</Text>
 
-                </View>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Registration Number</Text>
 
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of Registration</Text>
 
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+              Relationship with Subject
+            </Text>
 
-                <Text style={styles.textSubHeader}>11.0 Integrity and Ethical Issues </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+          </View>
 
-                <View style={styles.table} wrap = {false}>
-                    <View style={styles.tr}>
+          {companies.map((finItem) => {
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{finItem.companyName}</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            S/No
-                        </Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{finItem.regNo}</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Type of Offense
-                        </Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{finItem.dateofReg}</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Details
-                        </Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{finItem.relationship}</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Action Taken
-                        </Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{finItem.remarks}</Text>
+              </View>
+            );
+          })}
+        </View>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Remarks
-                        </Text>
+        <Text style={styles.textSubHeader}>9.0 Assets</Text>
 
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/No</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Description of Assets</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+              Estimation Acquisition Value
+            </Text>
 
-                    </View>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+          </View>
 
-                    {
-                        agencies.map((asset, index) => {
-                            return (
-                                <View style={styles.tr}>
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {index}
-                                    </Text>
+          {assets.map((asset, index) => {
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td1, ...styles.textBody }}>{index + 1}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.description}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.estValue}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.remarks}</Text>
+              </View>
+            );
+          })}
+        </View>
 
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.offence}
-                                    </Text>
+        <Text style={styles.textSubHeader}>9.0 Liabilities</Text>
 
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.details}
-                                    </Text>
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/No</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+              Description of Liability
+            </Text>
 
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.findings}
-                                    </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+              Estimation Acquisition Value
+            </Text>
 
-                                    <Text style={{ ...styles.td, ...styles.textBody }}>
-                                        {asset.remarks}
-                                    </Text>
-                                </View>
-                            )
-                        })
-                    }
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+          </View>
 
+          {liabilities.map((asset, index) => {
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td1, ...styles.textBody }}>{index}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.description}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.estValue}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.remarks}</Text>
+              </View>
+            );
+          })}
+        </View>
 
-                </View>
+        <Text style={styles.textSubHeader}>11.0 Integrity and Ethical Issues </Text>
 
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/No</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Type of Offense</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Details</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Action Taken</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+          </View>
 
-                <Text style={styles.textSubHeader}>11.0 Lifestyle Audit Findings </Text>
-                <Text style={styles.textBody}>{caseDetails.findings} </Text>
+          {agencies.map((asset, index) => {
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td1, ...styles.textBody }}>{index}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.offence}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.details}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.findings}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.remarks}</Text>
+              </View>
+            );
+          })}
+        </View>
 
+        <Text style={styles.textSubHeader}>11.0 Lifestyle Audit Findings </Text>
+        <Text style={styles.textBody}>{caseDetails.findings} </Text>
 
-
-                <Text style={{ marginTop: 'auto', marginHorizontal: 'auto', fontFamily:'Gill_Bold_Italic', fontSize: 15, color:'red' }} fixed>
-                    Tulipe Ushuru, Tujitegemee!
-                </Text>
-
-            </View>
-
-
-
-        </Page >
-    )
-
+        <Text
+          style={{
+            marginTop: 'auto',
+            marginHorizontal: 'auto',
+            fontFamily: 'Gill_Bold_Italic',
+            fontSize: 15,
+            color: 'red'
+          }}
+          fixed
+        >
+          Tulipe Ushuru, Tujitegemee!
+        </Text>
+      </View>
+    </Page>
+  );
 }
