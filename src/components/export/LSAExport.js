@@ -906,7 +906,7 @@ export default function LSAExport(props) {
 
 
 
-                <Text style={styles.textSubHeader}>9.0 Liabilities</Text>
+                <Text style={styles.textSubHeader}>10.0 Liabilities</Text>
 
                 <View style={styles.table} wrap = {false}>
                     <View style={styles.tr}>
