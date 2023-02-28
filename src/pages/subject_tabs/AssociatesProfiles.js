@@ -219,10 +219,13 @@ export default function AssociatesProfiles({ id, updateProfileData }) {
       .required('name required')
       .matches(stringRegExp, 'Only Characters are allowed')
       .max(50, 'Too long'),
-    idNo: Yup.string().matches(numericRegExp, 'Only digits allowed'),
+    idNO: Yup.string().matches(numericRegExp, 'Only digits allowed'),
     kraPin: Yup.string().max(15, 'Too Long!'),
     //mobile: Yup.number().max(10, 'Too Long!'),
-    mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid').max(10, 'Too long'),
+    mobile: Yup.string()
+      .matches(phoneRegExp, 'Phone number is not valid')
+      .max(10, 'Too long')
+      .min(10, 'Too short'),
 
     relationship: Yup.string().max(50, 'Too Long!'),
     remarks: Yup.string()

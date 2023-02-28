@@ -124,9 +124,17 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
     ethnicity: Yup.string().matches(stringRegExp, 'No numbers allowed'),
     tel1: Yup.string()
       .required('provide primary telephone number')
-      .matches(phoneRegExp, 'Please input valid mobile/telephone number').min(10, 'Too short').max(11,'Too long'),
-    tel2: Yup.string().matches(phoneRegExp, 'Please input valid mobile/telephone number'),
-    tel3: Yup.string(),
+      .matches(phoneRegExp, 'Please input valid mobile/telephone number')
+      .min(10, 'Too short')
+      .max(10, 'Too long'),
+    tel2: Yup.string()
+      .matches(phoneRegExp, 'Please input valid mobile/telephone number')
+      .min(10, 'Too short')
+      .max(10, 'Too long'),
+    tel3: Yup.string()
+      .matches(phoneRegExp, 'Please input valid mobile/telephone number')
+      .min(10, 'Too short')
+      .max(10, 'Too long'),
     nationality: Yup.string().max(50, 'Too Long!'),
     county: Yup.string(),
     division: Yup.string(),
@@ -175,7 +183,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
       facebook_username: profileData.facebook_username || '',
       place_of_birth: profileData.place_of_birth || '',
       remarks: profileData.remarks || ''
-    }, 
+    },
     validationSchema: RegisterSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
@@ -486,7 +494,15 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
 
                       {/* <TextField fullWidth label="Alt Phone Number" {...getFieldProps('tel2')} /> */}
 
-                      <TextField fullWidth label="Alt Phone Number 2" {...getFieldProps('tel3')} />
+                      <TextField
+                        fullWidth
+                        label="Alt Phone Number 2"
+                        {...getFieldProps('tel3')}
+                        error={Boolean(touched.tel3 && errors.tel3)}
+                        helperText={touched.tel3 && errors.tel3}
+                      />
+
+                      {/* <TextField fullWidth label="Alt Phone Number 2" {...getFieldProps('tel3')} /> */}
 
                       <TextField
                         fullWidth

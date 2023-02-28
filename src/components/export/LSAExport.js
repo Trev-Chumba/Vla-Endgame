@@ -49,7 +49,7 @@ export const chunkSubstr = (str, size) => {
 };
 
 Font.registerHyphenationCallback((word) => {
-  if (word.length > 12) {
+  if (word.length > 11) {
     return chunkSubstr(word, 10);
   } else {
     return [word];
@@ -144,6 +144,15 @@ export default function LSAExport(props) {
       padding: 5,
       //width: '10%'
       width: '15%'
+    },
+
+    td2a: {
+      flexDirection: 'row',
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 5,
+      //width: '10%'
+      width: '35%'
     }
   });
 
@@ -160,6 +169,7 @@ export default function LSAExport(props) {
             fontFamily: 'Georgia_bold',
             color: 'red'
           }}
+          fixed
         >
           CONFIDENTIAL
         </Text>
@@ -183,134 +193,148 @@ export default function LSAExport(props) {
         <LSAHeader data={caseDetails} />
 
         <Text style={styles.textSubHeader}>1.0 Executive Summary</Text>
-
         <Text style={styles.textBody}>{caseDetails.esummary}</Text>
 
         <Text style={styles.textSubHeader}>2.0 Objective of the Lifestyle Audit</Text>
-
         <Text style={styles.textBody}>{caseDetails.objectives}</Text>
 
         <Text style={styles.textSubHeader}>3.0 Personal Profile</Text>
-
         <View style={styles.table}>
           <View style={styles.tr}>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Photo Of Subject</Text>
-
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of Photo</Text>
-
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Physical Description</Text>
           </View>
 
           <View style={styles.tr}>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}></Text>
-
             <Text style={{ ...styles.td, ...styles.textTableHeader }}></Text>
-
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}></Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+              <Text style={{ ...styles.textTableHeader }}>Height description :</Text>
+              <Text style={{ ...styles.textBody }}>{bioData.height}</Text>
+              <Text>{'\n'}</Text>
+              <Text style={{ ...styles.textTableHeader }}>Complexion description :</Text>
+              <Text style={{ ...styles.textBody }}>{bioData.complexion}</Text>
+              <Text>{'\n'}</Text>
+              <Text style={{ ...styles.textTableHeader }}>Other description :</Text>
+              <Text style={{ ...styles.textBody }}>{bioData.other_description}</Text>
+              <Text>{'\n'}</Text>
+            </Text>
           </View>
         </View>
 
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Name</Text>
-
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.subject_Name}</Text>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>Name</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.subject_Name}</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Alias/ Street Name</Text>
-
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>Alias/ Street Name</Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.street_Name}</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>DOB/Age</Text>
-
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.dob}</Text>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>DOB/Age</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.dob}</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Place of Birth</Text>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>Place of Birth</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.place_of_Birth}</Text>
+          </View>
 
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-              {bioData.place_of_Birth}
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>ID/PP No/Passport No</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.idNo}</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>Mobile number(s)</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.tel1}</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.tel2}</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.tel3}</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>Email Address</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.email}</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>KRA Pin</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.kra_pin}</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>Occupation</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.occupation}</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>
+              Current place of work/Designation
             </Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.place_of_work}</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>ID/PP No/Passport No</Text>
-
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.idNo}</Text>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>Gender</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.gender}</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>KRA Pin</Text>
-
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.kra_pin}</Text>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>Ethnicity</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.ethnicity}</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Occupation</Text>
-
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.occupation}</Text>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>Nationality</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.nationality}</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Gender</Text>
-
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.gender}</Text>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>Clan</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.clan}</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Ethnicity</Text>
-
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.ethnicity}</Text>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>Family</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.family}</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Nationality</Text>
-
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.nationality}</Text>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>County</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.county}</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Clan</Text>
-
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.clan}</Text>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>Division</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.division}</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Family</Text>
-
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.family}</Text>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>Location</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.location}</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>County</Text>
-
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.county}</Text>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>Sub Location</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.sub_location}</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Division</Text>
-
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.division}</Text>
-          </View>
-
-          <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Location</Text>
-
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.location}</Text>
-          </View>
-
-          <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Sub Location</Text>
-
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>{bioData.sub_location}</Text>
+            <Text style={{ ...styles.td2a, ...styles.textTableHeader }}>Social Media Username</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>
+              Twitter - <Text style={{ ...styles.textBody }}>{bioData.twitter_username}</Text>
+            </Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>
+              Facebook - <Text style={{ ...styles.textBody }}>{bioData.facebook_username}</Text>
+            </Text>
           </View>
         </View>
 
-        <Text style={styles.textSubHeader}>3.0 Residential Addresses</Text>
+        <Text style={styles.textSubHeader}>4.0 Residential Addresses</Text>
 
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
@@ -342,7 +366,7 @@ export default function LSAExport(props) {
           })}
         </View>
 
-        <Text style={styles.textSubHeader}>4.0 Secondary Information</Text>
+        <Text style={styles.textSubHeader}>5.0 Secondary Information</Text>
 
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
@@ -378,13 +402,15 @@ export default function LSAExport(props) {
           })}
         </View>
 
-        <Text style={styles.textSubHeader}>5.0 Associates Profile</Text>
+        <Text style={styles.textSubHeader}>6.0 Associates Profile</Text>
 
         <View style={styles.table}>
           <View style={styles.tr}>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Name</Text>
 
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>ID No</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Mobile No</Text>
 
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>KRA Pin</Text>
 
@@ -400,6 +426,8 @@ export default function LSAExport(props) {
 
                 <Text style={{ ...styles.td, ...styles.textBody }}>{info.idNO}</Text>
 
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.mobile}</Text>
+
                 <Text style={{ ...styles.td, ...styles.textBody }}>{info.kraPin}</Text>
 
                 <Text style={{ ...styles.td, ...styles.textBody }}>{info.relationship}</Text>
@@ -412,7 +440,7 @@ export default function LSAExport(props) {
 
         <Text style={styles.textSubHeader}>7.0 Financial Profile</Text>
 
-        <Text style={styles.textSubHeader}>7.0.1 Wealth Declaration - DAILS</Text>
+        <Text style={styles.textSubHeader}>7.0.1 Wealth Declaration (DIALs)</Text>
 
         <View style={styles.table}>
           <View style={styles.tr} wrap={false}>
@@ -486,15 +514,13 @@ export default function LSAExport(props) {
 
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Bank/Sacco/Telco Name</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Bank/ Sacco/ Telco Name</Text>
 
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Name</Text>
 
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Number</Text>
 
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Type</Text>
-
-                <Text style={styles.textSubHeader}>10.0 Liabilities</Text>
 
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Current Balance</Text>
 
@@ -583,7 +609,7 @@ export default function LSAExport(props) {
           })}
         </View>
 
-        <Text style={styles.textSubHeader}>9.0 Liabilities</Text>
+        <Text style={styles.textSubHeader}>10.0 Liabilities</Text>
 
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
@@ -625,7 +651,7 @@ export default function LSAExport(props) {
           {agencies.map((asset, index) => {
             return (
               <View style={styles.tr}>
-                <Text style={{ ...styles.td1, ...styles.textBody }}>{index}</Text>
+                <Text style={{ ...styles.td1, ...styles.textBody }}>{index + 1}</Text>
                 <Text style={{ ...styles.td, ...styles.textBody }}>{asset.offence}</Text>
                 <Text style={{ ...styles.td, ...styles.textBody }}>{asset.details}</Text>
                 <Text style={{ ...styles.td, ...styles.textBody }}>{asset.findings}</Text>
@@ -635,7 +661,7 @@ export default function LSAExport(props) {
           })}
         </View>
 
-        <Text style={styles.textSubHeader}>11.0 Lifestyle Audit Findings </Text>
+        <Text style={styles.textSubHeader}>12.0 Lifestyle Audit Findings </Text>
         <Text style={styles.textBody}>{caseDetails.findings} </Text>
 
         <Text
