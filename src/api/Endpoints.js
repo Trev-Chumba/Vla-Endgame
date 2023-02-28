@@ -8,7 +8,7 @@ export const BASE_URL = PROD_API;
 export const GET_ALL_PROFILE = '/profileMgt/allProfile';
 export const GET_ONE_PROFILE = '/profileMgt/getProfile';
 
-export const SET_PROFILE = '/profileMgt/setProfile';
+export const SET_PROFILE = '/inquiryMgt/get';
 export const UPDATE_PROFILE = '/profileMgt/updateProfile';
 
 export const SET_RESIDENTIAL = '/residentialMgt/set';
