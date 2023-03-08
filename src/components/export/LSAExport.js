@@ -550,8 +550,27 @@ export default function LSAExport(props) {
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of declaration</Text>
           </View>
         </View>
+          <Text style={styles.textSubHeader}>7.0.3 Mobile Money Statement Analysis</Text>
 
-        <Text style={styles.textSubHeader}>7.0.3 Summary of Accounts Identified</Text>
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Bank/ Sacco/ Telco Name</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Name</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Number</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Type</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Current Balance</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of Enquiry</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+          </View>
+        </View>
+
+        <Text style={styles.textSubHeader}>7.0.4 Summary of Accounts Identified</Text>
 
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
@@ -589,6 +608,26 @@ export default function LSAExport(props) {
               </View>
             );
           })}
+        </View>
+        
+        <Text style={styles.textSubHeader}>7.0.3 Mobile Money Statement Analysis</Text>
+
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Bank/ Sacco/ Telco Name</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Name</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Number</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Type</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Current Balance</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of Enquiry</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+          </View>
         </View>
 
         <Text style={styles.textSubHeader}>8.0 Companies/Business Interests</Text>
