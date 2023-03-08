@@ -219,10 +219,9 @@ export default function ResidentialProfile({ id, updateProfileData }) {
 
   const RegisterSchema = Yup.object().shape({
     currentAddress: Yup.string()
-      .required('Current address is required')
-      .matches(stringRegExp, 'Only Characters allowed'),
-    physicalAddress: Yup.string().matches(stringRegExp, 'Only Characters allowed'),
-    otherAddress: Yup.string().matches(stringRegExp, 'Only Characters allowed'),
+      .required('Current address is required'),
+    physicalAddress: Yup.string(),
+    otherAddress: Yup.string(),
     postalAddress: Yup.string(), //(PO Box|POBox|PO. Box|P.O. Box|P O Box|P.O Box|Postal Box|Post Office Box|PO)
     coordinates: Yup.string(),
     remarks: Yup.string()
