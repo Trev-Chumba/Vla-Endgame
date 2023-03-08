@@ -17,6 +17,7 @@ import {
   Container,
   TableContainer,
   TablePagination,
+  MenuItem,
   TextareaAutosize,
   Typography
 } from '@mui/material';
@@ -41,7 +42,8 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 
 const TABLE_HEAD = [
-  { id: 'type', label: 'Declaration Type', alignRight: false },
+  { id: 'description', label: 'Declaration Type', alignRight: false },
+  { id: 'type', label: 'Type of Asset/Liability', alignRight: false },
   { id: 'estValue', label: 'Value', alignRight: false },
   { id: 'declaration', label: 'Declaration', alignRight: false },
   { id: 'date', label: ' Date', alignRight: false },
@@ -51,6 +53,16 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
+const types = [
+  {
+    value: 'Asset',
+    label: 'Asset'
+  },
+  {
+    value: 'Liability',
+    label: 'Liability'
+  },
+];
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -217,20 +229,20 @@ export default function DeclarationsProfile({ id, updateProfileData }) {
   };
 
   const RegisterSchema = Yup.object().shape({
+    description: Yup.string(),
     type: Yup.string().max(50, 'Too Long!').required('required'),
     estValue: Yup.string(),
     declaration: Yup.string(),
-
     date: Yup.string(),
     remarks: Yup.string()
   });
 
   const formik = useFormik({
     initialValues: {
+      description: declarationsData.description || '',
       type: declarationsData.type || '',
       estValue: declarationsData.estValue || '',
       declaration: declarationsData.declaration || '',
-
       date: declarationsData.date || '',
       attachments: declarationsData.attachments || '',
       remarks: declarationsData.remarks || ''
@@ -317,21 +329,21 @@ export default function DeclarationsProfile({ id, updateProfileData }) {
                   <CardContent>
                     <Stack spacing={3}>
                       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                        <TextField
+                      <TextField fullWidth select label="Type" {...getFieldProps('description')}>
+                          {types.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      <TextField
                           fullWidth
-                          label="Type of Asset"
+                          label="Type of Asset/Liability"
                           {...getFieldProps('type')}
                           error={Boolean(touched.type && errors.type)}
                           helperText={touched.type && errors.type}
                         />
-
-                        <TextField
-                          fullWidth
-                          label="Value (KSh)"
-                          {...getFieldProps('estValue')}
-                          error={Boolean(touched.estValue && errors.estValue)}
-                          helperText={touched.estValue && errors.estValue}
-                        />
+                        
                       </Stack>
 
                       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
@@ -342,7 +354,14 @@ export default function DeclarationsProfile({ id, updateProfileData }) {
                           error={Boolean(touched.declaration && errors.declaration)}
                           helperText={touched.declaration && errors.declaration}
                         />
-
+                        
+                        <TextField
+                          fullWidth
+                          label="Value (KSh)"
+                          {...getFieldProps('estValue')}
+                          error={Boolean(touched.estValue && errors.estValue)}
+                          helperText={touched.estValue && errors.estValue}
+                        />
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                           <DatePicker
                             disableFuture
