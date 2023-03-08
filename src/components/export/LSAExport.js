@@ -193,7 +193,48 @@ export default function LSAExport(props) {
         <LSAHeader data={caseDetails} />
 
         <Text style={styles.textSubHeader}>1.0 Executive Summary</Text>
-        <Text style={styles.textBody}>{caseDetails.esummary}</Text>
+        {/* <Text style={styles.textBody}>{caseDetails.esummary}</Text> */}
+        <View style={styles.table}>
+          <View style={styles.tr} wrap={false}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Item Description</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Amount(Ksh.)</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Assets</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Purchases</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Expenses</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Liabilities</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Known Lawful Income</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Unexplained Wealth</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+          </View>
+
+          {/* <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textBody }}>b</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{info.estValue}</Text>
+          </View> */}
+        </View>
 
         <Text style={styles.textSubHeader}>2.0 Objective of the Lifestyle Audit</Text>
         <Text style={styles.textBody}>{caseDetails.objectives}</Text>
@@ -601,7 +642,7 @@ export default function LSAExport(props) {
             return (
               <View style={styles.tr}>
                 <Text style={{ ...styles.td1, ...styles.textBody }}>{index + 1}</Text>
-                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.description}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.type}</Text>
                 <Text style={{ ...styles.td, ...styles.textBody }}>{asset.estValue}</Text>
                 <Text style={{ ...styles.td, ...styles.textBody }}>{asset.remarks}</Text>
               </View>
