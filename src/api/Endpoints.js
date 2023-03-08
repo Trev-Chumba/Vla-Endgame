@@ -1,6 +1,7 @@
 const DEV_API = 'http://10.153.1.65:8099';
 const PROD_API = 'http://10.160.8.92:8099';
 const LOCAL_API = 'http://127.0.0.1:8099';
+const IP = 'http://192.168.22.41:8099';
 //const LOCAL_API = 'http://192.168.137.20:8099';
 
 export const BASE_URL = PROD_API;

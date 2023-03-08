@@ -54,9 +54,10 @@ const TABLE_HEAD = [
   { id: 'role_played', label: 'Role Played', alignRight: false },
   { id: 'start_date', label: 'Start Date', alignRight: false },
   { id: 'end_date', label: 'End Date', alignRight: false },
-  //{ id: 'remarks', label: 'Remarks', alignRight: false },
+  // { id: 'remarks', label: 'Remarks', alignRight: false },
+  { id: 'gross_salary', label: 'Gross Salary', alignRight: false },
   { id: 'attachmnents', label: 'Attachments', alignRight: false },
-  //{ id: 'gross_salary', label: 'Gross Salary', alignRight: false },
+
   // { id: 'status', label: 'Status', alignRight: false },
   { id: '' }
 ];
@@ -547,6 +548,7 @@ export default function Employment({ id, updateProfileData }) {
                           employer_location,
                           role_played,
                           start_date,
+                          grossSalary,
                           end_date,
                           remarks,
                           employer_contact
@@ -582,7 +584,7 @@ export default function Employment({ id, updateProfileData }) {
                             <TableCell align="left">{role_played}</TableCell>
                             <TableCell align="left">{start_date}</TableCell>
                             <TableCell align="left">{end_date}</TableCell>
-                            {/* <TableCell align="left">{remarks}</TableCell> */}
+                            <TableCell align="left">{grossSalary}</TableCell>
 
                             <TableCell align="left">
                               <a href={attachments} target="_blank" rel="noopener noreferrer">
