@@ -443,6 +443,42 @@ export default function LSAExport(props) {
           })}
         </View>
 
+        <Text style={styles.textSubHeader}>6.0 Employment History</Text>
+
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Employer</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Employer Location</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Employer Contact</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Role</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Start Date</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>End Date</Text>
+          </View>
+
+          {employment.map((info) => {
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.employer}</Text>
+
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.employer_location}</Text>
+
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.employer_contact}</Text>
+
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.role_played}</Text>
+
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.start_date}</Text>
+
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.end_date}</Text>
+              </View>
+            );
+          })}
+        </View>
+
         <Text style={styles.textSubHeader}>6.0 Associates Profile</Text>
 
         <View style={styles.table}>
