@@ -68,7 +68,7 @@ export default function LSAExport(props) {
   const residential = props.data.residential || [];
   const assets = props.data.assets || [];
   const liabilities = props.data.liabilities || [];
-  const travels = props.data.travels || [];
+  const travels = props.data.travel || [];
   const caseDetails = props.data.caseDetails || {};
 
   const styles = StyleSheet.create({
@@ -479,7 +479,7 @@ export default function LSAExport(props) {
           })}
         </View>
 
-        <Text style={styles.textSubHeader}>6.0 Associates Profile</Text>
+        <Text style={styles.textSubHeader}>7.0 Associates Profile</Text>
 
         <View style={styles.table}>
           <View style={styles.tr}>
@@ -515,12 +515,12 @@ export default function LSAExport(props) {
           })}
         </View>
 
-        <Text style={styles.textSubHeader}>7.0 Financial Profile</Text>
+        <Text style={styles.textSubHeader}>8.0 Financial Profile</Text>
 
-        <Text style={styles.textSubHeader}>7.0.1 Wealth Declaration (DIALs)</Text>
+        <Text style={styles.textSubHeader}>8.0.1 Wealth Declaration (DIALs)</Text>
 
-        <View style={styles.table}>
-          <View style={styles.tr} wrap={false}>
+        <View style={styles.table}wrap={false}>
+          <View style={styles.tr} >
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Type of Asset</Text>
 
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Value</Text>
@@ -575,10 +575,6 @@ export default function LSAExport(props) {
                 </View> */}
 
         <Text style={styles.textSubHeader}>7.0.2 Salaries and Remunerations</Text>
-        <Text style={{ ...styles.textBody }}>
-          The officer joined the Authority in Xxx with a Gross salary of Ksh.XXX as at the date of
-          this report his income was computed at about Ksh.XXX
-        </Text>
 
         {/* <Text>{caseDetails.salaries}</Text> */}
         {/* <View style={styles.table} wrap={false}>
@@ -589,9 +585,27 @@ export default function LSAExport(props) {
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of declaration</Text>
           </View>
-        </View> */}
+        </View>
 
-        <Text style={styles.textSubHeader}>7.0.3 Summary of Accounts Identified</Text>
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Bank/ Sacco/ Telco Name</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Name</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Number</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Account Type</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Current Balance</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of Enquiry</Text>
+
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+          </View>
+        </View>
+
+        <Text style={styles.textSubHeader}>8.0.4 Summary of Accounts Identified</Text>
 
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
@@ -630,8 +644,9 @@ export default function LSAExport(props) {
             );
           })}
         </View>
+        
 
-        <Text style={styles.textSubHeader}>8.0 Companies/Business Interests</Text>
+        <Text style={styles.textSubHeader}>9.0 Companies/Business Interests</Text>
 
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
@@ -665,7 +680,33 @@ export default function LSAExport(props) {
           })}
         </View>
 
-        <Text style={styles.textSubHeader}>9.0 Assets</Text>
+        <Text style={styles.textSubHeader}>10.0 Expenses</Text>
+
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Description</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Amount</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+              Start Date
+            </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>End Date</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+          </View>
+
+          {travels.map((expense) => {
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{expense.description}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{expense.estValue}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{expense.start_date}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{expense.end_date}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{expense.remarks}</Text>
+              </View>
+            );
+          })}
+        </View>
+
+        <Text style={styles.textSubHeader}>11.0 Assets</Text>
 
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
@@ -690,7 +731,7 @@ export default function LSAExport(props) {
           })}
         </View>
 
-        <Text style={styles.textSubHeader}>10.0 Liabilities</Text>
+        <Text style={styles.textSubHeader}>12.0 Liabilities</Text>
 
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
@@ -718,7 +759,7 @@ export default function LSAExport(props) {
           })}
         </View>
 
-        <Text style={styles.textSubHeader}>11.0 Integrity and Ethical Issues </Text>
+        <Text style={styles.textSubHeader}>13.0 Integrity and Ethical Issues </Text>
 
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
@@ -740,8 +781,7 @@ export default function LSAExport(props) {
           })}
         </View>
 
-        <Text style={styles.textSubHeader}>12.0 Lifestyle Audit Findings and Recommendations</Text>
-        <Text style={styles.textSubHeader}>Findings</Text>
+        <Text style={styles.textSubHeader}>12.0 Lifestyle Audit Findings </Text>
         <Text style={styles.textBody}>{caseDetails.findings} </Text>
         <View style={styles.table}>
           <View style={styles.tr} wrap={false}>
