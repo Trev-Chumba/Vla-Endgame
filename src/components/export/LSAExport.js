@@ -575,9 +575,13 @@ export default function LSAExport(props) {
                 </View> */}
 
         <Text style={styles.textSubHeader}>7.0.2 Salaries and Remunerations</Text>
+        <Text style={{ ...styles.textBody }}>
+          The officer joined the Authority in Xxx with a Gross salary of Ksh.XXX as at the date of
+          this report his income was computed at about Ksh.XXX
+        </Text>
 
-        <Text>{caseDetails.salaries}</Text>
-        <View style={styles.table} wrap={false}>
+        {/* <Text>{caseDetails.salaries}</Text> */}
+        {/* <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
             <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/No</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Description</Text>
@@ -585,7 +589,7 @@ export default function LSAExport(props) {
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of declaration</Text>
           </View>
-        </View>
+        </View> */}
 
         <Text style={styles.textSubHeader}>7.0.3 Summary of Accounts Identified</Text>
 
@@ -718,28 +722,76 @@ export default function LSAExport(props) {
 
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
-            <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/No</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Type of Offense</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Details</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Action Taken</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
           </View>
 
-          {agencies.map((asset, index) => {
+          {integrity.map((info) => {
             return (
               <View style={styles.tr}>
-                <Text style={{ ...styles.td1, ...styles.textBody }}>{index + 1}</Text>
-                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.offence}</Text>
-                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.details}</Text>
-                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.findings}</Text>
-                <Text style={{ ...styles.td, ...styles.textBody }}>{asset.remarks}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.offence}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.details}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.findings}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{info.remarks}</Text>
               </View>
             );
           })}
         </View>
 
-        <Text style={styles.textSubHeader}>12.0 Lifestyle Audit Findings </Text>
+        <Text style={styles.textSubHeader}>12.0 Lifestyle Audit Findings and Recommendations</Text>
+        <Text style={styles.textSubHeader}>Findings</Text>
         <Text style={styles.textBody}>{caseDetails.findings} </Text>
+        <View style={styles.table}>
+          <View style={styles.tr} wrap={false}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Item Description</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Amount(Ksh.)</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Assets</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Purchases</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Expenses</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Liabilities</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Known Lawful Income</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+          </View>
+
+          <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Unexplained Wealth</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+          </View>
+
+          {/* <View style={styles.tr}>
+            <Text style={{ ...styles.td, ...styles.textBody }}>b</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{info.estValue}</Text>
+          </View> */}
+        </View>
+
+        <Text style={styles.textSubHeader}>Conclusions</Text>
+        <Text style={styles.textBody}>{caseDetails.findings} </Text>
+
+        <Text style={styles.textSubHeader}>Recommendations</Text>
+        <Text style={styles.textBody}>{caseDetails.recomentation} </Text>
+
+        <Text style={styles.textSubHeader}>ANNEXURES</Text>
 
         <Text
           style={{
