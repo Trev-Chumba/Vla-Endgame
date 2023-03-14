@@ -519,8 +519,8 @@ export default function LSAExport(props) {
 
         <Text style={styles.textSubHeader}>8.0.1 Wealth Declaration (DIALs)</Text>
 
-        <View style={styles.table}wrap={false}>
-          <View style={styles.tr} >
+        <View style={styles.table} wrap={false}>
+          <View style={styles.tr}>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Type of Asset</Text>
 
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Value</Text>
@@ -577,7 +577,7 @@ export default function LSAExport(props) {
         <Text style={styles.textSubHeader}>7.0.2 Salaries and Remunerations</Text>
 
         {/* <Text>{caseDetails.salaries}</Text> */}
-        {/* <View style={styles.table} wrap={false}>
+        <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
             <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/No</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Description</Text>
@@ -644,7 +644,6 @@ export default function LSAExport(props) {
             );
           })}
         </View>
-        
 
         <Text style={styles.textSubHeader}>9.0 Companies/Business Interests</Text>
 
@@ -686,9 +685,7 @@ export default function LSAExport(props) {
           <View style={styles.tr}>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Description</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Amount</Text>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-              Start Date
-            </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Start Date</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>End Date</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
           </View>
@@ -819,10 +816,10 @@ export default function LSAExport(props) {
             <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
           </View>
 
-          {/* <View style={styles.tr}>
+          <View style={styles.tr}>
             <Text style={{ ...styles.td, ...styles.textBody }}>b</Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>{info.estValue}</Text>
-          </View> */}
+          </View>
         </View>
 
         <Text style={styles.textSubHeader}>Conclusions</Text>
