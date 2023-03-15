@@ -574,9 +574,9 @@ export default function LSAExport(props) {
 
                 </View> */}
 
-        <Text style={styles.textSubHeader}>7.0.2 Salaries and Remunerations</Text>
+        <Text style={styles.textSubHeader}>8.0.2 Salaries and Remunerations</Text>
 
-        {/* <Text>{caseDetails.salaries}</Text> */}
+        <Text>{caseDetails.salaries}</Text>
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
             <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/No</Text>
@@ -586,6 +586,7 @@ export default function LSAExport(props) {
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of declaration</Text>
           </View>
         </View>
+        {/* <Text style={styles.textSubHeader}>7.0.3 Mobile Money Statement Analysis</Text>
 
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
@@ -603,7 +604,7 @@ export default function LSAExport(props) {
 
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
           </View>
-        </View>
+        </View> */}
 
         <Text style={styles.textSubHeader}>8.0.4 Summary of Accounts Identified</Text>
 
@@ -712,7 +713,6 @@ export default function LSAExport(props) {
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>
               Estimation Acquisition Value
             </Text>
-
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
           </View>
 
@@ -760,26 +760,27 @@ export default function LSAExport(props) {
 
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
+            <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/No</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Type of Offense</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Details</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Action Taken</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
           </View>
 
-          {integrity.map((info) => {
+          {integrity.map((integrity, index) => {
             return (
               <View style={styles.tr}>
-                <Text style={{ ...styles.td, ...styles.textBody }}>{info.offence}</Text>
-                <Text style={{ ...styles.td, ...styles.textBody }}>{info.details}</Text>
-                <Text style={{ ...styles.td, ...styles.textBody }}>{info.findings}</Text>
-                <Text style={{ ...styles.td, ...styles.textBody }}>{info.remarks}</Text>
+                <Text style={{ ...styles.td1, ...styles.textBody }}>{index + 1}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{integrity.offence}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{integrity.details}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{integrity.findings}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{integrity.remarks}</Text>
               </View>
             );
           })}
         </View>
 
-        <Text style={styles.textSubHeader}>12.0 Lifestyle Audit Findings </Text>
-        <Text style={styles.textBody}>{caseDetails.findings} </Text>
+        <Text style={styles.textSubHeader}>14.0 Lifestyle Audit Findings </Text>
         <View style={styles.table}>
           <View style={styles.tr} wrap={false}>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Item Description</Text>
@@ -814,11 +815,6 @@ export default function LSAExport(props) {
           <View style={styles.tr}>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Unexplained Wealth</Text>
             <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
-          </View>
-
-          <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textBody }}>b</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>{info.estValue}</Text>
           </View>
         </View>
 
