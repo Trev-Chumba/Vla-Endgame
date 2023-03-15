@@ -13,7 +13,7 @@ const sidebarConfig1 = [
     items : [
       {
         title: 'dashboard',
-        path: userType == "user" ? '/dashboard/app' : "/dashboard/comm",
+        path: userType == 'user' ? '/dashboard/app' : '/dashboard/comm',
         icon: getIcon('eva:pie-chart-2-fill')
       },
       {

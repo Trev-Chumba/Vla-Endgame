@@ -586,7 +586,7 @@ export default function LSAExport(props) {
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of declaration</Text>
           </View>
         </View>
-          <Text style={styles.textSubHeader}>7.0.3 Mobile Money Statement Analysis</Text>
+          {/* <Text style={styles.textSubHeader}>7.0.3 Mobile Money Statement Analysis</Text>
 
         <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
@@ -604,7 +604,7 @@ export default function LSAExport(props) {
 
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
           </View>
-        </View>
+        </View> */}
 
         <Text style={styles.textSubHeader}>8.0.4 Summary of Accounts Identified</Text>
 
