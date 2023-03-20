@@ -48,6 +48,8 @@ import BcAndVtExPort from 'src/components/export/BcAndVtExport';
 import { Document } from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
 import { ProfileContext } from 'src/context/ProfileContext';
+import PIExport from 'src/components/export/PIExport';
+import SubjectProfiles from './User';
 
 
 
@@ -421,17 +423,21 @@ export default function SubjectProfilePage() {
 
   const [pdfViewOpen, setPdfViewOpen] = useState(false)
   const [pdfViewOpenBc, setPdfViewOpenBc] = useState(false)
+  const [pdfViewOpenPI, setPdfViewOpenPI] = useState(false)
 
 
   const exportPDF = () => {
-
-    if (type == 'BC' || type == 'VT') {
+    console.log('Type to be opened::', type)
+    if (type == 'BC' || type == 'VT' ) {
 
       setPdfViewOpenBc(true)
-    } else {
+    } else if(type == 'PI') {
+      setPdfViewOpenPI(true)
+    }
+    else
+    {
       setPdfViewOpen(true)
     }
-
   }
 
 
@@ -603,6 +609,30 @@ export default function SubjectProfilePage() {
           </DialogContent>
           <DialogActions>
             <Button autoFocus onClick={() => setPdfViewOpenBc(false)}>
+              Cancel
+            </Button>
+          </DialogActions>
+
+        </Dialog>
+
+        <Dialog
+          sx={{ '& .MuiDialog-paper': { width: '80%', height: '100%' } }}
+          maxWidth="xl"
+          open={pdfViewOpenPI}>
+
+          <DialogContent>
+
+            <PDFViewer width='100%' height='100%'>
+              <Document>
+
+                <PIExport  data={exportData} caseData={subProfile.userData} />
+
+              </Document>
+            </PDFViewer>
+
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={() => setPdfViewOpenPI(false)}>
               Cancel
             </Button>
           </DialogActions>

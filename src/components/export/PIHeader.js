@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
 //import '@fontsource/noto-sans-georgian';
 import Georgia from '../../fonts/Georgia.ttf';
@@ -45,22 +45,12 @@ export const chunkSubstr = (str, size) => {
 
 // //   /home/Muntaz/Documents/work/icase/src/fonts/georgia/NotoSansGeorgian-VariableFont.ttf
 
-export const BcHeader = (props) => {
-  const caseDetails = props.data || {};
-  console.log('CASE DETAILS HEADER', caseDetails);
-  
-  const caseType = caseDetails.inquiryType
-  const [caseTxt, setcaseTxt] = useState('');
-  useEffect(() => {
-  if(caseType == 'Vetting')
-  {
-     setcaseTxt('VETTING REPORT');
-  }
-  else
-  {
-    setcaseTxt('BACKGROUND REPORT');
-}
-  }, []);
+export const PiHeader = (props) => {
+    
+    const caseDetails = props.data || {};
+    const bioData = props.subjectdata|| {};
+  console.log('CASE DETAILS PI', caseDetails);
+  console.log('CASE DETAILS BIo', bioData);
 
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, '0');
@@ -95,7 +85,7 @@ export const BcHeader = (props) => {
         {' '}
         INTELLIGENCE &amp; STRATEGIC OPERATIONS DEPARTMENT
       </Text>
-      <Text style={{ ...styles.Text, margin: 'auto' }}>{caseTxt}</Text>
+    
 
       <View style={styles.Line} />
 
@@ -114,11 +104,11 @@ export const BcHeader = (props) => {
 
       <View style={styles.Line} />
 
-      <Text style={styles.Text}>RE : {caseTxt} FOR CANDIDATES</Text>
+      <Text style={styles.Text}>PRELIMINARY INVESTIGATION REPORT ON ALLEGATIONS OF BEING IN POSSESSION OF UNEXPLAINED WEALTH BY , '{bioData.subject_Name}'</Text>
       <Text>{'\n'}</Text>
       <Text style={styles.Text}>INQUIRY NO : {caseDetails.caseNo} </Text>
 
       <View style={styles.Line} />
     </View>
   );
-      };
+};

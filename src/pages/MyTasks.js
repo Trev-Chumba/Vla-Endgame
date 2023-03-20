@@ -43,7 +43,7 @@ const TABLE_HEAD = [
   // { id: 'Profile', label: 'Profile Name', alignRight: false },
   // { id: 'name', label: 'Field', alignRight: false },
   { id: 'description', label: 'Description', alignRight: false },
-
+  
    ];
 
 // ----------------------------------------------------------------------
@@ -158,7 +158,7 @@ export default function MyTasks() {
         const inquiry = applySortFilter(data, getComparator(order, orderBy), filterName);
         setFilteredUsers(inquiry)
         setAllData(inquiry)
-        
+        console.log("filtered Data:::", filteredUsers)
       }else{
         //some error
       }
@@ -240,7 +240,7 @@ export default function MyTasks() {
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={isItemSelected}
-                              onChange={(event) => handleClick(event, subjectName)}
+                              onChange={(event) => handleClick(event, description)}
                             />
                           </TableCell>
                           {/* <TableCell component="th" scope="row" padding="none">
@@ -251,15 +251,16 @@ export default function MyTasks() {
                               </Typography>
                             </Stack>
                           </TableCell> */}
-                          {/* <TableCell align="left">{taskName}</TableCell> */}
-                          <TableCell align="left">{description}</TableCell>
+                         
+                          <TableCell align="left">{description[0]}</TableCell>
+                          {/* <TableCell align="left">{assignee}</TableCell> */}
 
                         
 
                           <TableCell >
-                          {/* <RouterLink to={"/dashboard/view-case/"+caseType+"/"+subjectIdNO+":"+inquiryID+":"+owner+":"+assignee+":"+caseStatus}>
+                          <RouterLink to={"/dashboard/view-case/"+caseType+"/"+subjectIdNO+":"+inquiryID+":"+owner+":"+assignee+":"+caseStatus}>
                             <FontAwesomeIcon icon={faEye}/>
-                          </RouterLink> */}
+                          </RouterLink>
 
 
                           </TableCell>

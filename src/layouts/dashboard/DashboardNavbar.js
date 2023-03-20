@@ -68,11 +68,12 @@ export default function DashboardNavbar({ onOpenSidebar }) {
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
           
           
-          <NotificationsPopover /> 
+          {/* <NotificationsPopover />  */}
            <Button fullWidth 
             variant="outlined" color='inherit'
             sx={{ bgcolor: (theme) => alpha(theme.palette.grey[500], 0.4)}}
           onClick={() => { 
+            localStorage.clear()
             setLoginStatus(false)
             // setOpen(false)
            }}

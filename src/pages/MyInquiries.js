@@ -163,7 +163,7 @@ export default function MyInquiries() {
         const inquiry = applySortFilter(data, getComparator(order, orderBy), filterName);
         setFilteredUsers(inquiry)
         setAllData(inquiry)
-        
+        console.log("INQUIRIES Filtered::::",allData)
       }else{
         //some error
       }

@@ -6,16 +6,16 @@ import Iconify from '../../components/Iconify';
 
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
-//const userType = localStorage.getItem("userType")
+const userType = localStorage.getItem("userType")
 console.log('UserType',userType)
 
-const sidebarConfig1 = [
+const sidebarConfig2 = [
   {
     header : "PROFILE",
     items : [
       {
         title: 'dashboard',
-        path:'/dashboard/app',
+        path:'/dashboard/comm',
         icon: getIcon('eva:pie-chart-2-fill')
       },
       {
@@ -114,4 +114,4 @@ const sidebarConfig1 = [
 
 ]
 
-export default sidebarConfig1;
+export default sidebarConfig2;
