@@ -145,7 +145,7 @@ export default function PIExport(props) {
         {'\n'}Gender: {bioData.gender}{'\n'}
         </Text>
         <Text style={styles.textBody}>The subjects' know location is at  {bioData.location} at  {bioData.county}.{'\n'}</Text>
-        <Text style={styles.textTableHeader}>Executive Summary: <Text>{caseDetails.esummary}</Text></Text>
+        <Text style={styles.textBody}>Executive Summary: {caseDetails.esummary}</Text>
 
 
         <Text style={styles.textSubHeader}>1.1 Objective of the Preliminary Lifestyle Audit</Text>

@@ -252,13 +252,13 @@ export default function MyTasks() {
                             </Stack>
                           </TableCell> */}
                          
-                          <TableCell align="left">{description[0]}</TableCell>
+                          <TableCell align="left">{description}</TableCell>
                           {/* <TableCell align="left">{assignee}</TableCell> */}
 
                         
 
                           <TableCell >
-                          <RouterLink to={"/dashboard/view-case/"+caseType+"/"+subjectIdNO+":"+inquiryID+":"+owner+":"+assignee+":"+caseStatus}>
+                          <RouterLink to={"/dashboard/view-case/"+inquiryID+"/"+subjectIdNO+":"+owner+":"+assignee+":"+caseStatus}>
                             <FontAwesomeIcon icon={faEye}/>
                           </RouterLink>
 

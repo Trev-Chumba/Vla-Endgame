@@ -275,7 +275,7 @@ export default function ResidentialProfile({ id, updateProfileData }) {
       values.subjectID = profile.subjectID
       values.userID=userID
       values.date = date
-      values.type = "Liability"
+      values.type = "Liabilities"
       console.log("VALUES:::", values)
       // values.type = "Asset"
       // values.attachments = "att"

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
+import  { useState, useEffect } from 'react';
 import { BcHeader } from './BCHeader';
 import Georgia from '../../fonts/Georgia.ttf';
 import georgiab from '../../fonts/georgiab.ttf';
@@ -56,6 +57,18 @@ Font.registerHyphenationCallback((word) => {
 export default function BcAndVtExPort(props) {
   const bioData = props.data.bio || {};
   const caseDetails = props.data.caseDetails || {};
+  const caseType = caseDetails.inquiryType
+  const [caseTxt, setcaseTxt] = useState('');
+  useEffect(() => {
+  if(caseType == 'Vetting')
+  {
+     setcaseTxt('Vetting');
+  }
+  else
+  {
+    setcaseTxt('Background');
+}
+  }, []);
 
   const styles = StyleSheet.create({
     page: {
@@ -172,7 +185,7 @@ export default function BcAndVtExPort(props) {
         </Text>
         <BcHeader data={caseDetails} />
         console.log("Export",caseDetails)
-        <Text style={styles.textSubHeader}>1.0 Reason for Background Check</Text>
+        <Text style={styles.textSubHeader}>1.0 Reason for {caseTxt} Check</Text>
         <Text style={styles.textBody}>{caseDetails.cReasons}</Text>
         <View style={styles.table}>
           <View style={styles.tr}>
@@ -193,7 +206,7 @@ export default function BcAndVtExPort(props) {
             <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.position}</Text>
           </View>
         </View>
-        <Text style={styles.textSubHeader}>2.0 Objective of the Background Check</Text>
+        <Text style={styles.textSubHeader}>2.0 Objective of the {caseTxt} Check</Text>
         <Text style={styles.textBody}>{caseDetails.objectives}</Text>
         <Text style={styles.textSubHeader}>3.0 Findings</Text>
         <View style={styles.table}>
