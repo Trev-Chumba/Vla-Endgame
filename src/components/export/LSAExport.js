@@ -196,7 +196,7 @@ export default function LSAExport(props) {
         <LSAHeader data={caseDetails} />
 
         <Text style={styles.textSubHeader}>1.0 Executive Summary</Text>
-        {/* <Text style={styles.textBody}>{caseDetails.esummary}</Text> */}
+        <Text style={styles.textBody}>{caseDetails.esummary}</Text>
         <View style={styles.table}>
           <View style={styles.tr} wrap={false}>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Item Description</Text>

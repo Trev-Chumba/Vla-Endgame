@@ -63,6 +63,10 @@ const types = [
     value: 'Liability',
     label: 'Liability'
   },
+  {
+    value: 'Income',
+    label: 'Income'
+  },
 ];
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
