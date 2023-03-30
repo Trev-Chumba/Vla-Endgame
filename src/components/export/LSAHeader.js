@@ -25,21 +25,21 @@ Font.register({
 export const chunkSubstr = (str, size) => {
   const numChunks = Math.ceil(str.length / size);
   const chunks = new Array(numChunks);
-  
+
   for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-  chunks[i] = str.substr(o, size);
+    chunks[i] = str.substr(o, size);
   }
-  
+
   return chunks;
-  };
-  
-  Font.registerHyphenationCallback((word) => {
+};
+
+Font.registerHyphenationCallback((word) => {
   if (word.length > 12) {
-  return chunkSubstr(word, 10);
+    return chunkSubstr(word, 10);
   } else {
-  return [word];
+    return [word];
   }
-  });
+});
 export const LSAHeader = (props) => {
   const caseDetails = props.data || {};
 
@@ -49,9 +49,6 @@ export const LSAHeader = (props) => {
   var yyyy = today.getFullYear();
 
   today = mm + '/' + dd + '/' + yyyy;
-
-  
-  
 
   // const caseData = props.data.caseDetails || []
 
@@ -79,11 +76,11 @@ export const LSAHeader = (props) => {
 
   return (
     <View>
-      <Text style={{ ...styles.Text, margin: 'auto' }}>
+      <Text style={{ ...styles.Text }}>
         {' '}
-        INTELLIGENCE &amp; STRATEGIC OPERATIONS DEPARTMENT
+        INTELLIGENCE, STRATEGIC OPERATIONS, INVESTIGATIONS &amp; ENFORCEMENT
       </Text>
-      <Text style={{ ...styles.Text, margin: 'auto' }}> LIFESTYLE AUDIT PROFILING REPORT </Text>
+      <Text style={{ ...styles.Text, margin: 'auto' }}> LIFESTYLE AUDIT REPORT </Text>
 
       <View style={styles.Line} />
       <Text style={styles.Text}>TO :{caseDetails.cSource}</Text>
@@ -91,15 +88,15 @@ export const LSAHeader = (props) => {
         <Text style={styles.Text}>THRO': {caseDetails.through}</Text>
       )}
       <Text style={styles.Text}>FROM : {caseDetails.subject} </Text>
-      <Text style={styles.Text}>REF : {caseDetails.reference} </Text>
       <Text style={styles.Text}>DATE : {today} </Text>
+      <Text style={styles.Text}>REF : {caseDetails.reference} </Text>
 
       <View style={styles.Line} />
 
       <Text style={styles.Text}>
         INVESTIGATION REPORT ON ALLEGATIONS OF BEING IN POSSESSION OF UNEXPLAINED WEALTH BY{' '}
       </Text>
-      <Text>{"\n"}</Text>
+      <Text>{'\n'}</Text>
       <Text style={styles.Text}>HOD REGISTER NO -INQUIRY NO . : {caseDetails.caseNo} </Text>
 
       <View style={styles.Line} />

@@ -27,28 +27,27 @@ Font.register({
 export const chunkSubstr = (str, size) => {
   const numChunks = Math.ceil(str.length / size);
   const chunks = new Array(numChunks);
-  
+
   for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-  chunks[i] = str.substr(o, size);
+    chunks[i] = str.substr(o, size);
   }
-  
+
   return chunks;
-  };
-  
-  Font.registerHyphenationCallback((word) => {
+};
+
+Font.registerHyphenationCallback((word) => {
   if (word.length > 12) {
-  return chunkSubstr(word, 10);
+    return chunkSubstr(word, 10);
   } else {
-  return [word];
+    return [word];
   }
-  });
+});
 
 // //   /home/Muntaz/Documents/work/icase/src/fonts/georgia/NotoSansGeorgian-VariableFont.ttf
 
 export const PiHeader = (props) => {
-    
-    const caseDetails = props.data || {};
-    const bioData = props.subjectdata|| {};
+  const caseDetails = props.data || {};
+  const bioData = props.subjectdata || {};
   console.log('CASE DETAILS PI', caseDetails);
   console.log('CASE DETAILS BIo', bioData);
 
@@ -81,11 +80,12 @@ export const PiHeader = (props) => {
 
   return (
     <View>
-      <Text style={{ ...styles.Text, margin: 'auto' }}>
+      <Text style={{ ...styles.Text }}>
         {' '}
-        INTELLIGENCE &amp; STRATEGIC OPERATIONS DEPARTMENT
+        INTELLIGENCE, STRATEGIC OPERATIONS, INVESTIGATIONS &amp; ENFORCEMENT
       </Text>
-    
+
+      <Text style={{ ...styles.Text, margin: 'auto' }}> PRELIMINARY INVESTIGATION REPORT </Text>
 
       <View style={styles.Line} />
 
@@ -98,13 +98,16 @@ export const PiHeader = (props) => {
       {/* <Text>{'\n'}</Text> */}
       <Text style={styles.Text}>FROM : {caseDetails.subject} </Text>
       {/* <Text>{'\n'}</Text> */}
+      <Text style={styles.Text}>DATE : {today} </Text>
       <Text style={styles.Text}>REF : {caseDetails.reference} </Text>
       {/* <Text>{'\n'}</Text> */}
-      <Text style={styles.Text}>DATE : {today} </Text>
 
       <View style={styles.Line} />
 
-      <Text style={styles.Text}>PRELIMINARY INVESTIGATION REPORT ON ALLEGATIONS OF BEING IN POSSESSION OF UNEXPLAINED WEALTH BY , '{bioData.subject_Name}'</Text>
+      <Text style={styles.Text}>
+        PRELIMINARY INVESTIGATION REPORT ON ALLEGATIONS OF BEING IN POSSESSION OF UNEXPLAINED WEALTH
+        BY {bioData.subject_Name}
+      </Text>
       <Text>{'\n'}</Text>
       <Text style={styles.Text}>INQUIRY NO : {caseDetails.caseNo} </Text>
 

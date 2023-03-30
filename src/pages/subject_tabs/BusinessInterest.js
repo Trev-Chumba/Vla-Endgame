@@ -14,11 +14,12 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination, Grid,
+  TablePagination,
+  Grid,
   CardHeader,
   CardContent,
   TextField,
-  CardActions,
+  CardActions
 } from '@mui/material';
 // components
 import Page from 'src/components/Page';
@@ -30,13 +31,13 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from 'src/sections/@dashb
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
-import React from "react";
+import React from 'react';
 import { useState, useContext } from 'react';
 
 //
 import USERLIST from 'src/_mocks_/user';
 import { FetchApi } from 'src/api/FetchApi';
-import { SET_COMPANY, BASE_URL, GET_COMPANY,UPDATE_COMPANY } from 'src/api/Endpoints';
+import { SET_COMPANY, BASE_URL, GET_COMPANY, UPDATE_COMPANY } from 'src/api/Endpoints';
 
 import { ProfileContext } from '../../context/ProfileContext';
 import { UserContext } from 'src/context/UserContext';
@@ -49,28 +50,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
-import { useAlert } from 'react-alert'
+import { useAlert } from 'react-alert';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { Link as RouterLink, useNavigate, useRoutes } from 'react-router-dom';
-
-
-
 
 // ----------------------------------------------------------------------
 // const { profile } = useContext(ProfileContext)
 // const [subjectID, setSubjectID] = useState(profile.subjectID)
 const TABLE_HEAD = [
-
   { id: 'name', label: 'Company Name', alignRight: false },
   { id: 'regNo', label: 'Registration Number', alignRight: false },
   { id: 'registrationDate', label: 'Date of Registration', alignRight: false },
   { id: 'remarks', label: 'Remarks', alignRight: false },
   { id: 'relationship', label: 'Relationship with Subject', alignRight: false },
-  { id: 'attachments', label: 'Attachments', alignRight: false },
-
+  { id: 'attachments', label: 'Attachments', alignRight: false }
 ];
-
-
 
 // ----------------------------------------------------------------------
 function descendingComparator(a, b, orderBy) {
@@ -90,7 +84,6 @@ function getComparator(order, orderBy) {
 }
 
 function applySortFilter(array, comparator, query) {
-
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -98,103 +91,94 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.companyName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(
+      array,
+      (_user) => _user.companyName.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
   }
 
   return stabilizedThis.map((el) => el[0]);
 }
 
 export default function BusinessInterests({ id, updateProfileData }) {
-
   const alert = useAlert();
 
   const showAlert = () => {
-    alert.success("SAVED SUCCESSFULLY")
-  }
+    alert.success('SAVED SUCCESSFULLY');
+  };
 
-  const [attachments, setAttachment] = useState(undefined)
-  const { profile, businessInterests, setBusinessInterests } = useContext(ProfileContext)
-  const [subjectID, setSubjectID] = useState(profile.subjectID)
-  const [companyData, setCompanyData] = useState(businessInterests)
+  const [attachments, setAttachment] = useState(undefined);
+  const { profile, businessInterests, setBusinessInterests } = useContext(ProfileContext);
+  const [subjectID, setSubjectID] = useState(profile.subjectID);
+  const [companyData, setCompanyData] = useState(businessInterests);
 
-  const { userData } = useContext(UserContext)
-  const [userID, setUserID] = useState(userData.userID)
+  const { userData } = useContext(UserContext);
+  const [userID, setUserID] = useState(userData.userID);
 
   const showErrorAlert = (message) => {
-    alert.error(message)
-  }
+    alert.error(message);
+  };
 
   const showSuccessAlert = (message) => {
-    alert.success(message)
-  }
-  const phoneRegExp = /^((\\+[1-9]{1,4})|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-  const stringRegExp= /^[aA-zZ\s]+$/
-  const numericRegExp= /^[0-9]+$/
-
-
-
-
+    alert.success(message);
+  };
+  const phoneRegExp =
+    /^((\\+[1-9]{1,4})|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+  const stringRegExp = /^[aA-zZ\s]+$/;
+  const numericRegExp = /^[0-9]+$/;
 
   const RegisterSchema = Yup.object().shape({
     compName: Yup.string().required('Company name required'),
-    regNo: Yup.string().max(15,"Too Long!"),
-    relationship: Yup.string().max(50, "Too Long!").matches(stringRegExp,"Only Characters allowd"),
+    regNo: Yup.string().max(15, 'Too Long!'),
+    relationship: Yup.string().max(50, 'Too Long!').matches(stringRegExp, 'Only Characters allowd'),
     remarks: Yup.string(),
-    regDate: Yup.date(),
-   
+    regDate: Yup.date()
   });
 
   const formik = useFormik({
     initialValues: {
-      compName: companyData.companyName||"",
-      regNo: companyData.regNo||"",
-      relationship: companyData.relationship||"",
-      remarks: companyData.remarks||"",
-      regDate: companyData.dateofReg|| "",
-      attachments:companyData.attachments|| ""
+      compName: companyData.companyName || '',
+      regNo: companyData.regNo || '',
+      relationship: companyData.relationship || '',
+      remarks: companyData.remarks || '',
+      regDate: companyData.dateofReg || '',
+      attachments: companyData.attachments || ''
     },
     validationSchema: RegisterSchema,
     enableReinitialize: true,
-    onSubmit: (values,{resetForm}) => {
+    onSubmit: (values, { resetForm }) => {
       values.subjectID = subjectID;
       values.userID = userID;
       values.regDate = regDate;
-      values.companyID=companyData.companyID;
-      console.log(values)
+      values.companyID = companyData.companyID;
+      console.log(values);
 
-      if(!values.regDate){
-        values.regDate=companyData.dateofReg
+      if (!values.regDate) {
+        values.regDate = companyData.dateofReg;
       }
 
       if (attachments) {
-
         const formData = new FormData();
-        formData.append("file", attachments[0])
+        formData.append('file', attachments[0]);
 
         FetchApi.upload(formData, (status, data) => {
-
           if (status) {
-            const fileUrl = BASE_URL + "/" + data.url;
-            values.attachments = fileUrl
+            const fileUrl = BASE_URL + '/' + data.url;
+            values.attachments = fileUrl;
 
-            setProfileCompanies(values)
+            setProfileCompanies(values);
 
-            setAttachment(undefined)
+            setAttachment(undefined);
           } else {
-            showErrorAlert("SAVE FAILED")
+            showErrorAlert('SAVE FAILED');
           }
-
-        })
-
-
+        });
       } else {
-
-        setProfileCompanies(values)
+        setProfileCompanies(values);
       }
 
-      resetForm({values:''})
+      resetForm({ values: '' });
       // Handle submission
-
     }
   });
 
@@ -206,8 +190,8 @@ export default function BusinessInterests({ id, updateProfileData }) {
   const [orderBy, setOrderBy] = useState('compName');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [allData, setAllData] = useState([])
-  const navigate = useNavigate()
+  const [allData, setAllData] = useState([]);
+  const navigate = useNavigate();
 
   const [regDate, setValue] = useState(null);
 
@@ -219,7 +203,6 @@ export default function BusinessInterests({ id, updateProfileData }) {
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
-
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -260,12 +243,11 @@ export default function BusinessInterests({ id, updateProfileData }) {
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
     const employment = applySortFilter(allData, getComparator(order, orderBy), filterName);
-    setFilteredUsers(employment)
+    setFilteredUsers(employment);
   };
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
   const isUserNotFound = filteredUsers.length === 0;
-
 
   //API
 
@@ -291,102 +273,77 @@ export default function BusinessInterests({ id, updateProfileData }) {
   //   })
 
   // }
-  // 
+  //
   const setProfileCompanies = (values) => {
-
-    FetchApi.post(companyData.companyID?UPDATE_COMPANY:SET_COMPANY, values, (status, data) => {
-
-      console.log("SET Assets RES:::", data)
+    FetchApi.post(companyData.companyID ? UPDATE_COMPANY : SET_COMPANY, values, (status, data) => {
+      console.log('SET Assets RES:::', data);
 
       if (status) {
-        getCompanyData()
+        getCompanyData();
 
-        setBusinessInterests({})
+        setBusinessInterests({});
 
-        updateProfileData()
+        updateProfileData();
         // setAssets({})
 
-        showSuccessAlert("SAVED SUCCESSFULLY")
+        showSuccessAlert('SAVED SUCCESSFULLY');
+      } else {
+        showErrorAlert('SAVE FAILED');
       }
-      else {
-        showErrorAlert("SAVE FAILED")
-      }
-
-    })
-
-  }
+    });
+  };
   useEffect(() => {
-
-    getCompanyData()
-
-  }, [])
-
-
+    getCompanyData();
+  }, []);
 
   const getCompanyData = () => {
     if (id) {
-      console.log(id)
+      console.log(id);
       const requestBody = {
-
         subjectID: subjectID,
-        userID: userID,
-      }
-      console.log("What I'm sending", requestBody)
+        userID: userID
+      };
+      console.log("What I'm sending", requestBody);
 
       FetchApi.post(GET_COMPANY, requestBody, (status, data) => {
-
         if (status) {
-
-          console.log("API DATA", data)
+          console.log('API DATA', data);
           const assets = applySortFilter(data, getComparator(order, orderBy), filterName);
-          console.log("INFO:::", assets)
+          console.log('INFO:::', assets);
           // const users = applySortFilter(data, getComparator(order, orderBy), filterName);
-          setFilteredUsers(assets)
+          setFilteredUsers(assets);
 
-
-          setAllData(assets)
+          setAllData(assets);
           // setOtherResidents(residence)
           // console.log("RESIDENCE", residence)
 
           //ALSO UPDATE THE PROFILE CONTEXT
-          updateProfileData()
-
+          updateProfileData();
         } else {
-          console.log("some error occured")
+          console.log('some error occured');
         }
-      })
+      });
     }
-  }
-
+  };
 
   return (
     <Page>
-
-
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2} sx={{ width: '100%' }}>
-
             <Grid item md={12}>
               <Card sx={{ width: '100%', paddingBottom: 3 }}>
-                <CardHeader
-                  title="Business Interests"
-
-                />
+                <CardHeader title="Business Interests" />
               </Card>
             </Grid>
-            <Grid item md={12} >
+            <Grid item md={12}>
               <Card sx={{ width: '100%', paddingBottom: 1 }}>
                 {/* <CardHeader
                                 title="Spouse"
                             /> */}
                 <CardContent>
                   <Stack spacing={3}>
-
-
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-
-
                       <TextField
                         fullWidth
                         label="Name"
@@ -402,28 +359,16 @@ export default function BusinessInterests({ id, updateProfileData }) {
                         error={Boolean(touched.regNo && errors.regNo)}
                         helperText={touched.regNo && errors.regNo}
                       />
-
-
-
-
                     </Stack>
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-
-
-
-
-                      <LocalizationProvider
-                        dateAdapter={AdapterDateFns}>
+                      <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
-                        disableFuture
+                          disableFuture
                           label="Date of Registration"
                           value={regDate}
-
                           onChange={(newValue) => {
                             setValue(newValue);
-                          }
-
-                          }
+                          }}
                           renderInput={(params) => <TextField fullWidth {...params} />}
                         />
                       </LocalizationProvider>
@@ -446,55 +391,34 @@ export default function BusinessInterests({ id, updateProfileData }) {
                           onChange={(event) => setAttachment(event.target.files)} />
 
                       </Button> */}
-
-
-
                     </Stack>
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                        <Button
-                          fullWidth
-                          component="label"
-                          variant='outlined'
-                        >
-                          Add Attachment
-                          <input
-                            type="file"
-                            hidden
-                            onChange={(event) => setAttachment(event.target.files)} />
+                      <Button fullWidth component="label" variant="outlined">
+                        Add Attachment
+                        <input
+                          type="file"
+                          hidden
+                          onChange={(event) => setAttachment(event.target.files)}
+                        />
+                      </Button>
 
-                        </Button>
-
-                        {
-                          attachments ? <Typography>{attachments[0].name}</Typography> : <Typography>{companyData.attachments}</Typography>
-                        }
-
-                        
-                        </Stack>
-
-
-
-
-
-                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-
-
-
-
+                      {attachments ? (
+                        <Typography>{attachments[0].name}</Typography>
+                      ) : (
+                        <Typography>{companyData.attachments}</Typography>
+                      )}
                     </Stack>
+
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}></Stack>
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-
-
                       <TextField
                         fullWidth
                         label="Remarks"
                         multiline
                         rows={3}
                         {...getFieldProps('remarks')}
-
                       />
-
                     </Stack>
-
                   </Stack>
 
                   <CardActions sx={{ marginTop: 2 }}>
@@ -503,17 +427,16 @@ export default function BusinessInterests({ id, updateProfileData }) {
                                     
                                      >Save</Button> */}
                     <Button
-                      variant='contained'
+                      variant="contained"
                       sx={{ marginTop: 2 }}
                       onClick={() => handleSubmit()}
-                    >Save</Button>
-
+                    >
+                      Save
+                    </Button>
                   </CardActions>
-
                 </CardContent>
               </Card>
             </Grid>
-
           </Grid>
         </Form>
       </FormikProvider>
@@ -540,18 +463,25 @@ export default function BusinessInterests({ id, updateProfileData }) {
                 {filteredUsers
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => {
-                    const { companyName, regNo, dateofReg, relationship,
-                      remarks, attachments,companyID } = row;
+                    const {
+                      companyName,
+                      regNo,
+                      dateofReg,
+                      relationship,
+                      remarks,
+                      attachments,
+                      companyID
+                    } = row;
                     const isItemSelected = selected.indexOf(companyName) !== -1;
 
                     return (
                       <TableRow
-                        // hover
-                        // key={companyID}
-                        // tabIndex={-1}
-                        // role="checkbox"
-                        // selected={isItemSelected}
-                        // aria-checked={isItemSelected}
+                      // hover
+                      // key={companyID}
+                      // tabIndex={-1}
+                      // role="checkbox"
+                      // selected={isItemSelected}
+                      // aria-checked={isItemSelected}
                       >
                         <TableCell padding="checkbox">
                           <Checkbox
@@ -576,17 +506,15 @@ export default function BusinessInterests({ id, updateProfileData }) {
                         <TableCell align="left">{relationship}</TableCell>
 
                         <TableCell align="left">
-                          <a href={attachments} target="_blank" rel="noopener noreferrer">{attachments}</a>
+                          <a href={attachments} target="_blank" rel="noopener noreferrer">
+                            {attachments}
+                          </a>
                         </TableCell>
                         <TableCell align="right">
-                              <Button
-                                onClick={() => setCompanyData(row)}>
-                                <FontAwesomeIcon icon={faEye} />
-                              </Button>
-
-
-                            </TableCell>
-
+                          <Button onClick={() => setCompanyData(row)}>
+                            <FontAwesomeIcon icon={faEye} />
+                          </Button>
+                        </TableCell>
 
                         {/* <TableCell align="right">
                           <RouterLink to={"/dashboard/profile/"+idNo}>
@@ -627,9 +555,6 @@ export default function BusinessInterests({ id, updateProfileData }) {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Card>
-
     </Page>
-
-  )
-
+  );
 }

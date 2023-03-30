@@ -27,39 +27,36 @@ Font.register({
 export const chunkSubstr = (str, size) => {
   const numChunks = Math.ceil(str.length / size);
   const chunks = new Array(numChunks);
-  
+
   for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-  chunks[i] = str.substr(o, size);
+    chunks[i] = str.substr(o, size);
   }
-  
+
   return chunks;
-  };
-  
-  Font.registerHyphenationCallback((word) => {
+};
+
+Font.registerHyphenationCallback((word) => {
   if (word.length > 12) {
-  return chunkSubstr(word, 10);
+    return chunkSubstr(word, 10);
   } else {
-  return [word];
+    return [word];
   }
-  });
+});
 
 // //   /home/Muntaz/Documents/work/icase/src/fonts/georgia/NotoSansGeorgian-VariableFont.ttf
 
 export const BcHeader = (props) => {
   const caseDetails = props.data || {};
   console.log('CASE DETAILS HEADER', caseDetails);
-  
-  const caseType = caseDetails.inquiryType
+
+  const caseType = caseDetails.inquiryType;
   const [caseTxt, setcaseTxt] = useState('');
   useEffect(() => {
-  if(caseType == 'Vetting')
-  {
-     setcaseTxt('VETTING REPORT');
-  }
-  else
-  {
-    setcaseTxt('BACKGROUND REPORT');
-}
+    if (caseType == 'Vetting') {
+      setcaseTxt('VETTING REPORT');
+    } else {
+      setcaseTxt('BACKGROUND REPORT');
+    }
   }, []);
 
   var today = new Date();
@@ -91,9 +88,9 @@ export const BcHeader = (props) => {
 
   return (
     <View>
-      <Text style={{ ...styles.Text, margin: 'auto' }}>
+      <Text style={{ ...styles.Text }}>
         {' '}
-        INTELLIGENCE &amp; STRATEGIC OPERATIONS DEPARTMENT
+        INTELLIGENCE, STRATEGIC OPERATIONS, INVESTIGATIONS &amp; ENFORCEMENT
       </Text>
       <Text style={{ ...styles.Text, margin: 'auto' }}>{caseTxt}</Text>
 
@@ -108,9 +105,9 @@ export const BcHeader = (props) => {
       {/* <Text>{'\n'}</Text> */}
       <Text style={styles.Text}>FROM : {caseDetails.subject} </Text>
       {/* <Text>{'\n'}</Text> */}
+      <Text style={styles.Text}>DATE : {today} </Text>
       <Text style={styles.Text}>REF : {caseDetails.reference} </Text>
       {/* <Text>{'\n'}</Text> */}
-      <Text style={styles.Text}>DATE : {today} </Text>
 
       <View style={styles.Line} />
 
@@ -121,4 +118,4 @@ export const BcHeader = (props) => {
       <View style={styles.Line} />
     </View>
   );
-      };
+};
