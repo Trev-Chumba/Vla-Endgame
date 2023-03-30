@@ -257,6 +257,15 @@ export default function CaseMeta({ details, updateProfileData }) {
                       {...getFieldProps('esummary')}
                     />
                   </Stack>
+                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                    <TextField
+                      fullWidth
+                      label="Introduction"
+                      multiline
+                      rows={3}
+                      {...getFieldProps('introduction')}
+                    />
+                  </Stack>
                   {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     <TextField
                       fullWidth
