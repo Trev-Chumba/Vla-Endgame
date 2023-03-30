@@ -1,6 +1,6 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BcHeader } from './BCHeader';
 import Georgia from '../../fonts/Georgia.ttf';
 import georgiab from '../../fonts/georgiab.ttf';
@@ -57,17 +57,14 @@ Font.registerHyphenationCallback((word) => {
 export default function BcAndVtExPort(props) {
   const bioData = props.data.bio || {};
   const caseDetails = props.data.caseDetails || {};
-  const caseType = caseDetails.inquiryType
+  const caseType = caseDetails.inquiryType;
   const [caseTxt, setcaseTxt] = useState('');
   useEffect(() => {
-  if(caseType == 'Vetting')
-  {
-     setcaseTxt('Vetting');
-  }
-  else
-  {
-    setcaseTxt('Background');
-}
+    if (caseType == 'Vetting') {
+      setcaseTxt('Vetting');
+    } else {
+      setcaseTxt('Background');
+    }
   }, []);
 
   const styles = StyleSheet.create({
@@ -208,6 +205,38 @@ export default function BcAndVtExPort(props) {
         </View>
         <Text style={styles.textSubHeader}>2.0 Objective of the {caseTxt} Check</Text>
         <Text style={styles.textBody}>{caseDetails.objectives}</Text>
+        {caseTxt == 'Vetting' ? (
+          <Text style={styles.textBody}>
+            2.1 Review information in the KRA integrity records to establish whether there are
+            adverse reports, ongoing or concluded investigations with respect to compliance with the
+            KRA Code of conduct.
+            <Text>{'\n'}</Text>
+            <Text style={styles.textBody}>
+              2.2 Review KRA tax records to establish whether the officer and associates complied
+              with relevant Tax laws.
+            </Text>
+            <Text style={styles.textBody}>
+              2.3 Review & report any other information that may be relevant in assessing conduct of
+              the officer.
+            </Text>
+          </Text>
+        ) : (
+          <Text style={styles.textBody}>
+            2.1 Review integrity of the candidate by evaluating information provided through filled
+            background check consent form and through other sources.
+            <Text>{'\n'}</Text>
+            <Text style={styles.textBody}>
+              2.2 Review KRA tax records to establish whether the candidate and associates have
+              complied with relevant Tax laws.
+            </Text>
+            <Text>{'\n'}</Text>
+            <Text style={styles.textBody}>
+              2.3 Review & report any other information provided by other agencies that may be
+              relevant in assessing the conduct of the candidate
+            </Text>
+          </Text>
+        )}
+        <Text style={styles.textBody}></Text>
         <Text style={styles.textSubHeader}>3.0 Findings</Text>
         <View style={styles.table}>
           <View style={styles.tr}>

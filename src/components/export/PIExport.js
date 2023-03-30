@@ -35,9 +35,9 @@ Font.register({
 
 export default function PIExport(props) {
   const bioData = props.data.bio || {};
-  const caseDetails = props.data.caseDetails
-  console.log("CaseDets::", caseDetails)
-  console.log("CaseDets2::", bioData)
+  const caseDetails = props.data.caseDetails;
+  console.log('CaseDets::', caseDetails);
+  console.log('CaseDets2::', bioData);
   const styles = StyleSheet.create({
     page: {
       flexDirection: 'row',
@@ -59,7 +59,7 @@ export default function PIExport(props) {
     textSubHeader: {
       fontSize: 13,
       marginVertical: 10,
-      fontFamily: "Georgia_bold",
+      fontFamily: 'Georgia_bold',
       fontWeight: 'demibold'
     },
 
@@ -71,9 +71,8 @@ export default function PIExport(props) {
 
     textBody: {
       fontWeight: 'normal',
-      fontSize: 9.8,
+      fontSize: 12,
       fontFamily: 'Georgia'
-      
     },
 
     table: {
@@ -102,10 +101,9 @@ export default function PIExport(props) {
   return (
     <Page size="A4" style={styles.page}>
       <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed />
-      
 
       <View style={styles.body}>
-      <Text
+        <Text
           style={{
             right: 2,
             position: 'absolute',
@@ -122,7 +120,7 @@ export default function PIExport(props) {
           src={'/vla/static/kra_logo_name.jpg'}
           fixed
         />
-         <Text
+        <Text
           style={{
             marginHorizontal: 'auto',
             fontSize: 9,
@@ -134,22 +132,48 @@ export default function PIExport(props) {
         >
           ISO 9001:2015 CERTIFIED
         </Text>
-        <PiHeader data = {caseDetails} subjectdata = {bioData} />
+        <PiHeader data={caseDetails} subjectdata={bioData} />
 
         <Text style={styles.textSubHeader}>1.0 Introduction</Text>
-        
-        <Text style={styles.textBody}>The subject name is {bioData.subject_Name}, the subjects' date of birth is {bioData.dob}{'\n'}</Text>
-      
-        <Text style={styles.textBody}>A brief description of the subject is as follows: {'\n'}Height: {bioData.height},
-        {'\n'}Complexion: {bioData.complexion}
-        {'\n'}Gender: {bioData.gender}{'\n'}
-        </Text>
-        <Text style={styles.textBody}>The subjects' know location is at  {bioData.location} at  {bioData.county}.{'\n'}</Text>
-        <Text style={styles.textBody}>Executive Summary: {caseDetails.esummary}</Text>
 
+        <Text style={styles.textBody}>
+          The subject name is {bioData.subject_Name}, the subject's date of birth is {bioData.dob}
+          {'\n'}
+        </Text>
+
+        <Text style={styles.textBody}>
+          A brief description of the subject is as follows: {'\n'}
+          Height: {bioData.height},{'\n'}
+          Complexion: {bioData.complexion}
+          {'\n'}
+          Gender: {bioData.gender}
+          {'\n'}
+        </Text>
+        <Text style={styles.textBody}>
+          The subject's known location is at {bioData.location} at {bioData.county}.{'\n'}
+        </Text>
+        <Text style={styles.textBody}>The executive summary is: {caseDetails.esummary}</Text>
 
         <Text style={styles.textSubHeader}>1.1 Objective of the Preliminary Lifestyle Audit</Text>
-        <Text style={styles.textBody}>{caseDetails.objectives}</Text>
+        <Text style={styles.textBody}>
+          1.1.1 Collect and evaluate basic information to establish whether the subject’s
+          applications funds align to the known lawful sources of income.
+          <Text>{'\n'}</Text>
+          <Text style={styles.textBody}>
+            1.1.2 To establish whether the staff has breached the KRA Code of conduct, Public
+            officers’ ethics act, Proceeds of Crime and Anti-Money Laundering Act, Anti-Corruption
+            and Economic Crimes Act, and any other applicable laws.
+          </Text>
+          <Text>{'\n'}</Text>
+          <Text style={styles.textBody}>
+            1.1.3 Review KRA tax records to establish whether the officer or associates have
+            complied with relevant Tax laws.
+          </Text>
+          <Text>{'\n'}</Text>
+          <Text style={styles.textBody}>
+            1.1.4 Recommend for closure or for a full lifestyle audit.
+          </Text>
+        </Text>
 
         <Text style={styles.textSubHeader}>2.0 Preliminary Findings</Text>
         <Text style={styles.textBody}>{caseDetails.findings}</Text>
@@ -178,5 +202,3 @@ export default function PIExport(props) {
     </Page>
   );
 }
-
-
