@@ -334,7 +334,7 @@ export default function DeclarationsProfile({ id, updateProfileData }) {
                   <CardContent>
                     <Stack spacing={3}>
                       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                      <TextField fullWidth select label="Type of Asset/Liability" {...getFieldProps('declaration')}>
+                      <TextField fullWidth select label="Type of Declaration" {...getFieldProps('declaration')}>
                           {types.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
                               {option.label}

@@ -83,7 +83,7 @@ export const LSAHeader = (props) => {
         {' '}
         INTELLIGENCE &amp; STRATEGIC OPERATIONS DEPARTMENT
       </Text>
-      <Text style={{ ...styles.Text, margin: 'auto' }}> LIFESTYLE AUDIT PROFILING REPORT </Text>
+      <Text style={{ ...styles.Text, margin: 'auto' }}> LIFESTYLE AUDIT REPORT </Text>
 
       <View style={styles.Line} />
       <Text style={styles.Text}>TO :{caseDetails.cSource}</Text>

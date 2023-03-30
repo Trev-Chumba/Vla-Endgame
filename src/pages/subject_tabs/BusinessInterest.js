@@ -151,6 +151,8 @@ export default function BusinessInterests({ id, updateProfileData }) {
       relationship: companyData.relationship||"",
       remarks: companyData.remarks||"",
       regDate: companyData.dateofReg|| "",
+      businesspin: companyData.businesspin || "",
+      directors: companyData.directors || "",
       attachments:companyData.attachments|| ""
     },
     validationSchema: RegisterSchema,
@@ -449,6 +451,23 @@ export default function BusinessInterests({ id, updateProfileData }) {
 
 
 
+                    </Stack>
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                    <TextField
+                        fullWidth
+                        label="Directors Names"
+                        {...getFieldProps('directors')}
+                        error={Boolean(touched.directors && errors.directors)}
+                        helperText={touched.directors && errors.directors}
+                      />
+
+                      <TextField
+                        fullWidth
+                        label="KRA Pin"
+                        {...getFieldProps('businesspin')}
+                        error={Boolean(touched.businesspin && errors.businesspin)}
+                        helperText={touched.businesspin && errors.businesspin}
+                      />
                     </Stack>
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                         <Button

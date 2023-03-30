@@ -212,7 +212,16 @@ export default function FinancesProf({ id, updateProfileData }) {
   useEffect(() => {
     getProfileResidents()
   }, [])
-
+   
+  const checkAtt = () =>
+  {
+    if(attachments){
+     handleSubmit() 
+    }
+    else{
+      showErrorAlert("Please submit an attachment for evidence")
+    }
+  }
 
 
   const getProfileResidents = () => {
@@ -531,7 +540,7 @@ export default function FinancesProf({ id, updateProfileData }) {
 <CardActions sx={{ marginTop: 2 }}>
 <Button variant="contained"
   // sx={{ background: '#009900' }}
-  onClick={handleSubmit}
+  onClick={checkAtt}
 >Save</Button>
 </CardActions>
 

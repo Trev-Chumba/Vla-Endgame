@@ -155,11 +155,10 @@ export default function PIExport(props) {
         <Text style={styles.textBody}>{caseDetails.findings}</Text>
 
         <Text style={styles.textSubHeader}>2.0 Way Forward</Text>
-        <Text style={styles.textBody}></Text>
-                        
+        <Text style={styles.textBody}>{caseDetails.remarks}</Text>           
         <Text style={styles.textSubHeader}>3.0 Recommendation</Text>
-
-        <Text style={styles.textBody}>{caseDetails.recommendation}</Text>
+        
+        <Text style={styles.textBody}>{caseDetails.recomentation}</Text>
         
         <Text style={styles.textSubHeader}>4.0 Findings</Text>
         <Text style={styles.textBody}>{caseDetails.findings}</Text>
