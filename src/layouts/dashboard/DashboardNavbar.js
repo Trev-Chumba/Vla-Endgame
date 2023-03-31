@@ -9,7 +9,6 @@ import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
 import LanguagePopover from './LanguagePopover';
 import NotificationsPopover from './NotificationsPopover';
-import {Icon} from '@iconify/react';
 import {useContext} from 'react';
 import { UserContext } from '../../context/UserContext';
 
@@ -66,14 +65,12 @@ export default function DashboardNavbar({ onOpenSidebar }) {
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
-          
-          
-          {/* <NotificationsPopover />  */}
+          {/* <LanguagePopover />
+          <NotificationsPopover /> */}
            <Button fullWidth 
             variant="outlined" color='inherit'
             sx={{ bgcolor: (theme) => alpha(theme.palette.grey[500], 0.4)}}
           onClick={() => { 
-            localStorage.clear()
             setLoginStatus(false)
             // setOpen(false)
            }}
