@@ -137,12 +137,14 @@ export default function BusinessInterests({ id, updateProfileData }) {
 
   const formik = useFormik({
     initialValues: {
-      compName: companyData.companyName || '',
-      regNo: companyData.regNo || '',
-      relationship: companyData.relationship || '',
-      remarks: companyData.remarks || '',
-      regDate: companyData.dateofReg || '',
-      attachments: companyData.attachments || ''
+      compName: companyData.companyName||"",
+      regNo: companyData.regNo||"",
+      relationship: companyData.relationship||"",
+      remarks: companyData.remarks||"",
+      regDate: companyData.dateofReg|| "",
+      businesspin: companyData.businesspin || "",
+      directors: companyData.directors || "",
+      attachments:companyData.attachments|| ""
     },
     validationSchema: RegisterSchema,
     enableReinitialize: true,
@@ -391,6 +393,26 @@ export default function BusinessInterests({ id, updateProfileData }) {
                           onChange={(event) => setAttachment(event.target.files)} />
 
                       </Button> */}
+
+
+
+                    </Stack>
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                    <TextField
+                        fullWidth
+                        label="Directors Names"
+                        {...getFieldProps('directors')}
+                        error={Boolean(touched.directors && errors.directors)}
+                        helperText={touched.directors && errors.directors}
+                      />
+
+                      <TextField
+                        fullWidth
+                        label="KRA Pin"
+                        {...getFieldProps('businesspin')}
+                        error={Boolean(touched.businesspin && errors.businesspin)}
+                        helperText={touched.businesspin && errors.businesspin}
+                      />
                     </Stack>
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                       <Button fullWidth component="label" variant="outlined">

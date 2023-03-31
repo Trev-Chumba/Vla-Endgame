@@ -37,6 +37,10 @@
     ]
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-alignment": "^36.0.1",
+    "@ckeditor/ckeditor5-build-classic": "^36.0.1",
+    "@ckeditor/ckeditor5-build-inline": "^36.0.1",
+    "@ckeditor/ckeditor5-react": "^5.1.0",
     "@craco/craco": "^6.4.3",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
@@ -80,6 +84,8 @@
     "simplebar": "^5.3.6",
     "simplebar-react": "^2.3.6",
     "stream-browserify": "^3.0.0",
+    "suneditor": "^2.44.6",
+    "suneditor-react": "^3.4.1",
     "util": "^0.12.4",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
