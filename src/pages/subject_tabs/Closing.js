@@ -37,9 +37,9 @@ const MenuProps = {
   }
 };
 
-const reccomendations = [
+const recomentation = [
   'The case be referred to EACC/ARA for further investigations/recovery of unexplained wealth and possible criminal prosecution, if any',
-
+  'Recommended for tax profiling',
   'Commissioner; DTD to institute an in-depth tax fraud investigation on the subject with a view of recovering the taxes due',
   'Commissioner; C&BC to institute an in-depth tax fraud investigation on the subject with a view of recovering the taxes due',
   'Commissioner; Investigation & Enforcement to institute an in-depth tax fraud investigation on the subject’s company with a view of recovering the taxes due',
@@ -53,6 +53,7 @@ const reccomendations = [
 ];
 const findings = [
   'No adverse report',
+  'Adverse report',
   'Adverse report-Pending tax issues',
   'Adverse report-Listed in CRB as non compliant',
   'Adverse report- Negative response from previous employer',
@@ -113,14 +114,14 @@ export default function Closing({ details, updateProfileData }) {
     enableReinitialize: true,
     validationSchema: RegisterSchema,
     onSubmit: (values) => {
-      (values.recommendation = personName.join('\n')), (values.cFindings = findingName.join('\n'));
+      (values.recomentation = personName.join('\n')), (values.cFindings = findingName.join('\n'));
 
       updateCaseData(values);
     }
   });
 
   const updateCaseData = (values) => {
-    details.recomentation = values.recommendation;
+    details.recomentation = values.recomentation;
     details.findings = values.findings;
     details.remarks = values.remarks;
     details.userID = userData.userID;
@@ -201,11 +202,11 @@ export default function Closing({ details, updateProfileData }) {
 
                   <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     <FormControl sx={{ m: 1, width: 1000 }}>
-                      <InputLabel id="reccomendations-multiple-checkbox-label">
+                      <InputLabel id="recomentation-multiple-checkbox-label">
                         Recommendations
                       </InputLabel>
                       <Select
-                        labelId="recommendations-multiple-checkbox-label"
+                        labelId="recomentation-multiple-checkbox-label"
                         id="recommendations-multiple-checkbox"
                         multiple
                         value={personName}
@@ -214,7 +215,7 @@ export default function Closing({ details, updateProfileData }) {
                         renderValue={(selected) => selected.join(', ')}
                         MenuProps={MenuProps}
                       >
-                        {reccomendations.map((name) => (
+                        {recomentation.map((name) => (
                           <MenuItem key={name} value={name}>
                             <Checkbox checked={personName.indexOf(name) > -1} />
                             <ListItemText primary={name} />

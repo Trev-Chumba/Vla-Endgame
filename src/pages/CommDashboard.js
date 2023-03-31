@@ -291,9 +291,18 @@ export default function CommDashboard() {
             }
           ] //data
         });
-        setCaseTotal([data.totalCount.allCasess]);
+        const bgTotal = data.totalCount.Background;
+        const vettingTotal = data.totalCount.vetting;
+        const lsaTotal = data.totalCount.lsa;
+        const piTotal = data.totalCount.pi;
+        const allCases = bgTotal + vettingTotal + lsaTotal + piTotal;
+        const incomplete =
+          data.statusCount.inProgress + data.statusCount.inReview + data.statusCount.open;
+        console.log('All Cases is ', allCases);
+        setCaseTotal([allCases]);
+        //setCaseTotal([data.totalCount.allCasess]);
         setCompletedTotal([data.statusCount.complete]);
-        setInProgressTotal([data.statusCount.inProgress]);
+        setInProgressTotal([incomplete]);
         setExpiredTotal([data.statusCount.Expired]);
       } else {
         //some error

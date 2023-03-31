@@ -42,10 +42,11 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 
 const TABLE_HEAD = [
-  { id: 'description', label: 'Declaration Type', alignRight: false },
   { id: 'type', label: 'Type of Asset/Liability', alignRight: false },
+  { id: 'description', label: 'Declaration Type', alignRight: false },
+ // { id: 'declaration', label: 'Declaration', alignRight: false },
   { id: 'estValue', label: 'Value', alignRight: false },
-  { id: 'declaration', label: 'Declaration', alignRight: false },
+
   { id: 'date', label: ' Date', alignRight: false },
   { id: 'attachments', label: 'Attachments', alignRight: false },
   { id: 'remarks', label: 'Remarks', alignRight: false }
@@ -61,6 +62,10 @@ const types = [
   {
     value: 'Liability',
     label: 'Liability'
+  },
+  {
+    value: 'Income',
+    label: 'Income'
   },
 ];
 function descendingComparator(a, b, orderBy) {
@@ -329,7 +334,7 @@ export default function DeclarationsProfile({ id, updateProfileData }) {
                   <CardContent>
                     <Stack spacing={3}>
                       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                      <TextField fullWidth select label="Type" {...getFieldProps('description')}>
+                      <TextField fullWidth select label="Type of Declaration" {...getFieldProps('declaration')}>
                           {types.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
                               {option.label}
@@ -338,7 +343,7 @@ export default function DeclarationsProfile({ id, updateProfileData }) {
                         </TextField>
                       <TextField
                           fullWidth
-                          label="Type of Asset/Liability"
+                          label="Description"
                           {...getFieldProps('type')}
                           error={Boolean(touched.type && errors.type)}
                           helperText={touched.type && errors.type}
@@ -347,15 +352,9 @@ export default function DeclarationsProfile({ id, updateProfileData }) {
                       </Stack>
 
                       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                        <TextField
-                          fullWidth
-                          label="Declaration"
-                          {...getFieldProps('declaration')}
-                          error={Boolean(touched.declaration && errors.declaration)}
-                          helperText={touched.declaration && errors.declaration}
-                        />
+                      
                         
-                        <TextField
+                      <TextField
                           fullWidth
                           label="Value (KSh)"
                           {...getFieldProps('estValue')}
@@ -473,9 +472,9 @@ export default function DeclarationsProfile({ id, updateProfileData }) {
                               />
                             </TableCell>
 
+                            <TableCell align="left">{declaration}</TableCell>
                             <TableCell align="left">{type}</TableCell>
                             <TableCell align="left">{estValue}</TableCell>
-                            <TableCell align="left">{declaration}</TableCell>
                             <TableCell align="left">{date}</TableCell>
 
                             <TableCell align="left">

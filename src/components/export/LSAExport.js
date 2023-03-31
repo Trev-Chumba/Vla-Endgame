@@ -70,7 +70,19 @@ export default function LSAExport(props) {
   const liabilities = props.data.liabilities || [];
   const travels = props.data.travel || [];
   const caseDetails = props.data.caseDetails || {};
-
+  const totalassets = assets.reduce(
+    (total, currentvalue) => (total = Number(total) + Number(currentvalue.estValue)),
+    0
+  );
+  const totalliabilities = liabilities.reduce(
+    (total, currentvalue) => (total = Number(total) + Number(currentvalue.estValue)),
+    0
+  );
+  const totalExpenses = travels.reduce(
+    (total, currentvalue) => (total = Number(total) + Number(currentvalue.estValue)),
+    0
+  );
+  //const totalExpenses = travels.reduce((total, currentvalue) => total = Number(total) + Number(currentvalue.estValue), 0);
   const styles = StyleSheet.create({
     page: {
       flexDirection: 'row',
@@ -103,7 +115,7 @@ export default function LSAExport(props) {
     textBody: {
       fontWeight: 'normal',
       fontFamily: 'Georgia',
-      fontSize: 10
+      fontSize: 12
     },
 
     table: {
@@ -193,7 +205,7 @@ export default function LSAExport(props) {
         <LSAHeader data={caseDetails} />
 
         <Text style={styles.textSubHeader}>1.0 Executive Summary</Text>
-        {/* <Text style={styles.textBody}>{caseDetails.esummary}</Text> */}
+        <Text style={styles.textBody}>{caseDetails.esummary}</Text>
         <View style={styles.table}>
           <View style={styles.tr} wrap={false}>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Item Description</Text>
@@ -202,32 +214,27 @@ export default function LSAExport(props) {
 
           <View style={styles.tr}>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Assets</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{totalassets}</Text>
           </View>
 
           <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Purchases</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
-          </View>
-
-          <View style={styles.tr}>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Expenses</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Expenses / Purchases</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{totalExpenses}</Text>
           </View>
 
           <View style={styles.tr}>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Liabilities</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}>{totalliabilities}</Text>
           </View>
 
           <View style={styles.tr}>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Known Lawful Income</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}></Text>
           </View>
 
           <View style={styles.tr}>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Unexplained Wealth</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>XXX</Text>
+            <Text style={{ ...styles.td, ...styles.textBody }}></Text>
           </View>
 
           {/* <View style={styles.tr}>
@@ -237,10 +244,33 @@ export default function LSAExport(props) {
         </View>
 
         <Text style={styles.textSubHeader}>2.0 Objective of the Lifestyle Audit</Text>
-        <Text style={styles.textBody}>{caseDetails.objectives}</Text>
+        <Text style={styles.textBody}>
+          2.1 Collect and evaluate information to establish whether the subject’s application of
+          funds align to the known lawful sources of income.
+          <Text>{'\n'}</Text>
+          <Text style={styles.textBody}>
+            2.2 To establish whether the staff has breached the KRA Code of conduct, Public
+            officers’ ethics act 2003, Proceeds of Crime and Anti-Money Laundering Act 2009,
+            Anti-Corruption and Economic Crimes Act 2003, and any other applicable laws.
+          </Text>
+          <Text>{'\n'}</Text>
+          <Text style={styles.textBody}>
+            2.3 Review KRA tax records to establish whether the officer and associates have complied
+            with relevant Tax laws.
+          </Text>
+          <Text>{'\n'}</Text>
+          <Text style={styles.textBody}>
+            2.4 Establish gaps in the subject’s Declaration of Income Assets and Liabilities against
+            the investigation findings
+          </Text>
+          <Text>{'\n'}</Text>
+          <Text style={styles.textBody}>
+            2.5 Recommend for closure or referral to relevant government agencies or internally
+          </Text>
+        </Text>
 
         <Text style={styles.textSubHeader}>3.0 Personal Profile</Text>
-        <View style={styles.table}>
+        <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Photo Of Subject</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of Photo</Text>
@@ -747,7 +777,7 @@ export default function LSAExport(props) {
           {liabilities.map((asset, index) => {
             return (
               <View style={styles.tr}>
-                <Text style={{ ...styles.td1, ...styles.textBody }}>{index}</Text>
+                <Text style={{ ...styles.td1, ...styles.textBody }}>{index + 1}</Text>
                 <Text style={{ ...styles.td, ...styles.textBody }}>{asset.description}</Text>
                 <Text style={{ ...styles.td, ...styles.textBody }}>{asset.estValue}</Text>
                 <Text style={{ ...styles.td, ...styles.textBody }}>{asset.remarks}</Text>

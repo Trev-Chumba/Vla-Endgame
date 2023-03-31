@@ -41,8 +41,8 @@ export default function Router() {
         { path: 'view-case/:type/:id', element: <SubjectProfilePage />},
         { path: 'search-subject', element:<SearchSubject/>},
         { path: 'my-tasks', element: <MyTasks />},
-        { path: 'comm', element: <CommDashboard /> }
-
+        { path: 'comm', element: <CommDashboard /> },
+        { path: 'search-batch', element: <DashboardApp /> }
 
       ]
     },

@@ -1,4 +1,3 @@
-// material
 import { styled } from '@mui/material/styles';
 import { Card, Stack, Container, Typography } from '@mui/material';
 // layouts

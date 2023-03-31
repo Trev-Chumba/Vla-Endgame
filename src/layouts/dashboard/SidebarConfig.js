@@ -1,48 +1,50 @@
 // component
+import { Badge } from '@mui/material';
 import Iconify from '../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
-const userType = localStorage.getItem('userType');
-console.log('SideBar usertype', userType);
+//const userType = localStorage.getItem("userType")
+//console.log('UserType',userType)
 
 const sidebarConfig1 = [
   {
-    header: 'PROFILE',
-    items: [
+    header : "PROFILE",
+    items : [
       {
         title: 'dashboard',
-        path: userType == 'user' ? '/dashboard/app' : '/dashboard/comm',
+        path:'/dashboard/app',
         icon: getIcon('eva:pie-chart-2-fill')
       },
       {
-        title: 'Search Subject',
-        path: '/dashboard/search-subject',
+        title : 'Search Subject',
+        path : '/dashboard/search-subject',
         icon: getIcon('eva:person-fill')
-      },
+      }, 
       {
         title: 'New Profile',
         path: '/dashboard/profile',
         icon: getIcon('eva:person-fill')
       },
       {
-        title: 'All Profiles',
-        path: '/dashboard/all-profiles',
+        title : 'All Profiles',
+        path : '/dashboard/all-profiles',
         icon: getIcon('eva:person-fill')
-      }
+      },
+    
     ]
   },
 
   {
-    header: 'INQUIRIES',
-    items: [
+    header : "INQUIRIES",
+    items : [
       {
         title: 'My Inquiries',
         path: '/dashboard/my-inquiries',
         icon: getIcon('eva:shopping-bag-fill')
-      }
+      },
       // {
       //   title: 'blog',
       //   path: '/dashboard/blog',
@@ -54,7 +56,7 @@ const sidebarConfig1 = [
       //   icon: getIcon('eva:lock-fill')
       // },
     ]
-  },
+  }, 
 
   // {
   //   header : "CASES",
@@ -72,25 +74,26 @@ const sidebarConfig1 = [
   //   ]
   // },
 
-  // {
-  //   header : "TASKS",
-  //   items : [
-  //     {
-  //       title: 'My Tasks',
-  //       path: '/dashboard/my-tasks',
-  //       icon: getIcon('eva:list-fill')
-  //     },
-  //     // {
-  //     //   title: 'Not found',
-  //     //   path: '/404',
-  //     //   icon: getIcon('eva:alert-triangle-fill')
-  //     // }
-  //   ]
-  // },
+  {
+    header : "TASKS",
+    items : [
+      {
+        title: 'My Tasks',
+        path: '/dashboard/my-tasks',
+        icon: getIcon('eva:list-fill'),
+      },
+    
+      // {
+      //   title: 'Not found',
+      //   path: '/404',
+      //   icon: getIcon('eva:alert-triangle-fill')
+      // }
+    ]
+  },
 
   {
-    header: 'USER MANAGEMENT',
-    items: [
+    header : "USER MANAGEMENT",
+    items : [
       {
         title: 'Add User',
         path: '/dashboard/add-user',
@@ -107,7 +110,8 @@ const sidebarConfig1 = [
         icon: getIcon('eva:alert-triangle-fill')
       }
     ]
-  }
-];
+  },
+
+]
 
 export default sidebarConfig1;

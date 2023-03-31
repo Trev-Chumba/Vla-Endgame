@@ -418,6 +418,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
                         // disabled
                         fullWidth
                         label="Subject name"
+                        disabled = "true"
                         {...getFieldProps('subject_name')}
                         error={Boolean(touched.subject_name && errors.subject_name)}
                         helperText={touched.subject_name && errors.subject_name}
@@ -427,6 +428,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
                         // disabled
                         fullWidth
                         label="National ID/ Passport No"
+                        disabled = "true"
                         {...getFieldProps('idNo')}
                         error={Boolean(touched.idNo && errors.idNo)}
                         helperText={touched.idNo && errors.idNo}

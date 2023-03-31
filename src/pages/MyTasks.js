@@ -1,7 +1,6 @@
 import { filter } from 'lodash';
-import { useState, useEffect,useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-
 
 // material
 
@@ -35,16 +34,15 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from 'src/context/UserContext';
 import Label from '../components/Label';
 
-
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-
-  // { id: 'Profile', label: 'Profile Name', alignRight: false },
-  // { id: 'name', label: 'Field', alignRight: false },
-  { id: 'description', label: 'Description', alignRight: false },
-
-   ];
+  //{ id: 'Prfile', label: 'Profile Name', alignRight: false },
+  { id: 'name', label: 'Subject name', alignRight: false },
+  { id: 'type', label: 'Case Type', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'description', label: 'Remarks', alignRight: false }
+];
 
 // ----------------------------------------------------------------------
 
@@ -65,7 +63,6 @@ function getComparator(order, orderBy) {
 }
 
 function applySortFilter(array, comparator, query) {
-  
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -73,7 +70,10 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.subject_Name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(
+      array,
+      (_user) => _user.subject_Name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
   }
 
   return stabilizedThis.map((el) => el[0]);
@@ -86,13 +86,9 @@ export default function MyTasks() {
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [allData,setAllData]=useState([])
-  const { userData } = useContext(UserContext)
-
-  // const [allData, setAllData] = useState([])
+  const [allData, setAllData] = useState([]);
+  const { userData } = useContext(UserContext);
   const [filteredUsers, setFilteredUsers] = useState([]);
-
-  
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -139,39 +135,75 @@ export default function MyTasks() {
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
     const users = applySortFilter(allData, getComparator(order, orderBy), filterName);
-        setFilteredUsers(users)
+    setFilteredUsers(users);
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
-
-  useEffect(()=>{
-
+  useEffect(() => {
     const requestBody = {
-        userID:userData.userID
-    }
+      userID: userData.userID
+    };
 
     FetchApi.post(GET_MY_TASKS, requestBody, (status, data) => {
-      if(status){
-
-        console.log("TASKS::::",data)
-        const inquiry = applySortFilter(data, getComparator(order, orderBy), filterName);
-        setFilteredUsers(inquiry)
-        setAllData(inquiry)
-        
-      }else{
+      if (status) {
+        //console.log('TASKS request body::::', requestBody);
+        const task = applySortFilter(data, getComparator(order, orderBy), filterName);
+        setFilteredUsers(task);
+        //console.log('TASKS::::', data);
+      } else {
         //some error
       }
-    })
+    });
 
-  }, []) 
-
-
-
-
-
+    FetchApi.post(GET_ALL_INQUIRY, requestBody, (status, data) => {
+      if (status) {
+        //console.log('INQUIRIES (tasks) request body::::', requestBody);
+        const inquiry = applySortFilter(data, getComparator(order, orderBy), filterName);
+        setAllData(inquiry);
+        //console.log('INQUIRIES from tasks::::', data);
+      } else {
+        //some error
+      }
+    });
+  }, []);
 
   const isUserNotFound = filteredUsers.length === 0;
+  // console.log('filtered users', filteredUsers);
+  // console.log('allData', allData);
+
+  // allData.forEach(function (item, index) {
+  //   if (item.inquryID == 84) {
+  //     console.log(item);
+  //     console.log(item.inquryID);
+  //   }
+  // });
+
+  // filteredUsers.forEach(function (item, index) {
+  //   if (item.inquiryID == 84) {
+  //     console.log(item);
+  //     console.log(item.inquiryID);
+  //   }
+  // });
+
+  // if (allData.inquryID == filteredUsers.inquiryID) {
+  //   let allDets = filteredUsers.map((item, i) => Object.assign({}, item, allData[i]));
+  //   console.log('All dets', allDets);
+  // }
+
+  // let allDetails = filteredUsers.map((item, i) => Object.assign({}, item, allData[i]));
+  // console.log('All details', allDetails);
+
+  const mergedArr = filteredUsers.map((obj1) => {
+    const obj2 = allData.find((obj2) => obj1.inquiryID === obj2.inquryID);
+    if (obj2) {
+      return { ...obj1, ...obj2 };
+    } else {
+      return obj1;
+    }
+  });
+
+  console.log(mergedArr);
 
   return (
     <Page title="KRA VLA - Tasks">
@@ -180,7 +212,6 @@ export default function MyTasks() {
           <Typography variant="h4" gutterBottom>
             My Tasks
           </Typography>
-          
         </Stack>
 
         <Card>
@@ -203,30 +234,57 @@ export default function MyTasks() {
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {filteredUsers
+                  {mergedArr
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { taskID, subjectName, inquryType,  subjectIdNO, inquiryID,
-                        description, taskName, owner, assignee } = row;
+                      const {
+                        subjectName,
+                        status,
+                        subjectIdNO,
+                        inquiryID,
+                        owner,
+                        assignee,
+                        taskID,
+                        inquryType,
+                        description
+                      } = row;
                       const isItemSelected = selected.indexOf(subjectName) !== -1;
 
-                      let caseType = "LA";
+                      let caseType = 'LA';
 
-                      switch(inquryType){
-                        case "Background Check": caseType = "BC"; break;
-                        case "Preliminary Investigation": caseType = "PI"; break;
-                        case "Vetting" : caseType = "VT"; break;
+                      switch (inquryType) {
+                        case 'Background Check':
+                          caseType = 'BC';
+                          break;
+                        case 'Preliminary Investigation':
+                          caseType = 'PI';
+                          break;
+                        case 'Vetting':
+                          caseType = 'VT';
+                          break;
                       }
 
-                     let caseStatus = "2"; let caseLabelType = "success";
-                    
-                    //   switch(status){
-                    //     case "2": caseStatus = "In Progress"; caseLabelType = "info"; break;
-                    //     case "3": caseStatus = "In Review"; caseLabelType = "primary"; break;
-                    //     case "4": caseStatus = "Complete"; caseLabelType = "error"; break;
-                    //     case "5": caseStatus = "Re-Opened"; caseLabelType = "info"; break;
-                    //   }
+                      let caseStatus = '2';
+                      let caseLabelType = 'success';
 
+                      switch (status) {
+                        case '2':
+                          caseStatus = 'In Progress';
+                          caseLabelType = 'info';
+                          break;
+                        case '3':
+                          caseStatus = 'In Review';
+                          caseLabelType = 'primary';
+                          break;
+                        case '4':
+                          caseStatus = 'Complete';
+                          caseLabelType = 'error';
+                          break;
+                        case '5':
+                          caseStatus = 'Re-Opened';
+                          caseLabelType = 'info';
+                          break;
+                      }
 
                       return (
                         <TableRow
@@ -238,30 +296,56 @@ export default function MyTasks() {
                           aria-checked={isItemSelected}
                         >
                           <TableCell padding="checkbox">
-                            <Checkbox
+                            {/* <Checkbox
                               checked={isItemSelected}
-                              onChange={(event) => handleClick(event, subjectName)}
-                            />
+                              onChange={(event) => handleClick(event, description)}
+                            /> */}
                           </TableCell>
-                          {/* <TableCell component="th" scope="row" padding="none">
+                          <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
-                             
                               <Typography variant="subtitle2" noWrap>
                                 {subjectName}
                               </Typography>
                             </Stack>
-                          </TableCell> */}
-                          {/* <TableCell align="left">{taskName}</TableCell> */}
+                          </TableCell>
+
+                          <TableCell align="left">{inquryType}</TableCell>
+                          <TableCell align="left">{caseStatus}</TableCell>
                           <TableCell align="left">{description}</TableCell>
 
-                        
-
-                          <TableCell >
-                          {/* <RouterLink to={"/dashboard/view-case/"+caseType+"/"+subjectIdNO+":"+inquiryID+":"+owner+":"+assignee+":"+caseStatus}>
-                            <FontAwesomeIcon icon={faEye}/>
-                          </RouterLink> */}
-
-
+                          <TableCell>
+                            <RouterLink
+                              to={
+                                '/dashboard/view-case/' +
+                                caseType +
+                                '/' +
+                                subjectIdNO +
+                                ':' +
+                                inquiryID +
+                                ':' +
+                                owner +
+                                ':' +
+                                assignee +
+                                ':' +
+                                status
+                              }
+                            >
+                              {/* <RouterLink
+                              to={
+                                '/dashboard/view-case/' +
+                                inquiryID +
+                                '/' +
+                                subjectIdNO +
+                                ':' +
+                                owner +
+                                ':' +
+                                assignee +
+                                ':' +
+                                caseStatus
+                              }
+                            > */}
+                              <FontAwesomeIcon icon={faEye} />
+                            </RouterLink>
                           </TableCell>
                         </TableRow>
                       );
@@ -295,15 +379,7 @@ export default function MyTasks() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-
-       
       </Container>
     </Page>
   );
 }
-
-
-
-
-
-

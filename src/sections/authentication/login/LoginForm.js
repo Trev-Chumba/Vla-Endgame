@@ -60,14 +60,14 @@ export default function LoginForm({ setValueX }) {
     validationSchema: LoginSchema,
     onSubmit: (values) => {
       setIsSubmitting(true);
-
+      console.log("sending ....", values)
       FetchApi.post(LOGIN_USER, values, (status, data) => {
         setIsSubmitting(false);
-
-        if ((status && data.status != '0') || (data.status != '500' || data.status != 500)) {
+        if(status && data.status == "1" || data.status == 1 || data.status == undefined)
+        {
           console.log('data status', status, data.status)
           setLoginStatus(true);
-          console.log('data status', status)
+          console.log('data status', data)
           setUserData(data);
           console.log(data, 'Login Data');
 
@@ -81,7 +81,7 @@ export default function LoginForm({ setValueX }) {
           //    setUserData({})
           // }, 1000*60*5)
 
-          if (data.reports == '1' || data.reports == 1) {
+          if (data.reports == 1 || data.reports == "1") {
             console.log('I AM COMM');
             navigate('/dashboard/comm');
             localStorage.setItem('userType', 'comm');
@@ -90,6 +90,8 @@ export default function LoginForm({ setValueX }) {
             navigate('/dashboard/app');
           }
         } else {
+          console.log('data status', status, data.status)
+          console.log('data status', data)
           showErrorAlert('Incorrect Username or Password');
         }
       });

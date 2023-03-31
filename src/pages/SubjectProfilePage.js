@@ -48,6 +48,9 @@ import BcAndVtExPort from 'src/components/export/BcAndVtExport';
 import { Document } from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
 import { ProfileContext } from 'src/context/ProfileContext';
+import PIExport from 'src/components/export/PIExport';
+import SubjectProfiles from './User';
+import { render } from 'react-dom';
 
 
 
@@ -113,7 +116,7 @@ export default function SubjectProfilePage() {
   const [profile, setProfile] = useState({})
 
   const [ammendDialogOpen, setAmmendDialogOpen] = useState(false)
-
+  const [ thiscasedata, setthisData] = useState('')
   const [confirmSubmitOpen, setConfirmSubmitOpen] = useState(false)
 
   const [fieldsToAmment, setFieldsToAmment] = useState([])
@@ -256,7 +259,8 @@ export default function SubjectProfilePage() {
         FetchApi.post(PRINT_CASE, exportBody, (status, data) => {
           if (status) {
             console.log("EXPORT DATA RESP::::", data)
-
+            console.log("EXPORT DATA RESP::::", data.caseDetails.inquiryType)
+            setthisData(data.caseDetails.inquiryType)
             setExportData(data)
           } else {
             console.log("some error occured :: EXP D RESP")
@@ -399,7 +403,7 @@ export default function SubjectProfilePage() {
         postBody.inquryID = postBody.inquiryID
         setCaseData(postBody)
         changeLabel(postBody.status)
-
+        
         fieldsToAmment.forEach(task => {
 
           task.assignee = postBody.recipientID
@@ -421,21 +425,27 @@ export default function SubjectProfilePage() {
 
   const [pdfViewOpen, setPdfViewOpen] = useState(false)
   const [pdfViewOpenBc, setPdfViewOpenBc] = useState(false)
+  const [pdfViewOpenPI, setPdfViewOpenPI] = useState(false)
 
 
   const exportPDF = () => {
-
-    if (type == 'BC' || type == 'VT') {
+    console.log('Type to be opened::', type)
+    if (type == 'BC' || type == 'VT' ) {
 
       setPdfViewOpenBc(true)
-    } else {
+    } else if(type == 'PI') {
+      setPdfViewOpenPI(true)
+    }
+    else
+    {
       setPdfViewOpen(true)
     }
-
   }
-
-
-
+  let caseTypes;
+  if(thiscasedata == "Background Check" || thiscasedata == "Vetting")
+  {
+    caseTypes = 1
+  }
   return (
 
     <Page title="Profile">
@@ -609,6 +619,30 @@ export default function SubjectProfilePage() {
 
         </Dialog>
 
+        <Dialog
+          sx={{ '& .MuiDialog-paper': { width: '80%', height: '100%' } }}
+          maxWidth="xl"
+          open={pdfViewOpenPI}>
+
+          <DialogContent>
+
+            <PDFViewer width='100%' height='100%'>
+              <Document>
+
+                <PIExport  data={exportData} caseData={subProfile.userData} />
+
+              </Document>
+            </PDFViewer>
+
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={() => setPdfViewOpenPI(false)}>
+              Cancel
+            </Button>
+          </DialogActions>
+
+        </Dialog>
+
 
         {
           caseData.inquryID && profile.subject_Name &&
@@ -676,12 +710,8 @@ export default function SubjectProfilePage() {
           </Grid>
 
         }
-
-
-
-
-
-        <Tabs
+     
+         <Tabs
           value={activeTab}
           onChange={handleTabChange}
           indicatorColor='primary'
@@ -691,23 +721,23 @@ export default function SubjectProfilePage() {
 
 
           <Tab value={0} label={"Bio\nData"} />
-          <Tab value={2} label="Residential Information" />
-          <Tab value={3} label="Secondary Information" />
-          <Tab value={4} label="Associates Information" />
-          <Tab value={5} label="Financial Information" />
-          <Tab value={6} label={"Companies / \nBusinesses"} />
-          <Tab value={7} label="Expenses" />
-          <Tab value={8} label="Assets" />
-          <Tab value={9} label="Liabilities" />
-          <Tab value={10} label={"Integrity & \nEthics"} />
-          <Tab value={11} label={"Employment"} />
-          <Tab value={12} label={"Declarations"} />
-          <Tab value={13} label="Other Agency Info" />
-          <Tab value={14} label="Tax Issues" />
-          <Tab value={1} label={"Case Info"} />
-          <Tab value={15} label="Closing" />
+          {caseTypes != 1 && <Tab value={2} label="Residential Information" />}
+          {caseTypes != 1 && <Tab value={3} label="Secondary Information" />}
+          {caseTypes != 1 &&<Tab value={4} label="Associates Information" />}
+          {caseTypes != 1 && <Tab value={5} label="Financial Information" />}
+          {caseTypes != 1 && <Tab value={6} label={"Companies / \nBusinesses"} />}
+          {caseTypes != 1 && <Tab value={7} label="Expenses" />}
+          {caseTypes != 1 && <Tab value={8} label="Assets" />}
+          {caseTypes != 1 && <Tab value={9} label="Liabilities" />}
+          {caseTypes != 1 && <Tab value={10} label={"Integrity & \nEthics"} />}
+          {caseTypes != 1 && <Tab value={11} label={"Employment"} />}
+          {caseTypes != 1 && <Tab value={12} label={"Declarations"} />}
+          {caseTypes != 1 && <Tab value={13} label="Other Agency Info" />}
+          {caseTypes != 1 && <Tab value={14} label="Tax Issues" />}
+          <Tab value={15} label={"Case Info"} />
+          <Tab value={16} label="Closing" />
 
-
+      
         </Tabs>
 
         <ProfileContextProvider>
@@ -759,7 +789,6 @@ export default function SubjectProfilePage() {
           <TabPanel value={activeTab} index={10}>
             <IntegrityIssues id={id} updateProfileData={updateProfileData} />
           </TabPanel>
-
           <TabPanel value={activeTab} index={11}>
             <Employment id={id} updateProfileData={updateProfileData} />
           </TabPanel>
@@ -784,6 +813,7 @@ export default function SubjectProfilePage() {
     </Page>
 
   )
+
 }
 
 
