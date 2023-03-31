@@ -70,8 +70,9 @@ export default function LoginForm({ setValueX }) {
           console.log('data status', data)
           setUserData(data);
           console.log(data, 'Login Data');
-
+          
           localStorage.setItem('userData', data);
+          localStorage.setItem('userGroup', data.groupName)
 
           showSuccessAlert('Login Success');
 
