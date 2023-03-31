@@ -734,8 +734,8 @@ export default function SubjectProfilePage() {
           {caseTypes != 1 && <Tab value={12} label={"Declarations"} />}
           {caseTypes != 1 && <Tab value={13} label="Other Agency Info" />}
           {caseTypes != 1 && <Tab value={14} label="Tax Issues" />}
-          <Tab value={15} label={"Case Info"} />
-          <Tab value={16} label="Closing" />
+          <Tab value={1} label={"Case Info"} />
+          <Tab value={15} label="Closing" />
 
       
         </Tabs>
@@ -749,7 +749,7 @@ export default function SubjectProfilePage() {
 
           <TabPanel value={activeTab} index={0}>
             <BioData id={id} setProfileAdded={setProfile}
-              type={type} setCaseAdded={setCaseData} updateProfileData={updateProfileData} />
+              type={type} setCaseAdded={setCaseData} updateProfileData={updateProfileData} details = {caseD}/>
           </TabPanel>
 
           <TabPanel value={activeTab} index={2}>
