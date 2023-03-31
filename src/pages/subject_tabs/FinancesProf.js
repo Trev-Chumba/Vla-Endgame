@@ -36,7 +36,10 @@ import SearchNotFound from 'src/components/SearchNotFound';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
-
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import SunEditor from "suneditor-react";
+import "suneditor/dist/css/suneditor.min.css";
 
 
 
@@ -104,7 +107,7 @@ export default function FinancesProf({ id, updateProfileData }) {
   const [profileData, setProfileData] = useState(profile)
 
   const [otherResidents, setOtherResidents] = useState(financialProfile)
-
+  const [remark, setremark] = useState('')
   const [accountData, setAccountData] = useState({})
 
   const [attachments, setAttachment] = useState(undefined)
@@ -255,8 +258,16 @@ export default function FinancesProf({ id, updateProfileData }) {
   }
 
 
-
-
+  let newRemark
+  // const handleChange=(event,editor)=>{
+  //   setremark(editor.getData());
+  //   console.log('Updated Remarks', newRemark)
+  //   }
+  const handlesun = (content) =>
+  {
+    console.log(content, 'sun log content')
+    setremark(content)
+  }
   const RegisterSchema = Yup.object().shape({
     serviceProvider: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required Field'),
     accountName: Yup.string().matches(stringRegExp,"Only Characters are allowed").max(50,"Too Long!"),
@@ -267,9 +278,9 @@ export default function FinancesProf({ id, updateProfileData }) {
     totalCredit: Yup.string().matches(numericRegExp,"Only digits are allowed"),
     totalDebit: Yup.string().matches(numericRegExp,"Only digits are allowed"),
     dateOfInquiry: Yup.string(),
-    remarks: Yup.string()
+    
   });
-
+  
 
   const formik = useFormik({
     initialValues: {
@@ -295,6 +306,7 @@ export default function FinancesProf({ id, updateProfileData }) {
       values.subjectID = subjectID;
       values.userID = userID;
       values.accID = accountData.acc_ID;
+      values.remarks = remark;
 
       console.log(values,"VAlues")
       
@@ -524,17 +536,43 @@ export default function FinancesProf({ id, updateProfileData }) {
 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
 
 
-  <TextField
+  {/* <TextField
     fullWidth
     label="Remarks"
     multiline
     rows={3}
     {...getFieldProps('remarks')}
 
-  />
+  /> */}
 
 </Stack>
+<Stack>
+      
 
+<SunEditor
+          setOptions={{
+            buttonList: [
+              ["font", "fontSize", "formatBlock"],
+              [
+                "bold",
+                "underline",
+                "italic",
+                "strike",
+                "subscript",
+                "superscript",
+              ],
+              ["align", "horizontalRule", "list", "table"],
+              ["fontColor", "hiliteColor"],
+              ["outdent", "indent"],
+              ["undo", "redo"],
+              ["removeFormat"],
+              ["outdent", "indent"],
+              ["link"],]
+            }
+          }
+          onChange = {handlesun}
+          />
+</Stack>
 </Stack>
 
 <CardActions sx={{ marginTop: 2 }}>
