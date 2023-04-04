@@ -100,7 +100,7 @@ export default function BatchProfiles() {
   // const [allData, setAllData] = useState([])
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [fileName, setFileName] = useState(undefined)
-  //const [caseList, setCaseList] = useState([]);
+  const [caseList, setCaseList] = useState([]);
   const [showButton, setshowButton] = useState(false)
   
 
@@ -182,7 +182,7 @@ export default function BatchProfiles() {
 
 
 
-  let mappedList
+  let mappedList = []
   const isUserNotFound = filteredUsers.length === 0;
   const hiddenfileInput = useRef(null);
   const handleFile  = event => {
@@ -207,11 +207,12 @@ export default function BatchProfiles() {
       mappedList = results.data.map(element => ({Id: element.Id}));
       
       console.log('List is mapped ::', mappedList);
-      
+      setCaseList(mappedList)
+      console.log('List is mapped2 ::', caseList);
      }
 
     })
-
+    console.log('List is mapped2 ::', caseList);
   };
   return (
     <Page title="KRA VLA | Search Batch">
