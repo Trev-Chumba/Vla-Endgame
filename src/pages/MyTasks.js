@@ -169,30 +169,6 @@ export default function MyTasks() {
   }, []);
 
   const isUserNotFound = filteredUsers.length === 0;
-  // console.log('filtered users', filteredUsers);
-  // console.log('allData', allData);
-
-  // allData.forEach(function (item, index) {
-  //   if (item.inquryID == 84) {
-  //     console.log(item);
-  //     console.log(item.inquryID);
-  //   }
-  // });
-
-  // filteredUsers.forEach(function (item, index) {
-  //   if (item.inquiryID == 84) {
-  //     console.log(item);
-  //     console.log(item.inquiryID);
-  //   }
-  // });
-
-  // if (allData.inquryID == filteredUsers.inquiryID) {
-  //   let allDets = filteredUsers.map((item, i) => Object.assign({}, item, allData[i]));
-  //   console.log('All dets', allDets);
-  // }
-
-  // let allDetails = filteredUsers.map((item, i) => Object.assign({}, item, allData[i]));
-  // console.log('All details', allDetails);
 
   const mergedArr = filteredUsers.map((obj1) => {
     const obj2 = allData.find((obj2) => obj1.inquiryID === obj2.inquryID);
@@ -203,7 +179,7 @@ export default function MyTasks() {
     }
   });
 
-  console.log(mergedArr);
+  //console.log(mergedArr);
 
   return (
     <Page title="KRA VLA - Tasks">
