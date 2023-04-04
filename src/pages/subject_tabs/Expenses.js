@@ -46,6 +46,9 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import SunEditor from "suneditor-react";
+import "suneditor/dist/css/suneditor.min.css";
+import ReactHtmlParser from 'react-html-parser';
 
 const TABLE_HEAD = [
   { id: 'description', label: 'Description of Expense', alignRight: false },
@@ -120,6 +123,7 @@ export default function Expenses({ id, updateProfileData }) {
   const [start_date, setStartDate] = useState(null);  
   const [end_date, setEndDate] = useState(null);
   const [expenseData, setExpenseData] = useState({})
+  const [remark, setremark] = useState('')
     
   const handleStartDate = (value) => {
       setStartDate(value)
@@ -155,7 +159,7 @@ export default function Expenses({ id, updateProfileData }) {
       description:expenseData.description||"",
       estValue:expenseData.estValue||"",
       dateOfExpense:expenseData.dateOfExpense||"",
-      remarks:expenseData.remarks||"",
+     // remarks:expenseData.remarks||"",
       start_date:expenseData.start_date||"",
       end_date:expenseData.end_date||"",
 
@@ -171,6 +175,7 @@ export default function Expenses({ id, updateProfileData }) {
       values.end_date = end_date
       values.validity='';
       values.travelID=expenseData.travelID;
+      values.remarks = remark
       if(!values.start_date){
         values.start_date=expenseData.start_date
       }
@@ -345,7 +350,11 @@ export default function Expenses({ id, updateProfileData }) {
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
   const isUserNotFound = filteredUsers.length === 0;
   
-
+  const handlesun = (content) =>
+  {
+    console.log(content, 'sun log content')
+    setremark(content)
+  }
 
   return (
     <Page>
@@ -476,14 +485,31 @@ export default function Expenses({ id, updateProfileData }) {
                   <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
 
 
-                    <TextField
-                      fullWidth
-                      label="Remarks"
-                      multiline
-                      rows={3}
-                      {...getFieldProps('remarks')}
-
-                    />
+                  <SunEditor
+                      setOptions={{
+                        buttonList: [
+                          ["font", "fontSize", "formatBlock"],
+                          [
+                            "bold",
+                            "underline",
+                            "italic",
+                            "strike",
+                            "subscript",
+                            "superscript",
+                          ],
+                          ["align", "horizontalRule", "list", "table"],
+                          ["fontColor", "hiliteColor"],
+                          ["outdent", "indent"],
+                          ["undo", "redo"],
+                          ["removeFormat"],
+                          ["outdent", "indent"],
+                          ["link"],]
+                        }
+                      }
+                    
+          onChange = {handlesun}
+          setContents= {expenseData.remarks}
+          />
 
                   </Stack>
 
@@ -586,7 +612,7 @@ export default function Expenses({ id, updateProfileData }) {
                         <TableCell align="left">{start_date}</TableCell>
                         <TableCell align="left">{end_date}</TableCell>
 
-                        <TableCell align="left">{remarks}</TableCell>
+                        <TableCell align="left">{ReactHtmlParser(remarks)}</TableCell>
                         <TableCell align="left">
                           <a href={attachments} target="_blank" rel="noopener noreferrer">{attachments}</a>
                         </TableCell>
