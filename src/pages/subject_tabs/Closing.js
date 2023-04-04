@@ -101,6 +101,7 @@ const vettingTypes =
 
 export default function Closing({ details, updateProfileData }) {
   //Multiselect checkbox
+  //console.log(details.inquiryType)
   const [personName, setPersonName] = React.useState([]);
   const [findingName, setFindingName] = React.useState([]);
 
@@ -202,7 +203,7 @@ export default function Closing({ details, updateProfileData }) {
 
               <CardContent>
                 <Stack spacing={3}>
-                {details.inquiryType =="Vetting" && <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                {details.inquiryType =="Vetting"  && <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     <TextField
                       fullWidth
                       label="Introduction"
@@ -280,7 +281,7 @@ export default function Closing({ details, updateProfileData }) {
                       </Select>
                     </FormControl>
                   </Stack>
-                  {details.inquiryType =="Vetting" && <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                  {details.inquiryType =="Vetting" || details.inquiryType == "Preliminary Investigation" && <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     <TextField
                       fullWidth
                       label="Way Forward"

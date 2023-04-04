@@ -40,7 +40,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
-
+import ReactHtmlParser from 'react-html-parser';
 
 
 const TABLE_HEAD = [
@@ -570,7 +570,9 @@ export default function FinancesProf({ id, updateProfileData }) {
               ["link"],]
             }
           }
+         
           onChange = {handlesun}
+          setContents= {accountData.remarks}
           />
 </Stack>
 </Stack>
@@ -650,7 +652,7 @@ export default function FinancesProf({ id, updateProfileData }) {
                             <TableCell align="left">
                               <a href={attachments} target="_blank" rel="noopener noreferrer">{attachments}</a>
                             </TableCell>
-                            <TableCell align="left">{remarks}</TableCell>
+                            <TableCell align="left">{ReactHtmlParser(remarks)}</TableCell>
                             <TableCell align="right">
                               <Button
                                 onClick={() => setAccountData(row)}>

@@ -13,7 +13,8 @@ import Logo from '../../components/Logo';
 import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 //
-import sidebarConfig from './SidebarConfig';
+ import sidebarConfig from './SidebarConfig';
+ import sidebarConfig2 from './SidebarConfig2';
 import { UserContext } from 'src/context/UserContext';
 
 // ----------------------------------------------------------------------
@@ -50,8 +51,17 @@ DashboardSidebar.propTypes = {
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
-
+  const userType = localStorage.getItem("userType")
   const isDesktop = useResponsive('up', 'lg');
+
+  //let sidebar = {};
+  // if(userType == 'comm')
+  // {
+  //   sidebar = sidebarConfig2
+  // }
+  // else{
+  //   sidebar  = sidebarConfig
+  // }
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -91,7 +101,11 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         }
       </UserContext.Consumer>
 
-      <NavSection navConfig={sidebarConfig} />
+      
+      <NavSection navConfig={(userType == 'comm') ? sidebarConfig2: sidebarConfig} />
+ 
+     
+      
       
 
       <Box sx={{ flexGrow: 1 }} />

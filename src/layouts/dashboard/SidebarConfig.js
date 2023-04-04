@@ -1,27 +1,37 @@
 // component
 import { Badge } from '@mui/material';
 import Iconify from '../../components/Iconify';
+// import { useState } from 'react';
 
 // ----------------------------------------------------------------------
 
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
-//const userType = localStorage.getItem("userType")
+const userGroup = localStorage.getItem('userGroup')
 //console.log('UserType',userType)
-
-const sidebarConfig1 = [
+let sidebarConfig1 = []
+sidebarConfig1 =  [
+  
   {
+    
     header : "PROFILE",
     items : [
       {
-        title: 'dashboard',
+         title: 'dashboard',
         path:'/dashboard/app',
         icon: getIcon('eva:pie-chart-2-fill')
       },
-      {
+     { 
+      
         title : 'Search Subject',
         path : '/dashboard/search-subject',
         icon: getIcon('eva:person-fill')
+      },
+  
+      {
+        title : 'Search Batch',
+        path : '/dashboard/search-batch',
+        icon: getIcon('eva:people-fill')
       }, 
       {
         title: 'New Profile',
