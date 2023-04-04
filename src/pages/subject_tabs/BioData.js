@@ -118,6 +118,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
     idNo: Yup.string()
       .required('ID Number is required')
       .matches(id_regex, 'Only valid Kenyan ID allowed'),
+    PNo: Yup.string(),
     street_name: Yup.string().max(50, 'Too long!'),
     dob: Yup.date(),
     gender: Yup.string().required('select gender'),
@@ -159,6 +160,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
       subject_name: profileData.subject_Name || '',
       email: profileData.email || '',
       idNo: profileData.idNo || '',
+      PNo: profileData.PNo || '',
       street_name: profileData.street_Name || '',
       dob: dbDob || '',
       gender: profileData.gender || 'Select Gender',
@@ -418,7 +420,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
                         // disabled
                         fullWidth
                         label="Subject name"
-                        disabled = "true"
+                        disabled="true"
                         {...getFieldProps('subject_name')}
                         error={Boolean(touched.subject_name && errors.subject_name)}
                         helperText={touched.subject_name && errors.subject_name}
@@ -428,10 +430,19 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
                         // disabled
                         fullWidth
                         label="National ID/ Passport No"
-                        disabled = "true"
+                        disabled="true"
                         {...getFieldProps('idNo')}
                         error={Boolean(touched.idNo && errors.idNo)}
                         helperText={touched.idNo && errors.idNo}
+                      />
+
+                      <TextField
+                        // disabled
+                        fullWidth
+                        label="Personal No"
+                        {...getFieldProps('PNo')}
+                        error={Boolean(touched.PNo && errors.PNo)}
+                        helperText={touched.PNo && errors.PNo}
                       />
                     </Stack>
 

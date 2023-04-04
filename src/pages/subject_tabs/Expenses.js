@@ -48,6 +48,9 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css';
+import ReactHtmlParser from 'react-html-parser';
 
 const TABLE_HEAD = [
   { id: 'description', label: 'Description of Expense', alignRight: false },
@@ -118,6 +121,7 @@ export default function Expenses({ id, updateProfileData }) {
   const [parsedData, setParsedData] = useState([]);
   const [values, setValues] = useState([]);
   const [tableRows, setTableRows] = useState([]);
+  const [remark, setremark] = useState('');
 
   const [subjectID, setSubjectID] = useState(profile.subjectID);
   const [start_date, setStartDate] = useState(null);
@@ -137,6 +141,11 @@ export default function Expenses({ id, updateProfileData }) {
   const stringRegExp = /^[aA-zZ\s]+$/;
   const numericRegExp = /^[0-9]+$/;
 
+  const handlesun = (content) => {
+    console.log(content, 'sun log content');
+    setremark(content);
+  };
+
   const RegisterSchema = Yup.object().shape({
     // description: Yup.string().max(50, 'Too Long!').required('description required'),
     // estValue: Yup.number(),
@@ -145,7 +154,7 @@ export default function Expenses({ id, updateProfileData }) {
 
     description: Yup.string().max(50, 'Too Long!').required('description required'),
     estValue: Yup.string().matches(numericRegExp, 'Only digits allowed!'),
-    remarks: Yup.string(),
+    //remarks: Yup.string(),
     // dateOfExpense: Yup.string()
     start_date: Yup.date(),
     end_date: Yup.date()
@@ -170,6 +179,7 @@ export default function Expenses({ id, updateProfileData }) {
       values.end_date = end_date;
       values.validity = '';
       values.travelID = expenseData.travelID;
+      values.remarks = remark;
       if (!values.start_date) {
         values.start_date = expenseData.start_date;
       }
@@ -422,48 +432,25 @@ export default function Expenses({ id, updateProfileData }) {
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}></Stack>
                   </Stack>
 
-                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                    <TextField
-                      fullWidth
-                      label="Remarks"
-                      multiline
-                      rows={3}
-                      {...getFieldProps('remarks')}
+                  <Stack>
+                    <p>Remarks</p>
+                    <SunEditor
+                      setOptions={{
+                        buttonList: [
+                          ['font', 'fontSize', 'formatBlock'],
+                          ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                          ['align', 'horizontalRule', 'list', 'table'],
+                          ['fontColor', 'hiliteColor'],
+                          ['outdent', 'indent'],
+                          ['undo', 'redo'],
+                          ['removeFormat'],
+                          ['outdent', 'indent'],
+                          ['link']
+                        ]
+                      }}
+                      onChange={handlesun}
+                      placeholder="Remarks"
                     />
-
-                    <div>
-                      {/* File Uploader */}
-                      <input
-                        type="file"
-                        name="file"
-                        onChange={changeHandler}
-                        accept=".csv"
-                        style={{ display: 'block', margin: '10px auto' }}
-                      />
-                      <br />
-                      <br />
-                      {/* Table */}
-                      <table>
-                        <thead>
-                          <tr>
-                            {tableRows.map((rows, index) => {
-                              return <th key={index}>{rows}</th>;
-                            })}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {values.map((value, index) => {
-                            return (
-                              <tr key={index}>
-                                {value.map((val, i) => {
-                                  return <td key={i}>{val}</td>;
-                                })}
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
                   </Stack>
 
                   <Button variant="contained" sx={{ marginTop: 2 }} onClick={() => handleSubmit()}>
@@ -563,7 +550,7 @@ export default function Expenses({ id, updateProfileData }) {
                         <TableCell align="left">{start_date}</TableCell>
                         <TableCell align="left">{end_date}</TableCell>
 
-                        <TableCell align="left">{remarks}</TableCell>
+                        <TableCell align="left">{ReactHtmlParser(remarks)}</TableCell>
                         <TableCell align="left">
                           <a href={attachments} target="_blank" rel="noopener noreferrer">
                             {attachments}
