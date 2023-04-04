@@ -465,6 +465,15 @@ export default function BioData({
                         error={Boolean(touched.PNo && errors.PNo)}
                         helperText={touched.PNo && errors.PNo}
                       />
+
+                      <Button fullWidth component="label" variant="outlined">
+                        Attach Photo
+                        <input
+                          type="file"
+                          hidden
+                          onChange={(event) => setAttachment(event.target.files)}
+                        />
+                      </Button>
                     </Stack>
 
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>

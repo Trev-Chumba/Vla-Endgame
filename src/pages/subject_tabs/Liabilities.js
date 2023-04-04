@@ -42,7 +42,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 
 const TABLE_HEAD = [
-  { id: 'description', label: 'Description of Asset', alignRight: false },
+  { id: 'description', label: 'Description of Liability', alignRight: false },
   { id: 'estValue', label: 'Estimated  Value.', alignRight: false },
   // { id: 'estAcquisition', label: 'Estimated Acquisition Value', alignRight: false },
   { id: 'date', label: 'Date', alignRight: false },
@@ -251,7 +251,7 @@ export default function ResidentialProfile({ id, updateProfileData }) {
   const RegisterSchema = Yup.object().shape({
     description: Yup.string().required('This is a required filed').max(50, 'Too Long!'),
     estValue: Yup.string().matches(numericRegExp, 'Only digits are allowed'),
-    // estAcquisition: Yup.string().matches(numericRegExp,"Only digits are allowed"),
+    estAcquisition: Yup.string().matches(numericRegExp, 'Only digits are allowed'),
     remarks: Yup.string(),
     type: Yup.string(),
     date: Yup.string()
@@ -262,7 +262,7 @@ export default function ResidentialProfile({ id, updateProfileData }) {
       type: assetsData.type || '',
       description: assetsData.description || '',
       estValue: assetsData.estValue || '',
-      // estAcquisition: assetsData.estAcquisition || "",
+      estAcquisition: assetsData.estAcquisition || '',
       remarks: assetsData.remarks || '',
       date: assetsData.date || ''
     },
@@ -365,6 +365,14 @@ export default function ResidentialProfile({ id, updateProfileData }) {
                         <TextField
                           fullWidth
                           label="Amount"
+                          {...getFieldProps('estValue')}
+                          error={Boolean(touched.estValue && errors.estValue)}
+                          helperText={touched.estValue && errors.estValue}
+                        />
+
+                        <TextField
+                          fullWidth
+                          label="Current Value"
                           {...getFieldProps('estValue')}
                           error={Boolean(touched.estValue && errors.estValue)}
                           helperText={touched.estValue && errors.estValue}
