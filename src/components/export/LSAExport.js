@@ -743,7 +743,6 @@ export default function LSAExport(props) {
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>
               Estimation Acquisition Value
             </Text>
-
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
           </View>
 

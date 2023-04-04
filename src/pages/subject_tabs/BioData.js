@@ -27,7 +27,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 
-export default function BioData({ id, setProfileAdded, type, setCaseAdded, updateProfileData }) {
+export default function BioData({
+  id,
+  setProfileAdded,
+  type,
+  setCaseAdded,
+  updateProfileData,
+  details
+}) {
+  console.log('Bio case dats:::', type, details);
   const alert = useAlert();
 
   const showInfoAlert = (message) => {
@@ -152,7 +160,8 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
     twitter_username: Yup.string(),
     facebook_username: Yup.string(),
     place_of_birth: Yup.string(),
-    remarks: Yup.string()
+    remarks: Yup.string(),
+    pNo: Yup.string()
   });
 
   const formik = useFormik({
@@ -336,7 +345,19 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
   // const navigateProfile = () => {
   //     navigate('/dashboard/profile/SP/' + subjectData.naID)
   //   };
+  const officerdata = localStorage.getItem('userGroup');
 
+  console.log('User group', officerdata);
+  const verifyLSA = () => {
+    if (details.status != 4) {
+      showErrorAlert('Must have completed this Preliminary report');
+    }
+    if (officerdata != 'Mngr') {
+      showErrorAlert('Only managers to open');
+    } else {
+      setConfirmLsaOpen(true);
+    }
+  };
   return (
     <Container>
       <FormikProvider value={formik}>
@@ -383,7 +404,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
                         <Button
                           variant="contained"
                           sx={{ marginRight: 2, background: '#E04800' }}
-                          onClick={() => setConfirmLsaOpen(true)}
+                          onClick={verifyLSA}
                         >
                           OPEN LSA CASE
                         </Button>

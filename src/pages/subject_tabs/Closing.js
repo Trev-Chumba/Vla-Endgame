@@ -65,13 +65,47 @@ const findings = [
   'Inconclusive report due to non-commissioned Background check authorization form',
   'Inconclusive report due to missing Background check authorization form'
 ];
+
+const vettingTypes = 
+[
+  {
+    label: 'Promotion',
+    value: 'Promotion',
+  },
+  {
+    value: 'Deployment',
+    label: 'Deployment'
+  },
+  {
+    value: 'Contract Renewal',
+    label: 'Contract Renewal'
+  },
+  {
+    value: 'Resignation',
+    label: 'Resignation'
+  },
+  {
+    value: 'Retirement',
+    label: 'Retirement'
+  },
+  {
+    value: 'Appointment',
+    label: 'Appointment'
+  },
+  {
+    value: 'Conversions',
+    label: 'Conversions'
+  },
+  
+]
+
 export default function Closing({ details, updateProfileData }) {
   //Multiselect checkbox
   const [personName, setPersonName] = React.useState([]);
   const [findingName, setFindingName] = React.useState([]);
 
   const { userData } = useContext(UserContext);
-
+  
   const handleChangeRec = (event) => {
     const {
       target: { value }
@@ -102,7 +136,9 @@ export default function Closing({ details, updateProfileData }) {
   const RegisterSchema = Yup.object().shape({
     remarks: Yup.string(),
     cFindings: Yup.string(),
-    findings: Yup.string()
+    findings: Yup.string(),
+    forward: Yup.string(),
+    introduction : Yup.string()
   });
 
   const formik = useFormik({
@@ -166,6 +202,26 @@ export default function Closing({ details, updateProfileData }) {
 
               <CardContent>
                 <Stack spacing={3}>
+                {details.inquiryType =="Vetting" && <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                    <TextField
+                      fullWidth
+                      label="Introduction"
+                      multiline
+                      rows={3}
+                      {...getFieldProps('introduction')}
+                    />
+                  </Stack>}
+                  {details.inquiryType =="Vetting" && 
+                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                  <TextField fullWidth select label="Types of Vetting" {...getFieldProps('type')}>
+                          {vettingTypes.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                </Stack>
+                  }
                   <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     <FormControl sx={{ m: 1, width: 1000 }}>
                       <InputLabel id="findings-multiple-checkbox-label">
@@ -224,7 +280,15 @@ export default function Closing({ details, updateProfileData }) {
                       </Select>
                     </FormControl>
                   </Stack>
-
+                  {details.inquiryType =="Vetting" && <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                    <TextField
+                      fullWidth
+                      label="Way Forward"
+                      multiline
+                      rows={3}
+                      {...getFieldProps('forward')}
+                    />
+                  </Stack>}
                   <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     <TextField
                       fullWidth
