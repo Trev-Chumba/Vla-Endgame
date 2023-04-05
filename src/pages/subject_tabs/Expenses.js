@@ -625,9 +625,6 @@ export default function Expenses({ id, updateProfileData }) {
 
                             </TableCell>
 
-
-
-
                         {/* <TableCell align="right">
                           <RouterLink to={"/dashboard/profile/"+idNo}>
                             <FontAwesomeIcon icon={faEye}/>
