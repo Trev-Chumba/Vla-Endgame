@@ -40,12 +40,13 @@ sidebarConfig1 =  [
         title: 'New Profile',
         path: '/dashboard/profile',
         icon: getIcon('eva:person-fill')
-      },...
-      (userGroup !=  'I.O'?{
+      },
+      // (userGroup !=  'I.O'?
+      {
         title : 'All Profiles',
         path : '/dashboard/all-profiles',
         icon: getIcon('eva:person-fill')
-      }: []),
+      },
     
     ]
   },
