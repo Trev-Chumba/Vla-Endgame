@@ -38,6 +38,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
+import { UserListHead2 } from 'src/sections/@dashboard/user/UserListHead2';
 
 // ----------------------------------------------------------------------
 
@@ -203,7 +204,7 @@ export default function SubjectProfiles() {
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <UserListHead
+                <UserListHead2
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}

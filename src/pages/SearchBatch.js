@@ -102,6 +102,7 @@ export default function BatchProfiles() {
   const [fileName, setFileName] = useState(undefined)
   const [caseList, setCaseList] = useState([]);
   const [showButton, setshowButton] = useState(false)
+  const [batchNo, setBatchNo] = useState('')
   
 
   const handleRequestSort = (event, property) => {
@@ -109,7 +110,13 @@ export default function BatchProfiles() {
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
-
+  const showErrorAlert = (message) => {
+    alert.error(message);
+  };
+  
+  const showSuccessAlert = (message) => {
+    alert.success(message);
+  };
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = USERLIST.map((n) => n.name);
@@ -157,37 +164,6 @@ export default function BatchProfiles() {
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
 
-  useEffect(()=>{
-
-    const requestBody = {
-        subjectID:"",
-        idNo: ""
-    }
-
-    FetchApi.post(FIND_SUBJECT_ID, requestBody, (status, data) => {
-      if(status){
-        console.log(data)
-        const users = applySortFilter(data, getComparator(order, orderBy), filterName);
-        setFilteredUsers(users)
-        setAllData(users)
-        
-      }else{
-        //some error
-      }
-    })
-
-  }, []) 
-
-
-
-
-
-  let mappedList = []
-  const isUserNotFound = filteredUsers.length === 0;
-  const hiddenfileInput = useRef(null);
-  const handleFile  = event => {
-    hiddenfileInput.current.click();
-  };
   const changeHandler = (event) => {
     setFileName(event.target.files[0])
     Papa.parse(event.target.files[0],{
@@ -212,8 +188,54 @@ export default function BatchProfiles() {
      }
 
     })
-    console.log('List is mapped2 ::', caseList);
+   
   };
+  const BatchInfo = {
+    batchNo: batchNo,
+    data: caseList
+  };
+  
+
+  useEffect(()=>{
+
+    const requestBody = {
+        subjectID:"",
+        idNo: ""
+    }
+
+    FetchApi.post(FIND_SUBJECT_ID, requestBody, (status, data) => {
+      if(status){
+        console.log(data)
+        const users = applySortFilter(data, getComparator(order, orderBy), filterName);
+        setFilteredUsers(users)
+        setAllData(users)
+        
+      }else{
+        //some error
+      }
+    })
+
+  }, []) ;
+  const hiddenfileInput = useRef(null);
+  const handleFile  = event => {
+    hiddenfileInput.current.click();
+  };
+  const checkSubmit = () =>
+  {
+    if(caseList && batchNo)
+    {
+      console.log('List is mapped2 ::', BatchInfo);
+    }
+    else{
+      showErrorAlert('Please make an attachment and provide a ref no as batch number')
+    }
+  }
+  let mappedList = []
+  const isUserNotFound = filteredUsers.length === 0;
+  
+  
+  
+  
   return (
     <Page title="KRA VLA | Search Batch">
       <Container>
@@ -237,6 +259,12 @@ export default function BatchProfiles() {
                      <TextField
                      fullWidth
                         label="Input Batch no"
+                        type='text'
+                        onChange={
+                          (e) => {
+                            setBatchNo(e.target.value);
+                        }
+                        }
                       />
                     </Box>
                     <div>
@@ -267,7 +295,7 @@ export default function BatchProfiles() {
                       <Button
                           variant="contained"
                           sx={{ marginRight: 2, background: '#00B23A' }}
-                         // onClick={openBackgroundCheck}
+                         onClick={checkSubmit}
                         >
                           Upload batch
                         </Button>
@@ -374,10 +402,9 @@ export default function BatchProfiles() {
       </Container>
     </Page>
   );
-}
 
 
 
 
-
+                };
 

@@ -35,7 +35,7 @@ sidebarConfig1 =  [
         title : 'Search Batch',
         path : '/dashboard/search-batch',
         icon: getIcon('eva:people-fill')
-      }: []), 
+      }:[]), 
       {
         title: 'New Profile',
         path: '/dashboard/profile',
