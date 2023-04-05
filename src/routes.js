@@ -18,6 +18,7 @@ import MyCases from './pages/MyCases';
 import SearchSubject from './pages/SearchSubject';
 import MyTasks from './pages/MyTasks';
 import CommDashboard from './pages/CommDashboard';
+import BatchProfiles from './pages/SearchBatch';
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +43,7 @@ export default function Router() {
         { path: 'search-subject', element:<SearchSubject/>},
         { path: 'my-tasks', element: <MyTasks />},
         { path: 'comm', element: <CommDashboard /> },
-        { path: 'search-batch', element: <DashboardApp /> }
+        { path: 'search-batch', element: <BatchProfiles /> }
 
       ]
     },

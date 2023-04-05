@@ -48,8 +48,8 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
-import SunEditor from 'suneditor-react';
-import 'suneditor/dist/css/suneditor.min.css';
+import SunEditor from "suneditor-react";
+import "suneditor/dist/css/suneditor.min.css";
 import ReactHtmlParser from 'react-html-parser';
 
 const TABLE_HEAD = [
@@ -126,25 +126,19 @@ export default function Expenses({ id, updateProfileData }) {
   const [subjectID, setSubjectID] = useState(profile.subjectID);
   const [start_date, setStartDate] = useState(null);
   const [end_date, setEndDate] = useState(null);
-  const [expenseData, setExpenseData] = useState({});
-
+  const [expenseData, setExpenseData] = useState({})
+    
   const handleStartDate = (value) => {
     setStartDate(value);
     setEndDate(value);
   };
 
   const handleEndDate = (value) => {
-    setEndDate(value);
-  };
-  const phoneRegExp =
-    /^((\\+[1-9]{1,4})|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-  const stringRegExp = /^[aA-zZ\s]+$/;
-  const numericRegExp = /^[0-9]+$/;
-
-  const handlesun = (content) => {
-    console.log(content, 'sun log content');
-    setremark(content);
-  };
+      setEndDate(value)
+    }
+    const phoneRegExp = /^((\\+[1-9]{1,4})|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+    const stringRegExp= /^[aA-zZ\s]+$/
+    const numericRegExp= /^[0-9]+$/
 
   const RegisterSchema = Yup.object().shape({
     // description: Yup.string().max(50, 'Too Long!').required('description required'),
@@ -162,12 +156,14 @@ export default function Expenses({ id, updateProfileData }) {
 
   const formik = useFormik({
     initialValues: {
-      description: expenseData.description || '',
-      estValue: expenseData.estValue || '',
-      dateOfExpense: expenseData.dateOfExpense || '',
-      remarks: expenseData.remarks || '',
-      start_date: expenseData.start_date || '',
-      end_date: expenseData.end_date || ''
+      
+      description:expenseData.description||"",
+      estValue:expenseData.estValue||"",
+      dateOfExpense:expenseData.dateOfExpense||"",
+     // remarks:expenseData.remarks||"",
+      start_date:expenseData.start_date||"",
+      end_date:expenseData.end_date||"",
+
     },
     validationSchema: RegisterSchema,
     enableReinitialize: true,
@@ -176,12 +172,12 @@ export default function Expenses({ id, updateProfileData }) {
       values.userID = userID;
       // values.dateOfExpense=dateOfExpense;
       values.start_date = start_date;
-      values.end_date = end_date;
-      values.validity = '';
-      values.travelID = expenseData.travelID;
-      values.remarks = remark;
-      if (!values.start_date) {
-        values.start_date = expenseData.start_date;
+      values.end_date = end_date
+      values.validity='';
+      values.travelID=expenseData.travelID;
+      values.remarks = remark
+      if(!values.start_date){
+        values.start_date=expenseData.start_date
       }
       if (!values.end_date) {
         values.end_date = expenseData.end_date;
@@ -337,6 +333,12 @@ export default function Expenses({ id, updateProfileData }) {
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
   const isUserNotFound = filteredUsers.length === 0;
+  
+  const handlesun = (content) =>
+  {
+    console.log(content, 'sun log content')
+    setremark(content)
+  }
 
   return (
     <Page>
@@ -432,25 +434,35 @@ export default function Expenses({ id, updateProfileData }) {
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}></Stack>
                   </Stack>
 
-                  <Stack>
-                    <p>Remarks</p>
-                    <SunEditor
+                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+
+
+                  <SunEditor
                       setOptions={{
                         buttonList: [
-                          ['font', 'fontSize', 'formatBlock'],
-                          ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
-                          ['align', 'horizontalRule', 'list', 'table'],
-                          ['fontColor', 'hiliteColor'],
-                          ['outdent', 'indent'],
-                          ['undo', 'redo'],
-                          ['removeFormat'],
-                          ['outdent', 'indent'],
-                          ['link']
-                        ]
-                      }}
-                      onChange={handlesun}
-                      placeholder="Remarks"
-                    />
+                          ["font", "fontSize", "formatBlock"],
+                          [
+                            "bold",
+                            "underline",
+                            "italic",
+                            "strike",
+                            "subscript",
+                            "superscript",
+                          ],
+                          ["align", "horizontalRule", "list", "table"],
+                          ["fontColor", "hiliteColor"],
+                          ["outdent", "indent"],
+                          ["undo", "redo"],
+                          ["removeFormat"],
+                          ["outdent", "indent"],
+                          ["link"],]
+                        }
+                      }
+                    
+          onChange = {handlesun}
+          setContents= {expenseData.remarks}
+          />
+
                   </Stack>
 
                   <Button variant="contained" sx={{ marginTop: 2 }} onClick={() => handleSubmit()}>

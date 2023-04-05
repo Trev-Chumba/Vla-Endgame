@@ -40,11 +40,12 @@ import SearchNotFound from 'src/components/SearchNotFound';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import SunEditor from 'suneditor-react';
-import 'suneditor/dist/css/suneditor.min.css';
+// import { CKEditor } from '@ckeditor/ckeditor5-react';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import SunEditor from "suneditor-react";
+import "suneditor/dist/css/suneditor.min.css";
 import ReactHtmlParser from 'react-html-parser';
+
 
 const TABLE_HEAD = [
   { id: 'accountName', label: 'Account Name', alignRight: false },
@@ -499,28 +500,38 @@ export default function FinancesProf({ id, updateProfileData }) {
     {...getFieldProps('remarks')}
 
   /> */}
-                      </Stack>
-                      <Stack>
-                        <p>Remarks</p>
-                        <SunEditor
-                          setOptions={{
-                            buttonList: [
-                              ['font', 'fontSize', 'formatBlock'],
-                              ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
-                              ['align', 'horizontalRule', 'list', 'table'],
-                              ['fontColor', 'hiliteColor'],
-                              ['outdent', 'indent'],
-                              ['undo', 'redo'],
-                              ['removeFormat'],
-                              ['outdent', 'indent'],
-                              ['link']
-                            ]
-                          }}
-                          onChange={handlesun}
-                          placeholder="Remarks"
-                        />
-                      </Stack>
-                    </Stack>
+
+</Stack>
+<Stack>
+      
+
+<SunEditor
+          setOptions={{
+            buttonList: [
+              ["font", "fontSize", "formatBlock"],
+              [
+                "bold",
+                "underline",
+                "italic",
+                "strike",
+                "subscript",
+                "superscript",
+              ],
+              ["align", "horizontalRule", "list", "table"],
+              ["fontColor", "hiliteColor"],
+              ["outdent", "indent"],
+              ["undo", "redo"],
+              ["removeFormat"],
+              ["outdent", "indent"],
+              ["link"],]
+            }
+          }
+         
+          onChange = {handlesun}
+          setContents= {accountData.remarks}
+          />
+</Stack>
+</Stack>
 
                     <CardActions sx={{ marginTop: 2 }}>
                       <Button
