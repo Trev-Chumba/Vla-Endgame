@@ -31,7 +31,9 @@ export function UserListHead2({
   return (
     <TableHead>
       <TableRow>
-       
+      <TableCell padding="checkbox">
+         
+        </TableCell>
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}

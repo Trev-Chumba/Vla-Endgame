@@ -16,22 +16,22 @@ const sidebarConfig2 = [
       {
         title: 'dashboard',
         path:'/dashboard/comm',
-        icon: getIcon('eva:pie-chart-2-fill')
+       // icon: getIcon('eva:pie-chart-2-fill')
       },
       {
         title : 'Search Subject',
         path : '/dashboard/search-subject',
-        icon: getIcon('eva:person-fill')
+       // icon: getIcon('eva:person-fill')
       }, 
       {
         title : 'Search Batch',
         path : '/dashboard/search-batch',
-        icon: getIcon('eva:people-fill')
+       // icon: getIcon('eva:people-fill')
       },
       {
         title: 'New Profile',
         path: '/dashboard/profile',
-        icon: getIcon('eva:person-fill')
+       // icon: getIcon('eva:person-fill')
       },
       {
         title : 'All Profiles',

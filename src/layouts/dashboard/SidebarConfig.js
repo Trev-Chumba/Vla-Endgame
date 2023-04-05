@@ -21,20 +21,20 @@ sidebarConfig1 = [
         path: '/dashboard/app',
         icon: getIcon('eva:pie-chart-2-fill')
       },
-      userGroup != 'I.O'
+      ...(userGroup != 'I.O'
         ? {
             title: 'Search Subject',
             path: '/dashboard/search-subject',
             icon: getIcon('eva:person-fill')
           }
-        : [],
-      userGroup != 'I.O'
+        : []),
+      ...(userGroup != 'I.O'
         ? {
             title: 'Search Batch',
             path: '/dashboard/search-batch',
             icon: getIcon('eva:people-fill')
           }
-        : [],
+        : []),
       {
         title: 'New Profile',
         path: '/dashboard/profile',
