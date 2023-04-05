@@ -136,7 +136,7 @@ export default function PIExport(props) {
 
         <Text style={styles.textSubHeader}>1.0 Introduction</Text>
 
-        <Text style={styles.textBody}>
+        {/* <Text style={styles.textBody}>
           The subject name is {bioData.subject_Name}, the subject's date of birth is {bioData.dob}
           {'\n'}
         </Text>
@@ -152,7 +152,7 @@ export default function PIExport(props) {
         <Text style={styles.textBody}>
           The subject's known location is at {bioData.location} at {bioData.county}.{'\n'}
         </Text>
-        <Text style={styles.textBody}>The executive summary is: {caseDetails.esummary}</Text>
+        <Text style={styles.textBody}>The executive summary is: {caseDetails.esummary}</Text> */}
 
         <Text style={styles.textSubHeader}>1.1 Objective of the Preliminary Lifestyle Audit</Text>
         <Text style={styles.textBody}>
@@ -179,11 +179,11 @@ export default function PIExport(props) {
         <Text style={styles.textBody}>{caseDetails.findings}</Text>
 
         <Text style={styles.textSubHeader}>2.0 Way Forward</Text>
-        <Text style={styles.textBody}>{caseDetails.remarks}</Text>           
+        <Text style={styles.textBody}>{caseDetails.remarks}</Text>
         <Text style={styles.textSubHeader}>3.0 Recommendation</Text>
-        
+
         <Text style={styles.textBody}>{caseDetails.recomentation}</Text>
-        
+
         <Text style={styles.textSubHeader}>4.0 Findings</Text>
         <Text style={styles.textBody}>{caseDetails.findings}</Text>
         <Text
