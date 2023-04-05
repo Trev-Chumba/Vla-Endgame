@@ -43,8 +43,8 @@ import DatePicker from '@mui/lab/DatePicker';
 
 const TABLE_HEAD = [
   { id: 'description', label: 'Description of Liability', alignRight: false },
-  { id: 'estValue', label: 'Estimated  Value.', alignRight: false },
-  // { id: 'estAcquisition', label: 'Estimated Acquisition Value', alignRight: false },
+  { id: 'estValue', label: 'Estimated Value.', alignRight: false },
+  { id: 'estAcquisition', label: 'Estimated Current Value', alignRight: false },
   { id: 'date', label: 'Date', alignRight: false },
 
   { id: 'remarks', label: 'Remarks', alignRight: false },
@@ -361,21 +361,19 @@ export default function ResidentialProfile({ id, updateProfileData }) {
                           error={Boolean(touched.description && errors.description)}
                           helperText={touched.description && errors.description}
                         />
-
                         <TextField
                           fullWidth
-                          label="Amount"
+                          label="Value of Liability"
                           {...getFieldProps('estValue')}
                           error={Boolean(touched.estValue && errors.estValue)}
                           helperText={touched.estValue && errors.estValue}
                         />
-
                         <TextField
                           fullWidth
                           label="Current Value"
-                          {...getFieldProps('estValue')}
-                          error={Boolean(touched.estValue && errors.estValue)}
-                          helperText={touched.estValue && errors.estValue}
+                          {...getFieldProps('estAcquisition')}
+                          error={Boolean(touched.estAcquisition && errors.estAcquisition)}
+                          helperText={touched.estAcquisition && errors.estAcquisition}
                         />
                       </Stack>
                       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
@@ -466,6 +464,7 @@ export default function ResidentialProfile({ id, updateProfileData }) {
                           remarks,
                           date,
                           estValue,
+                          estAcquisition,
                           other,
                           propertyID
                         } = row;
@@ -490,6 +489,7 @@ export default function ResidentialProfile({ id, updateProfileData }) {
                             <TableCell align="left">{description}</TableCell>
 
                             <TableCell align="left">{estValue}</TableCell>
+                            <TableCell align="left">{estAcquisition}</TableCell>
 
                             <TableCell align="left">{date}</TableCell>
                             <TableCell align="left">{remarks}</TableCell>
