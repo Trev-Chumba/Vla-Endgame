@@ -257,7 +257,7 @@ export default function CaseMeta({ details, updateProfileData }) {
                       {...getFieldProps('esummary')}
                     />
                   </Stack>
-                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                  {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     <TextField
                       fullWidth
                       label="Introduction"
@@ -265,7 +265,7 @@ export default function CaseMeta({ details, updateProfileData }) {
                       rows={3}
                       {...getFieldProps('introduction')}
                     />
-                  </Stack>
+                  </Stack> */}
                   {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     <TextField
                       fullWidth
