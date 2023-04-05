@@ -342,11 +342,11 @@ export default function DashboardApp() {
     });
 
     //get Tasks
-    FetchApi.post(GET_COMM_STATS, requestBody, (status, data) => {
-      if (status) {
-        console.log('COMM', data);
-      }
-    });
+    // FetchApi.post(GET_COMM_STATS, requestBody, (status, data) => {
+    //   if (status) {
+    //     console.log('COMM', data);
+    //   }
+    // });
   }, []);
 
   return (

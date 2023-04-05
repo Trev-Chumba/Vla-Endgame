@@ -1,7 +1,6 @@
 import { filter } from 'lodash';
-import { useState, useEffect,useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-
 
 // material
 
@@ -35,8 +34,6 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from 'src/context/UserContext';
 import Label from '../components/Label';
 
-
-
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -44,11 +41,8 @@ const TABLE_HEAD = [
   { id: 'type', label: 'Type', alignRight: false },
   { id: 'status', label: 'status', alignRight: false },
   { id: 'creationDate', label: 'Creation date', alignRight: false },
-  { id: 'slaExpiry', label: 'Expiry Date', alignRight: false },
-  
-  
-
-   ];
+  { id: 'slaExpiry', label: 'Expiry Date', alignRight: false }
+];
 
 // ----------------------------------------------------------------------
 
@@ -69,7 +63,6 @@ function getComparator(order, orderBy) {
 }
 
 function applySortFilter(array, comparator, query) {
-  
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -77,7 +70,10 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.subjectName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(
+      array,
+      (_user) => _user.subjectName.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
   }
 
   return stabilizedThis.map((el) => el[0]);
@@ -90,13 +86,11 @@ export default function MyInquiries() {
   const [orderBy, setOrderBy] = useState('subjectName');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [allData,setAllData]=useState([])
-  const { userData } = useContext(UserContext)
+  const [allData, setAllData] = useState([]);
+  const { userData } = useContext(UserContext);
 
   // const [allData, setAllData] = useState([])
   const [filteredUsers, setFilteredUsers] = useState([]);
-
-  
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -143,38 +137,28 @@ export default function MyInquiries() {
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
     const users = applySortFilter(allData, getComparator(order, orderBy), filterName);
-        setFilteredUsers(users)
+    setFilteredUsers(users);
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
-
-  useEffect(()=>{
-
+  useEffect(() => {
     const requestBody = {
-        userID:userData.userID
-
-    }
+      userID: userData.userID
+    };
 
     FetchApi.post(GET_ALL_INQUIRY, requestBody, (status, data) => {
-      if(status){
-
-        console.log("INQUIRIES::::",requestBody)
+      if (status) {
+        //console.log("INQUIRIES::::",requestBody)
         const inquiry = applySortFilter(data, getComparator(order, orderBy), filterName);
-        setFilteredUsers(inquiry)
-        setAllData(inquiry)
-        
-      }else{
+        setFilteredUsers(inquiry);
+        setAllData(inquiry);
+        //console.log("INQUIRIES Filtered::::",allData)
+      } else {
         //some error
       }
-    })
-
-  }, []) 
-
-
-
-
-
+    });
+  }, []);
 
   const isUserNotFound = filteredUsers.length === 0;
 
@@ -185,7 +169,6 @@ export default function MyInquiries() {
           <Typography variant="h4" gutterBottom>
             My inquiries
           </Typography>
-          
         </Stack>
 
         <Card>
@@ -211,28 +194,57 @@ export default function MyInquiries() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { subjectID, subjectName,inquryType, status, subjectIdNO, inquryID,
-                         profile_pic,LsaExpiry,dateCreated, owner, assignee} = row;
-                        
+                      const {
+                        subjectID,
+                        subjectName,
+                        inquryType,
+                        status,
+                        subjectIdNO,
+                        inquryID,
+                        profile_pic,
+                        LsaExpiry,
+                        dateCreated,
+                        owner,
+                        assignee
+                      } = row;
+
                       const isItemSelected = selected.indexOf(subjectName) !== -1;
 
-                      let caseType = "LA";
+                      let caseType = 'LA';
 
-                      switch(inquryType){
-                        case "Background Check": caseType = "BC"; break;
-                        case "Preliminary Investigation": caseType = "PI"; break;
-                        case "Vetting" : caseType = "VT"; break;
+                      switch (inquryType) {
+                        case 'Background Check':
+                          caseType = 'BC';
+                          break;
+                        case 'Preliminary Investigation':
+                          caseType = 'PI';
+                          break;
+                        case 'Vetting':
+                          caseType = 'VT';
+                          break;
                       }
 
-                      let caseStatus = "Open"; let caseLabelType = "success";
-                    
-                      switch(status){
-                        case "2": caseStatus = "In Progress"; caseLabelType = "info"; break;
-                        case "3": caseStatus = "In Review"; caseLabelType = "primary"; break;
-                        case "4": caseStatus = "Complete"; caseLabelType = "error"; break;
-                        case "5": caseStatus = "Re-Opened"; caseLabelType = "info"; break;
-                      }
+                      let caseStatus = 'Open';
+                      let caseLabelType = 'success';
 
+                      switch (status) {
+                        case '2':
+                          caseStatus = 'In Progress';
+                          caseLabelType = 'info';
+                          break;
+                        case '3':
+                          caseStatus = 'In Review';
+                          caseLabelType = 'primary';
+                          break;
+                        case '4':
+                          caseStatus = 'Complete';
+                          caseLabelType = 'error';
+                          break;
+                        case '5':
+                          caseStatus = 'Re-Opened';
+                          caseLabelType = 'info';
+                          break;
+                      }
 
                       return (
                         <TableRow
@@ -257,34 +269,37 @@ export default function MyInquiries() {
                               </Typography>
                             </Stack>
                           </TableCell>
-                         
+
                           <TableCell align="left">{inquryType}</TableCell>
-                         
-
-
-
 
                           <TableCell align="left">
-                          <Label
-                                  variant="ghost"
-                                  color={caseLabelType}
-                                >
-                                  {caseStatus}
-                          </Label>
+                            <Label variant="ghost" color={caseLabelType}>
+                              {caseStatus}
+                            </Label>
                           </TableCell>
                           <TableCell align="left">{dateCreated}</TableCell>
                           <TableCell align="left">{LsaExpiry}</TableCell>
-                         
-                         
 
-                          <TableCell >
-                          <RouterLink to={"/dashboard/view-case/"+caseType+"/"+subjectIdNO+":"+inquryID+":"+owner+":"+assignee+":"+status}>
-                            <FontAwesomeIcon icon={faEye}/>
-                          </RouterLink>
-
-
+                          <TableCell>
+                            <RouterLink
+                              to={
+                                '/dashboard/view-case/' +
+                                caseType +
+                                '/' +
+                                subjectIdNO +
+                                ':' +
+                                inquryID +
+                                ':' +
+                                owner +
+                                ':' +
+                                assignee +
+                                ':' +
+                                status
+                              }
+                            >
+                              <FontAwesomeIcon icon={faEye} />
+                            </RouterLink>
                           </TableCell>
-                         
                         </TableRow>
                       );
                     })}
@@ -317,8 +332,6 @@ export default function MyInquiries() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-
-       
       </Container>
     </Page>
   );

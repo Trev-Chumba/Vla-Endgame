@@ -27,8 +27,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 
-export default function BioData({ id, setProfileAdded, type, setCaseAdded, updateProfileData, details }) {
-  console.log('Bio case dats:::', type, details)
+export default function BioData({
+  id,
+  setProfileAdded,
+  type,
+  setCaseAdded,
+  updateProfileData,
+  details
+}) {
+  console.log('Bio case dats:::', type, details);
   const alert = useAlert();
 
   const showInfoAlert = (message) => {
@@ -119,6 +126,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
     idNo: Yup.string()
       .required('ID Number is required')
       .matches(id_regex, 'Only valid Kenyan ID allowed'),
+    PNo: Yup.string(),
     street_name: Yup.string().max(50, 'Too long!'),
     dob: Yup.date(),
     gender: Yup.string().required('select gender'),
@@ -153,7 +161,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
     facebook_username: Yup.string(),
     place_of_birth: Yup.string(),
     remarks: Yup.string(),
-    pNo : Yup.string()
+    pNo: Yup.string()
   });
 
   const formik = useFormik({
@@ -161,6 +169,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
       subject_name: profileData.subject_Name || '',
       email: profileData.email || '',
       idNo: profileData.idNo || '',
+      PNo: profileData.PNo || '',
       street_name: profileData.street_Name || '',
       dob: dbDob || '',
       gender: profileData.gender || 'Select Gender',
@@ -336,23 +345,19 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
   // const navigateProfile = () => {
   //     navigate('/dashboard/profile/SP/' + subjectData.naID)
   //   };
-  const officerdata = localStorage.getItem('userGroup')
-  
-  console.log('User group', officerdata)
-  const verifyLSA=()=>
-  {
-      if(details.status != 4)
-      {
-          showErrorAlert('Must have completed this Preliminary report')
-      }
-      if(officerdata != "Mngr")
-      {
-        showErrorAlert('Only managers to open')
-      }
-      else{
-        setConfirmLsaOpen(true)
-      }
-  }
+  const officerdata = localStorage.getItem('userGroup');
+
+  console.log('User group', officerdata);
+  const verifyLSA = () => {
+    if (details.status != 4) {
+      showErrorAlert('Must have completed this Preliminary report');
+    }
+    if (officerdata != 'Mngr') {
+      showErrorAlert('Only managers to open');
+    } else {
+      setConfirmLsaOpen(true);
+    }
+  };
   return (
     <Container>
       <FormikProvider value={formik}>
@@ -436,7 +441,7 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
                         // disabled
                         fullWidth
                         label="Subject name"
-                        disabled = "true"
+                        disabled="true"
                         {...getFieldProps('subject_name')}
                         error={Boolean(touched.subject_name && errors.subject_name)}
                         helperText={touched.subject_name && errors.subject_name}
@@ -446,16 +451,29 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
                         // disabled
                         fullWidth
                         label="National ID/ Passport No"
-                        disabled = "true"
+                        disabled="true"
                         {...getFieldProps('idNo')}
                         error={Boolean(touched.idNo && errors.idNo)}
                         helperText={touched.idNo && errors.idNo}
                       />
+
                       <TextField
+                        // disabled
                         fullWidth
-                        label="Personal Number"
-                        {...getFieldProps('pNo')}
+                        label="Personal No"
+                        {...getFieldProps('PNo')}
+                        error={Boolean(touched.PNo && errors.PNo)}
+                        helperText={touched.PNo && errors.PNo}
                       />
+
+                      <Button fullWidth component="label" variant="outlined">
+                        Attach Photo
+                        <input
+                          type="file"
+                          hidden
+                          onChange={(event) => setAttachment(event.target.files)}
+                        />
+                      </Button>
                     </Stack>
 
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
