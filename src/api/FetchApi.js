@@ -6,6 +6,7 @@ headers.append('Content-Type', 'application/json');
 headers.append('Authorization', 'Bearer token');
 
 const upHeaders = new Headers();
+upHeaders.append('Content-Type', 'multipart/form-data');
 
 export const FetchApi = {
   post: (url, body, onComplete) => {

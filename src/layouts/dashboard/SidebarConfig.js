@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
-const userGroup = localStorage.getItem('userGroup')
+const userGroup = localStorage.getItem('userGroup');
 //console.log('UserType',userType)
 
 let sidebarConfig1 = []
@@ -127,6 +127,5 @@ sidebarConfig1 =  [
       // },
   
   ]
-
 
 export default sidebarConfig1;

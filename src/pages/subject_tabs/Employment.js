@@ -236,6 +236,7 @@ export default function Employment({ id, updateProfileData }) {
       end_date: employmentData.end_date || '',
       remarks: employmentData.remarks || '',
       grossSalary: employmentData.grossSalary || '',
+      netSalary: employmentData.netSalary || '',
       attachments: employmentData.attachments || ''
     },
     validationSchema: RegisterSchema,
@@ -469,6 +470,13 @@ export default function Employment({ id, updateProfileData }) {
                             {...getFieldProps('grossSalary')}
                             inputMode="numeric"
                           />
+
+                          <TextField
+                            fullWidth
+                            label="Net Salary"
+                            {...getFieldProps('netSalary')}
+                            inputMode="numeric"
+                          />
                         </Stack>
                         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                           <Button fullWidth component="label" variant="outlined">
@@ -549,6 +557,7 @@ export default function Employment({ id, updateProfileData }) {
                           role_played,
                           start_date,
                           grossSalary,
+                          netSalary,
                           end_date,
                           remarks,
                           employer_contact
