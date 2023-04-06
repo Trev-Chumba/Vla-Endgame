@@ -706,7 +706,7 @@ export default function LSAExport(props) {
              {financial.map((finItem) => {
                 return(
                   <View style={styles.tr}>
-                    <div style={styles.td}><Html style={{...styles.td, ...styles.textBody2}}>{finItem.remarks}</Html></div> 
+                    <div style={styles.td}><Html stylesheet={styles}>{finItem.remarks}</Html></div> 
                   </View>
                 )
              })}

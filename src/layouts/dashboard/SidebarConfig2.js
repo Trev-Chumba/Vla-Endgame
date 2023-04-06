@@ -37,6 +37,11 @@ const sidebarConfig2 = [
         title: 'All Profiles',
         path: '/dashboard/all-profiles',
         icon: getIcon('eva:person-fill')
+      },
+      {
+        title: 'All Profiles',
+        path: '/dashboard/all-profiles',
+        icon: getIcon('eva:person-fill')
       }
     ]
   },

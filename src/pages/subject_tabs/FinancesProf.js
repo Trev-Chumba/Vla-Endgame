@@ -22,6 +22,7 @@ import {
   Typography
 } from '@mui/material';
 import React, { useState } from 'react';
+
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useAlert } from 'react-alert';
 import { GET_FIN_ACCOUNT, SET_FIN_ACCOUNT } from 'src/api/Endpoints';
@@ -44,7 +45,9 @@ import DatePicker from '@mui/lab/DatePicker';
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
+import "../../../../vla-test/node_modules/suneditor/dist/css/suneditor.min.css";
 import ReactHtmlParser from 'react-html-parser';
+import '../../../src/index.css'
 
 
 const TABLE_HEAD = [
@@ -269,9 +272,13 @@ export default function FinancesProf({ id, updateProfileData }) {
   //   console.log('Updated Remarks', newRemark)
   //   }
   const handlesun = (content) => {
+    
     console.log(content, 'sun log content');
+
     setremark(content);
+    
   };
+
   const RegisterSchema = Yup.object().shape({
     serviceProvider: Yup.string()
       .min(2, 'Too Short!')
@@ -310,6 +317,7 @@ export default function FinancesProf({ id, updateProfileData }) {
     },
     enableReinitialize: true,
     validationSchema: RegisterSchema,
+   
     onSubmit: (values, { resetForm }) => {
       values.dateOfInquiry = enqDate;
 
@@ -507,6 +515,7 @@ export default function FinancesProf({ id, updateProfileData }) {
 
 <SunEditor
           setOptions={{
+           
             buttonList: [
               ["font", "fontSize", "formatBlock"],
               [
@@ -523,10 +532,20 @@ export default function FinancesProf({ id, updateProfileData }) {
               ["undo", "redo"],
               ["removeFormat"],
               ["outdent", "indent"],
-              ["link"],]
+              ["link"]],
+
+              attributesWhitelist: {
+                table: "style",
+                tbody: "style",
+                thead: "style",
+                tr: "style",
+                td: "style"
+              }
+            
             }
+            
           }
-         
+          
           onChange = {handlesun}
           setContents= {accountData.remarks}
           />

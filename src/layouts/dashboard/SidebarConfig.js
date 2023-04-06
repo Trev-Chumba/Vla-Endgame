@@ -11,7 +11,6 @@ const userGroup = localStorage.getItem('userGroup');
 //console.log('UserType',userType)
 
 let sidebarConfig1 = [];
-
 sidebarConfig1 = [
   {
     header: 'PROFILE',
@@ -21,27 +20,29 @@ sidebarConfig1 = [
         path: '/dashboard/app',
         icon: getIcon('eva:pie-chart-2-fill')
       },
-      {
-        title: 'Search Subject',
-        path: '/dashboard/search-subject',
-        icon: getIcon('eva:person-fill')
-      },
-      {
-        title: 'Search Batch',
-        path: '/dashboard/search-batch',
-        icon: getIcon('eva:people-fill')
-      },
+      //  {
+
+      //     title : 'Search Subject',
+      //     path : '/dashboard/search-subject',
+      //     icon: getIcon('eva:person-fill')
+      //   },
+
+      //   {
+      //     title : 'Search Batch',
+      //     path : '/dashboard/search-batch',
+      //     icon: getIcon('eva:people-fill')
+      //   },
       {
         title: 'New Profile',
         path: '/dashboard/profile',
         icon: getIcon('eva:person-fill')
-      },
-      // (userGroup !=  'I.O'?
-      {
-        title: 'All Profiles',
-        path: '/dashboard/all-profiles',
-        icon: getIcon('eva:person-fill')
       }
+      // (userGroup !=  'I.O'?
+      // {
+      //   title : 'All Profiles',
+      //   path : '/dashboard/all-profiles',
+      //   icon: getIcon('eva:person-fill')
+      // },
     ]
   },
 
