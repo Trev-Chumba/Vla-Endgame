@@ -5,6 +5,13 @@ import Georgia from '../../fonts/Georgia.ttf';
 import georgiab from '../../fonts/georgiab.ttf';
 import georgiaz from '../../fonts/georgiaz.ttf';
 import gillItalic from '../../fonts/GillSansz.otf';
+import ReactHtmlParser from 'react-html-parser'
+import Html from 'react-pdf-html';
+import "suneditor/dist/css/suneditor.min.css";
+import "../../../../vla-test/node_modules/suneditor/dist/css/suneditor.min.css";
+import '../../../src/index.css'
+import HtmlParser from 'react-html-parser';
+
 
 Font.register({
   family: 'Georgia',
@@ -117,6 +124,15 @@ export default function LSAExport(props) {
       fontFamily: 'Georgia',
       fontSize: 12
     },
+    textBody2: {
+      fontWeight: 'normal',
+      fontFamily: 'Georgia',
+      fontSize: 12,
+      border: 1,
+      display:'flex',
+      flexDirection: 'column',
+      width: '100%'
+    },
 
     table: {
       maxWidth: '100%',
@@ -139,6 +155,13 @@ export default function LSAExport(props) {
       borderWidth: 1,
       padding: 5,
       flex: 1
+    },
+    td451: {
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 5,
+      flex: 1,
+      flexDirection: 'column',
     },
 
     td1: {
@@ -652,7 +675,7 @@ export default function LSAExport(props) {
 
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Date of Enquiry</Text>
 
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+            {/* <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text> */}
           </View>
 
           {financial.map((finItem) => {
@@ -670,11 +693,29 @@ export default function LSAExport(props) {
 
                 <Text style={{ ...styles.td, ...styles.textBody }}>{finItem.dateOfInquiry}</Text>
 
-                <Text style={{ ...styles.td, ...styles.textBody }}>{finItem.remarks}</Text>
+                {/* <Text style={{ ...styles.td, ...styles.textBody }}>{finItem.remarks}</Text> */}
               </View>
             );
           })}
         </View>
+        <Text style={styles.textSubHeader}>Remarks</Text>
+          <View style={styles.table} wrap={false}>
+             <View style={styles.tr}>
+             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+             </View>
+             {financial.map((finItem) => {
+                return(
+                  <View style={styles.tr}>
+                    <div style={styles.td}><Html style={{...styles.td, ...styles.textBody2}}>{finItem.remarks}</Html></div> 
+                  </View>
+                )
+             })}
+          </View>
+
+
+
+
+
 
         <Text style={styles.textSubHeader}>9.0 Companies/Business Interests</Text>
 
