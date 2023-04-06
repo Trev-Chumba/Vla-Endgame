@@ -5,6 +5,9 @@ import Georgia from '../../fonts/Georgia.ttf';
 import georgiab from '../../fonts/georgiab.ttf';
 import { PiHeader } from './PIHeader';
 import gillItalic from '../../fonts/GillSansz.otf';
+import ReactHtmlParser from 'react-html-parser';
+import DOMPurify from 'dompurify';
+import Html from 'react-pdf-html';
 
 Font.register({
   family: 'Georgia',
@@ -35,9 +38,21 @@ Font.register({
 
 export default function PIExport(props) {
   const bioData = props.data.bio || {};
+  const associates = props.data.associates || [];
+  const financial = props.data.financial || [];
+  const agencies = props.data.agencies || [];
+  const secondaryInfo = props.data.secondaryInfo || [];
+  const employment = props.data.employment || [];
+  const companies = props.data.companies || [];
+  const integrity = props.data.integrity || [];
+  const residential = props.data.residential || [];
+  const assets = props.data.assets || [];
+  const liabilities = props.data.liabilities || [];
+  const travels = props.data.travel || [];
   const caseDetails = props.data.caseDetails;
-  console.log('CaseDets::', caseDetails);
-  console.log('CaseDets2::', bioData);
+  //console.log('CaseDets::', caseDetails);
+  //console.log('CaseDets2::', bioData);
+
   const styles = StyleSheet.create({
     page: {
       flexDirection: 'row',
@@ -57,25 +72,24 @@ export default function PIExport(props) {
     },
 
     textSubHeader: {
-      fontSize: 13,
+      fontSize: 12,
       marginVertical: 10,
-      fontFamily: 'Georgia_bold',
-      fontWeight: 'demibold'
+      fontFamily: 'Georgia_bold'
     },
 
     textTableHeader: {
-      fontSize: 15,
-      fontWeight: 'demibold',
+      fontSize: 12,
       fontFamily: 'Georgia_bold'
     },
 
     textBody: {
       fontWeight: 'normal',
-      fontSize: 12,
-      fontFamily: 'Georgia'
+      fontFamily: 'Georgia',
+      fontSize: 12
     },
 
     table: {
+      maxWidth: '100%',
       width: '100%',
       display: 'flex',
       flexDirection: 'column',
@@ -94,7 +108,7 @@ export default function PIExport(props) {
       borderColor: 'gray',
       borderWidth: 1,
       padding: 5,
-      width: '20%'
+      flex: 1
     }
   });
 
@@ -133,27 +147,7 @@ export default function PIExport(props) {
           ISO 9001:2015 CERTIFIED
         </Text>
         <PiHeader data={caseDetails} subjectdata={bioData} />
-
         <Text style={styles.textSubHeader}>1.0 Introduction</Text>
-
-        {/* <Text style={styles.textBody}>
-          The subject name is {bioData.subject_Name}, the subject's date of birth is {bioData.dob}
-          {'\n'}
-        </Text>
-
-        <Text style={styles.textBody}>
-          A brief description of the subject is as follows: {'\n'}
-          Height: {bioData.height},{'\n'}
-          Complexion: {bioData.complexion}
-          {'\n'}
-          Gender: {bioData.gender}
-          {'\n'}
-        </Text>
-        <Text style={styles.textBody}>
-          The subject's known location is at {bioData.location} at {bioData.county}.{'\n'}
-        </Text>
-        <Text style={styles.textBody}>The executive summary is: {caseDetails.esummary}</Text> */}
-
         <Text style={styles.textSubHeader}>1.1 Objective of the Preliminary Lifestyle Audit</Text>
         <Text style={styles.textBody}>
           1.1.1 Collect and evaluate basic information to establish whether the subject’s
@@ -174,18 +168,65 @@ export default function PIExport(props) {
             1.1.4 Recommend for closure or for a full lifestyle audit.
           </Text>
         </Text>
-
         <Text style={styles.textSubHeader}>2.0 Preliminary Findings</Text>
         <Text style={styles.textBody}>{caseDetails.findings}</Text>
+        <Text style={styles.textBody}>
+          <span style={styles.textSubHeader}>2.1</span> Introduction
+        </Text>
 
-        <Text style={styles.textSubHeader}>2.0 Way Forward</Text>
+        <Text style={styles.textBody}>
+          <span style={styles.textSubHeader}>2.2</span> Description on entities linked to the
+          subject and associates:
+        </Text>
+        {associates.map((info) => {
+          return (
+            <View style={styles.tr}>
+              <Text style={{ ...styles.td, ...styles.textBody }}>
+                {ReactHtmlParser(info.remarks)}
+              </Text>
+            </View>
+          );
+        })}
+
+        <Text style={styles.textBody}>
+          <span style={styles.textSubHeader}>2.3</span> Description on properties linked to the
+          subject and associates:
+        </Text>
+
+        <Text style={styles.textBody}>
+          <span style={styles.textSubHeader}>2.4</span> Description on vehicles linked to the
+          subject and associates
+        </Text>
+
+        <Text style={styles.textBody}>
+          <span style={styles.textSubHeader}>2.5</span> Description on all telcos linked to the
+          subject and associates
+        </Text>
+
+        <Text style={styles.textBody}>
+          2.5.1 Analysis for account number XXX from the year XXX to XXX revealed transactions as
+          tabulated in the table below
+        </Text>
+
+        <Text style={styles.textBody}>
+          2.5.2 Analysis for account number XXX from the year XXX to XXX revealed transactions as
+          tabulated in the table below
+        </Text>
+
+        <Text style={styles.textBody}>
+          <span style={styles.textSubHeader}>2.6</span> Description on the subject’s declared
+          income:
+        </Text>
+
+        <Text style={styles.textBody}>
+          <span style={styles.textSubHeader}>2.7</span> Description of Tax issues for subject,
+          associates and businesses/companies:
+        </Text>
+
+        <Text style={styles.textSubHeader}>3.0 Way Forward</Text>
         <Text style={styles.textBody}>{caseDetails.remarks}</Text>
-        <Text style={styles.textSubHeader}>3.0 Recommendation</Text>
-
+        <Text style={styles.textSubHeader}>4.0 Recommendation</Text>
         <Text style={styles.textBody}>{caseDetails.recomentation}</Text>
-
-        <Text style={styles.textSubHeader}>4.0 Findings</Text>
-        <Text style={styles.textBody}>{caseDetails.findings}</Text>
         <Text
           style={{
             marginTop: 'auto',

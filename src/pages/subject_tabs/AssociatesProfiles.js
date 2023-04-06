@@ -36,6 +36,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { UPDATE_ASSOCIATE_PROFILE, BASE_URL } from '../../api/Endpoints';
 import SearchNotFound from 'src/components/SearchNotFound';
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css';
+import ReactHtmlParser from 'react-html-parser';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
@@ -88,6 +91,7 @@ export default function AssociatesProfiles({ id, updateProfileData }) {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [allData, setAllData] = useState([]);
+  const [remark, setremark] = useState('');
 
   const [filteredUsers, setFilteredUsers] = useState([]);
   const { profile, setAssociates, associates } = useContext(ProfileContext);
@@ -238,7 +242,7 @@ export default function AssociatesProfiles({ id, updateProfileData }) {
       kraPin: associatesData.kraPin || '',
       mobile: associatesData.mobile || '',
       relationship: associatesData.relationship || '',
-      remarks: associatesData.remarks || '',
+      //remarks: associatesData.remarks || '',
       attachments: associatesData.attachments || ''
     },
     enableReinitialize: true,
@@ -249,6 +253,7 @@ export default function AssociatesProfiles({ id, updateProfileData }) {
       // values.userID = "4"
       values.associate_ID = associatesData.associate_ID;
       // values.attachments=associatesData.attachments;
+      values.remarks = remark;
 
       //upload any files
 
@@ -306,6 +311,11 @@ export default function AssociatesProfiles({ id, updateProfileData }) {
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
   const isUserNotFound = filteredUsers.length === 0;
+
+  const handlesun = (content) => {
+    console.log(content, 'sun log content');
+    setremark(content);
+  };
 
   return (
     <Container>
@@ -384,12 +394,22 @@ export default function AssociatesProfiles({ id, updateProfileData }) {
                         )}
                       </Stack>
                       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                        <TextField
-                          fullWidth
-                          label="Remarks"
-                          multiline
-                          rows={3}
-                          {...getFieldProps('remarks')}
+                        <SunEditor
+                          setOptions={{
+                            buttonList: [
+                              ['font', 'fontSize', 'formatBlock'],
+                              ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                              ['align', 'horizontalRule', 'list', 'table'],
+                              ['fontColor', 'hiliteColor'],
+                              ['outdent', 'indent'],
+                              ['undo', 'redo'],
+                              ['removeFormat'],
+                              ['outdent', 'indent'],
+                              ['link']
+                            ]
+                          }}
+                          onChange={handlesun}
+                          setContents={associatesData.remarks}
                         />
                       </Stack>
                     </Stack>
@@ -474,7 +494,7 @@ export default function AssociatesProfiles({ id, updateProfileData }) {
                                 {attachments}
                               </a>
                             </TableCell>
-                            <TableCell align="left">{remarks}</TableCell>
+                            <TableCell align="left">{ReactHtmlParser(remarks)}</TableCell>
 
                             <TableCell align="right">
                               <Button onClick={() => setAssociateData(row)}>

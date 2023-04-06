@@ -19,6 +19,7 @@ import SearchSubject from './pages/SearchSubject';
 import MyTasks from './pages/MyTasks';
 import CommDashboard from './pages/CommDashboard';
 import BatchProfiles from './pages/SearchBatch';
+import MyAssignments from './pages/MyAssignments';
 
 // ----------------------------------------------------------------------
 
@@ -29,29 +30,28 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { path: 'app', element: <DashboardApp /> },
-        { path: 'profile/:id', element: <SubjectProfilePage />},
+        { path: 'profile/:id', element: <SubjectProfilePage /> },
         { path: 'user', element: <User /> },
         { path: 'my-inquiries', element: <MyInquiries /> },
         { path: 'blog', element: <Blog /> },
-        { path: 'profile', element: <SubjectProfilePage />},
-        { path: 'all-profiles', element: <SubjectProfiles />},
-        { path: 'profile/:type/:id', element: <SubjectProfilePage />},
+        { path: 'profile', element: <SubjectProfilePage /> },
+        { path: 'all-profiles', element: <SubjectProfiles /> },
+        { path: 'profile/:type/:id', element: <SubjectProfilePage /> },
         { path: 'add-user', element: <CreateUser /> },
         { path: 'access-management', element: <AccessManagement /> },
-        { path: 'my-cases', element : <MyCases />},
-        { path: 'view-case/:type/:id', element: <SubjectProfilePage />},
-        { path: 'search-subject', element:<SearchSubject/>},
-        { path: 'my-tasks', element: <MyTasks />},
+        { path: 'my-cases', element: <MyCases /> },
+        { path: 'view-case/:type/:id', element: <SubjectProfilePage /> },
+        { path: 'search-subject', element: <SearchSubject /> },
+        { path: 'my-tasks', element: <MyTasks /> },
         { path: 'comm', element: <CommDashboard /> },
-        { path: 'search-batch', element: <BatchProfiles /> }
-
+        { path: 'search-batch', element: <BatchProfiles /> },
+        { path: 'my-assignments', element: <MyAssignments /> }
       ]
     },
     {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        
         { path: '/', element: <Navigate to="/dashboard/app" /> },
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
