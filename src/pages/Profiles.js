@@ -39,6 +39,7 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import { UserListHead2 } from 'src/sections/@dashboard/user/UserListHead2';
+import { number } from 'prop-types';
 
 // ----------------------------------------------------------------------
 
@@ -91,6 +92,7 @@ export default function SubjectProfiles() {
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowNum, setrowNum] = useState (0)
   const [allData,setAllData]=useState([])
 
   // const [allData, setAllData] = useState([])
@@ -108,6 +110,7 @@ export default function SubjectProfiles() {
     if (event.target.checked) {
       const newSelecteds = USERLIST.map((n) => n.name);
       setSelected(newSelecteds);
+      console.log('number of selected', selected.length)
       return;
     }
     setSelected([]);
@@ -129,6 +132,7 @@ export default function SubjectProfiles() {
       );
     }
     setSelected(newSelected);
+    console.log('selected', newSelected, selected)
   };
 
   const handleChangePage = (event, newPage) => {
@@ -162,7 +166,8 @@ export default function SubjectProfiles() {
         const users = applySortFilter(data, getComparator(order, orderBy), filterName);
         setFilteredUsers(users)
         setAllData(users)
-        
+        setrowNum(users.length)
+        console.log(rowNum, 'count data')
       }else{
         //some error
       }
@@ -204,7 +209,7 @@ export default function SubjectProfiles() {
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <UserListHead2
+                <UserListHead
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}

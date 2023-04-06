@@ -162,6 +162,7 @@ export default function BatchProfiles() {
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  
 
 
   const changeHandler = (event) => {
@@ -251,6 +252,11 @@ export default function BatchProfiles() {
           >
             New Profile
           </Button> */}
+          {batchNo && caseList.length>0 && 
+          <Button variant="contained"
+          sx={{ background: '#303F9F' }}
+          // onClick={() => setOpen(true)}
+        >Assign User</Button>}
         </Stack>
 
         <Card>
@@ -303,7 +309,7 @@ export default function BatchProfiles() {
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <UserListHead
+                <UserListHead2
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}

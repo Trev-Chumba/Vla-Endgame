@@ -7,10 +7,14 @@ body{
 .sun-editor-editable table td {
     border: 2px, solid, black;
   }
-  .sun-editor-editable table tr {
-    border: 2px, solid, black;
-  }
   
-  .sun-editor-editable table td.se-table-selected-cell {
+.sun-editor-editable table td.se-table-selected-cell {
     border: 2px, solid, black;
   }
+
+.se-table-layout-auto table td {
+  border: 2px, solid, black;
+}
+.se-table-layout-auto table td.se-table-selected-cell{
+  border: 2px, solid, black;
+}
