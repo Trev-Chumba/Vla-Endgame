@@ -35,6 +35,10 @@ import SearchNotFound from 'src/components/SearchNotFound';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
+import SunEditor from "suneditor-react";
+import "suneditor/dist/css/suneditor.min.css";
+import "../../../../vla-test/node_modules/suneditor/dist/css/suneditor.min.css";
+import ReactHtmlParser from 'react-html-parser';
 
 
 
@@ -97,7 +101,7 @@ export default function TaxIssues({ id, updateProfileData }) {
   const [otherResidents, setOtherResidents] = useState(taxes)
 
   const [taxesData, setTaxesData] = useState({})
-
+  const [remark, setremark] = useState('');
   const [attachments, setAttachment] = useState(undefined)
   const { userData } = useContext(UserContext)
   const [userID, setUserID] = useState(userData.userID)
@@ -235,7 +239,14 @@ export default function TaxIssues({ id, updateProfileData }) {
       description: taxesData.description || "",
       estValue: taxesData.estValue || "",
       attachments: taxesData.attachments || "",
-      remarks: taxesData.remarks || ""
+     // remarks: taxesData.remarks || "",
+      taxpayer: taxesData.taxpayer || "",
+      incomeTax: taxesData.incomeTax || "",
+      vat: taxesData.vat || "",
+      mri: taxesData.mri || "",
+      paye: taxesData.paye || "",
+      tot : taxesData.tot || "",
+      year: taxesData.year || "",
     },
     enableReinitialize: true,
     validationSchema: RegisterSchema,
@@ -245,6 +256,7 @@ export default function TaxIssues({ id, updateProfileData }) {
 
       values.subjectID = subjectID
       values.userID = userID
+      values.remarks = remark
       values.taxID = taxesData.taxID;
 
 
@@ -309,6 +321,14 @@ export default function TaxIssues({ id, updateProfileData }) {
     })
   }
 
+  const handlesun = (content) => {
+    
+    console.log(content, 'sun log content');
+
+    setremark(content);
+    
+  };
+
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
   const isUserNotFound = filteredUsers.length === 0;
 
@@ -337,24 +357,90 @@ export default function TaxIssues({ id, updateProfileData }) {
                   <CardContent>
                     <Stack spacing={3}>
 
-                      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                    <Stack>
+      
+
+      <SunEditor
+                setOptions={{
+                 
+                  buttonList: [
+                    ["font", "fontSize", "formatBlock"],
+                    [
+                      "bold",
+                      "underline",
+                      "italic",
+                      "strike",
+                      "subscript",
+                      "superscript",
+                    ],
+                    ["align", "horizontalRule", "list", "table"],
+                    ["fontColor", "hiliteColor"],
+                    ["outdent", "indent"],
+                    ["undo", "redo"],
+                    ["removeFormat"],
+                    ["outdent", "indent"],
+                    ["link"]],
+      
+                    attributesWhitelist: {
+                      table: "style",
+                      tbody: "style",
+                      thead: "style",
+                      tr: "style",
+                      td: "style"
+                    }
+                  
+                  }
+                  
+                }
+                
+                onChange = {handlesun}
+                onDrop={e => {e.preventDefault()}}
+                setContents= {taxesData.remarks}
+                />
+      </Stack>
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                        <TextField
+                            fullWidth
+                            label="Total"
+                            {...getFieldProps('estValue')}
+                            error={Boolean(touched.estValue && errors.estValue)}
+                            helperText={touched.estValue && errors.estValue}
+                          />
+                          <TextField
+                            fullWidth
+                            label="Year"
+                            {...getFieldProps('year')}
+                            error={Boolean(touched.year && errors.year)}
+                            helperText={touched.year && errors.year}
+                          />
+                            <Button
+                            fullWidth
+                            component="label"
+                            variant='outlined'
+                          >
+                            Add Attachment
+                            <input
+                              type="file"
+                              hidden
+                              onChange={(event) => setAttachment(event.target.files)} />
+
+                          </Button>
+                      </Stack>
+                      {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                         <TextField
                           fullWidth
-                          label="Description"
+                          label="KRA Pin"
                           {...getFieldProps('description')}
                           error={Boolean(touched.description && errors.description)}
                           helperText={touched.description && errors.description}
                         />
-
-                        <TextField
+                          <TextField
                           fullWidth
-                          label="Value "
-                          {...getFieldProps('estValue')}
+                          label="Taxpayer "
+                          {...getFieldProps('taxpayer')}
                           error={Boolean(touched.estValue && errors.estValue)}
                           helperText={touched.estValue && errors.estValue}
                         />
-
-                      
 
 
                       </Stack>
@@ -365,7 +451,67 @@ export default function TaxIssues({ id, updateProfileData }) {
                        
                         
                         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                        <Button
+                        <TextField
+                          fullWidth
+                          label="Income tax"
+                          {...getFieldProps('incomeTax')}
+                          error={Boolean(touched.incomeTax && errors.incomeTax)}
+                          helperText={touched.incomeTax && errors.incomeTax}
+                        />
+                         <TextField
+                          fullWidth
+                          label="VAT"
+                          {...getFieldProps('vat')}
+                          error={Boolean(touched.vat && errors.vat)}
+                          helperText={touched.vat && errors.vat}
+                        />
+                         <TextField
+                          fullWidth
+                          label="MRI"
+                          {...getFieldProps('mri')}
+                          error={Boolean(touched.mri && errors.mri)}
+                          helperText={touched.mri && errors.mri}
+                        />
+                        <TextField
+                          fullWidth
+                          label="PAYE"
+                          {...getFieldProps('paye')}
+                          error={Boolean(touched.paye && errors.paye)}
+                          helperText={touched.paye && errors.paye}
+                        />
+                          <TextField
+                          fullWidth
+                          label="TOT"
+                          {...getFieldProps('tot')}
+                          error={Boolean(touched.tot && errors.tot)}
+                          helperText={touched.tot && errors.tot}
+                        />
+                      
+
+                        {
+                          attachments ? <Typography>{attachments[0].name}</Typography> : <Typography>{taxesData.attachments}</Typography>
+                        }
+
+                        
+                        </Stack>
+
+                      </Stack>
+                      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                      <TextField
+                          fullWidth
+                          label="Total"
+                          {...getFieldProps('estValue')}
+                          error={Boolean(touched.estValue && errors.estValue)}
+                          helperText={touched.estValue && errors.estValue}
+                        />
+                        <TextField
+                          fullWidth
+                          label="Year"
+                          {...getFieldProps('year')}
+                          error={Boolean(touched.year && errors.year)}
+                          helperText={touched.year && errors.year}
+                        />
+                          <Button
                           fullWidth
                           component="label"
                           variant='outlined'
@@ -377,14 +523,6 @@ export default function TaxIssues({ id, updateProfileData }) {
                             onChange={(event) => setAttachment(event.target.files)} />
 
                         </Button>
-
-                        {
-                          attachments ? <Typography>{attachments[0].name}</Typography> : <Typography>{taxesData.attachments}</Typography>
-                        }
-
-                        
-                        </Stack>
-
                       </Stack>
                       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
 
@@ -398,10 +536,10 @@ export default function TaxIssues({ id, updateProfileData }) {
 
                         />
 
-                      </Stack>
+                      </Stack>*/}
 
 
-                    </Stack>
+                    </Stack> 
 
 
                     <CardActions sx={{ marginTop: 2 }}>

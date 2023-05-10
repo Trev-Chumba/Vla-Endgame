@@ -25,6 +25,7 @@ export default function UserListHead({
   onSelectAllClick
 }) {
   const createSortHandler = (property) => (event) => {
+    console.log("event and Property 2::", event, property)
     onRequestSort(event, property);
   };
 

@@ -262,8 +262,9 @@ export default function ResidentialProfile({ id, updateProfileData }) {
         FetchApi.upload(formData, (status, data) => {
 
           if (status) {
-            const fileUrl = BASE_URL + "/" + data.url;
-            values.attachments = fileUrl
+            console.log("what i'm sending",formData, status, data)
+            const fileUrl = BASE_URL + '/' + data.url;
+            values.attachments = fileUrl;
 
             setSubjectResidence(values)
 
@@ -287,12 +288,25 @@ export default function ResidentialProfile({ id, updateProfileData }) {
 
 
   const setSubjectResidence = (values) => {
-    FetchApi.post(residentialData.res_INFO_ID ? UPDATE_RESIDENTIAL : SET_RESIDENTIAL, values, (status, data) => {
-      if (status) {
-        // setProfileData(data)
-        
-        if (!data.subjectID) {
-          showErrorAlert("CREATE USER FIRST")
+    console.log('VALUES:::', values);
+   
+    FetchApi.post(
+      residentialData.res_INFO_ID ? UPDATE_RESIDENTIAL : SET_RESIDENTIAL,
+      values,
+      (status, data) => {
+        if (status) {
+          // setProfileData(data)
+
+          if (!data.subjectID) {
+            showErrorAlert('CREATE USER FIRST');
+          } else {
+            setSubjectID(data.subjectID);
+
+            getProfileResidents();
+
+            setResidentialData({});
+
+            showSuccessAlert('SAVED SUCCESSFULLY');
 
         } else {
           setSubjectID(data.subjectID)

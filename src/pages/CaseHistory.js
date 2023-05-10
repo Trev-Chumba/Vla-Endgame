@@ -1,7 +1,6 @@
 import { filter } from 'lodash';
-import { useState, useEffect,useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-
 
 // material
 
@@ -16,6 +15,7 @@ import {
   TableRow,
   TableBody,
   TableCell,
+  
   Container,
   Typography,
   TableContainer,
@@ -29,22 +29,21 @@ import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 //
 import USERLIST from '../_mocks_/user';
 import { FetchApi } from '../api/FetchApi';
-import { GET_ALL_INQUIRY, GET_MY_TASKS } from '../api/Endpoints';
+import { GET_ALL_INQUIRY, MY_COMPLETED_CASES } from '../api/Endpoints';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from 'src/context/UserContext';
 import Label from '../components/Label';
 
-
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-
-  // { id: 'Profile', label: 'Profile Name', alignRight: false },
-  // { id: 'name', label: 'Field', alignRight: false },
-  { id: 'description', label: 'Description', alignRight: false },
-
-   ];
+  { id: 'subjectName', label: 'Subject Name', alignRight: false },
+  { id: 'type', label: 'Type', alignRight: false },
+  { id: 'status', label: 'status', alignRight: false },
+  { id: 'creationDate', label: 'Creation date', alignRight: false },
+  { id: 'slaExpiry', label: 'Expiry Date', alignRight: false }
+];
 
 // ----------------------------------------------------------------------
 
@@ -65,7 +64,6 @@ function getComparator(order, orderBy) {
 }
 
 function applySortFilter(array, comparator, query) {
-  
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -73,26 +71,27 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.subject_Name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(
+      array,
+      (_user) => _user.subjectName.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
   }
 
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function MyTasks() {
+export default function CaseHistory() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('subjectName');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [allData,setAllData]=useState([])
-  const { userData } = useContext(UserContext)
+  const [allData, setAllData] = useState([]);
+  const { userData } = useContext(UserContext);
 
   // const [allData, setAllData] = useState([])
   const [filteredUsers, setFilteredUsers] = useState([]);
-
-  
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -138,56 +137,40 @@ export default function MyTasks() {
 
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
+    console.log('Search this: ', filterName)
     const users = applySortFilter(allData, getComparator(order, orderBy), filterName);
-        setFilteredUsers(users)
+    setFilteredUsers(users);
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
-
-  useEffect(()=>{
-
+  useEffect(() => {
     const requestBody = {
-        userID:userData.userID
-    }
+      userID: userData.userID
+    };
 
-    FetchApi.post(GET_MY_TASKS, requestBody, (status, data) => {
+    FetchApi.post(MY_COMPLETED_CASES, requestBody, (status, data) => {
       if (status) {
-        console.log('TASKS request body::::', data);
-        const task = applySortFilter(data, getComparator(order, orderBy), filterName);
-        setFilteredUsers(task);
-        console.log('TASKS::::', data);
+        //console.log("INQUIRIES::::",requestBody)
+        const inquiry = applySortFilter(data, getComparator(order, orderBy), filterName);
+        setFilteredUsers(inquiry);
+        setAllData(inquiry);
+        //console.log("INQUIRIES Filtered::::",allData)
       } else {
         //some error
       }
     });
-
-        console.log("TASKS::::",data)
-        const inquiry = applySortFilter(data, getComparator(order, orderBy), filterName);
-        setAllData(inquiry);
-        console.log('INQUIRIES from tasks::::', data, status);
-      } else {
-        //some error
-      }
-    })
-
-  }, []) 
-
-
-
-
-
+  }, []);
 
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="KRA VLA - Tasks">
+    <Page title="KRA VLA| Closed cases">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            My Tasks
+            My inquiries
           </Typography>
-          
         </Stack>
 
         <Card>
@@ -214,41 +197,61 @@ export default function MyTasks() {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       const {
+                        subjectID,
                         subjectName,
+                        inquryType,
                         status,
                         subjectIdNO,
-                        inquiryID,
+                        inquryID,
+                        profile_pic,
+                        LsaExpiry,
+                        dateCreated,
                         owner,
-                        assignee,
-                        taskID,
-                        inquryType,
-                        remarks,
-                        description
+                        assignee
                       } = row;
+
                       const isItemSelected = selected.indexOf(subjectName) !== -1;
 
-                      let caseType = "LA";
+                      let caseType = 'LA';
 
-                      switch(inquryType){
-                        case "Background Check": caseType = "BC"; break;
-                        case "Preliminary Investigation": caseType = "PI"; break;
-                        case "Vetting" : caseType = "VT"; break;
+                      switch (inquryType) {
+                        case 'Background Check':
+                          caseType = 'BC';
+                          break;
+                        case 'Preliminary Investigation':
+                          caseType = 'PI';
+                          break;
+                        case 'Vetting':
+                          caseType = 'VT';
+                          break;
                       }
 
-                     let caseStatus = "2"; let caseLabelType = "success";
-                    
-                    //   switch(status){
-                    //     case "2": caseStatus = "In Progress"; caseLabelType = "info"; break;
-                    //     case "3": caseStatus = "In Review"; caseLabelType = "primary"; break;
-                    //     case "4": caseStatus = "Complete"; caseLabelType = "error"; break;
-                    //     case "5": caseStatus = "Re-Opened"; caseLabelType = "info"; break;
-                    //   }
+                      let caseStatus = 'Open';
+                      let caseLabelType = 'success';
 
+                      switch (status) {
+                        case '2':
+                          caseStatus = 'In Progress';
+                          caseLabelType = 'info';
+                          break;
+                        case '3':
+                          caseStatus = 'In Review';
+                          caseLabelType = 'primary';
+                          break;
+                        case '4':
+                          caseStatus = 'Complete';
+                          caseLabelType = 'error';
+                          break;
+                        case '5':
+                          caseStatus = 'Re-Opened';
+                          caseLabelType = 'info';
+                          break;
+                      }
 
                       return (
                         <TableRow
                           hover
-                          key={taskID}
+                          key={inquryID}
                           tabIndex={-1}
                           role="checkbox"
                           selected={isItemSelected}
@@ -257,12 +260,12 @@ export default function MyTasks() {
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={isItemSelected}
-                              onChange={(event) => handleClick(event, description)}
+                              onChange={(event) => handleClick(event, subjectName)}
                             />
                           </TableCell>
-                          {/* <TableCell component="th" scope="row" padding="none">
+                          <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
-                             
+                              <Avatar alt={subjectName} src={profile_pic} />
                               <Typography variant="subtitle2" noWrap>
                                 {subjectName}
                               </Typography>
@@ -270,17 +273,34 @@ export default function MyTasks() {
                           </TableCell>
 
                           <TableCell align="left">{inquryType}</TableCell>
-                          <TableCell align="left">{caseStatus}</TableCell>
-                          <TableCell align="left">{remarks}</TableCell>
 
-                        
+                          <TableCell align="left">
+                            <Label variant="ghost" color={caseLabelType}>
+                              {caseStatus}
+                            </Label>
+                          </TableCell>
+                          <TableCell align="left">{dateCreated}</TableCell>
+                          <TableCell align="left">{LsaExpiry}</TableCell>
 
-                          <TableCell >
-                          {/* <RouterLink to={"/dashboard/view-case/"+caseType+"/"+subjectIdNO+":"+inquiryID+":"+owner+":"+assignee+":"+caseStatus}>
-                            <FontAwesomeIcon icon={faEye}/>
-                          </RouterLink> */}
-
-
+                          <TableCell>
+                            <RouterLink
+                              to={
+                                '/dashboard/view-case/' +
+                                caseType +
+                                '/' +
+                                subjectIdNO +
+                                ':' +
+                                inquryID +
+                                ':' +
+                                owner +
+                                ':' +
+                                assignee +
+                                ':' +
+                                status
+                              }
+                            >
+                              <FontAwesomeIcon icon={faEye} />
+                            </RouterLink>
                           </TableCell>
                         </TableRow>
                       );
@@ -314,15 +334,7 @@ export default function MyTasks() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-
-       
       </Container>
     </Page>
   );
 }
-
-
-
-
-
-

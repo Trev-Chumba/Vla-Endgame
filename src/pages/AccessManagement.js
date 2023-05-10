@@ -176,7 +176,7 @@ export default function AccessManagement() {
 
             if (status) {
 
-                showSuccessAlert("Priviledge Saved Success");
+                showSuccessAlert("Priviledge Saved ");
 
             } else {
                 showErrorAlert("Unable to Save Priviledge");

@@ -1,9 +1,17 @@
 import * as Yup from 'yup';
 import {
-    CardHeader, Grid, Card, Button, CardContent,
-    MenuItem, Stack, TextField, Container
-} from "@mui/material";
-import React, { useState, useEffect } from "react";
+  CardHeader,
+  Grid,
+  Card,
+  Button,
+  CardContent,
+  MenuItem,
+  Stack,
+  TextField,
+  Container,
+  Typography
+} from '@mui/material';
+import React, { useState, useEffect } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useAlert } from 'react-alert'
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -52,18 +60,13 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
     //irregadless of where this is called, all components using 
     //ProfileContext are updated with the new value of profile
 
-
-    const [profileData, setProfileData] = useState(profile) // using the Profile context value as the default value
-    const [subjectId, setSubjectID] = useState(undefined)
-    const [confirmBackgroundOpen, setConfirmBackgroundOpen] = useState(false)
-    const [confirmVettingOpen, setConfirmVettingOpen] = useState(false)
-    const [confirmPiOpen, setConfirmPiOpen] = useState(false)
-    const [confirmLsaOpen, setConfirmLsaOpen] = useState(false)
-
-
-  
-
-    
+  const [profileData, setProfileData] = useState(profile); // using the Profile context value as the default value
+  const [subjectId, setSubjectID] = useState(undefined);
+  const [confirmBackgroundOpen, setConfirmBackgroundOpen] = useState(false);
+  const [confirmVettingOpen, setConfirmVettingOpen] = useState(false);
+  const [confirmPiOpen, setConfirmPiOpen] = useState(false);
+  const [confirmLsaOpen, setConfirmLsaOpen] = useState(false);
+  const [attachment,  setAttachment] = useState(undefined)
 
     ////////////////////////////////////////////////
     // const convertToJscriptDate(()=>{})
@@ -447,16 +450,35 @@ export default function BioData({ id, setProfileAdded, type, setCaseAdded, updat
                                                 helperText={touched.subject_name && errors.subject_name}
                                             />
 
+                      <TextField
+                        // disabled
+                        fullWidth
+                        label="National ID/ Passport No"
+                        disabled = "true"
+                        {...getFieldProps('idNo')}
+                        error={Boolean(touched.idNo && errors.idNo)}
+                        helperText={touched.idNo && errors.idNo}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Personal Number"
+                        {...getFieldProps('pNo')}
+                      />
 
-                                            <TextField
-                                                // disabled
-                                                fullWidth
-                                                label="National ID/ Passport No"
-                                                {...getFieldProps('idNo')}
-                                                error={Boolean(touched.idNo && errors.idNo)}
-                                                helperText={touched.idNo && errors.idNo}
-                                            />
-                                        </Stack>
+                      <Button fullWidth component="label" variant="outlined">
+                        Attach Photo
+                        <input
+                          type="file"
+                          hidden
+                          onChange={(event) => setAttachment(event.target.files)}
+                        />
+                      </Button>
+                      {attachment ? (
+                      <Typography>{attachment[0].name}</Typography>
+                    ) : (
+                      <Typography>No attachment added</Typography>
+                    )}
+                    </Stack>
 
 
 

@@ -476,14 +476,32 @@ export default function Expenses({ id, updateProfileData }) {
                   <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
 
 
-                    <TextField
-                      fullWidth
-                      label="Remarks"
-                      multiline
-                      rows={3}
-                      {...getFieldProps('remarks')}
-
-                    />
+                  <SunEditor
+                      setOptions={{
+                        buttonList: [
+                          ["font", "fontSize", "formatBlock"],
+                          [
+                            "bold",
+                            "underline",
+                            "italic",
+                            "strike",
+                            "subscript",
+                            "superscript",
+                          ],
+                          ["align", "horizontalRule", "list", "table"],
+                          ["fontColor", "hiliteColor"],
+                          ["outdent", "indent"],
+                          ["undo", "redo"],
+                          ["removeFormat"],
+                          ["outdent", "indent"],
+                          ["link"],]
+                        }
+                      }
+                    
+          onChange = {handlesun}
+          onDrop={e => {e.preventDefault()}}
+          setContents= {expenseData.remarks}
+          />
 
                   </Stack>
 

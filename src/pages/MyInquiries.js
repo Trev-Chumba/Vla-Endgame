@@ -16,6 +16,7 @@ import {
   TableRow,
   TableBody,
   TableCell,
+  
   Container,
   Typography,
   TableContainer,
@@ -41,14 +42,12 @@ import Label from '../components/Label';
 
 const TABLE_HEAD = [
   { id: 'subjectName', label: 'Subject Name', alignRight: false },
-  { id: 'type', label: 'Type', alignRight: false },
+  { id: 'inquryType', label: 'Type', alignRight: false },
   { id: 'status', label: 'status', alignRight: false },
-  { id: 'creationDate', label: 'Creation date', alignRight: false },
-  { id: 'slaExpiry', label: 'Expiry Date', alignRight: false },
-  
-  
-
-   ];
+  { id: 'assName', label: 'Assignee Name', alignRight: false },
+  { id: 'dateCreated', label: 'Creation date', alignRight: false },
+  { id: 'LsaExpiry', label: 'Expiry Date', alignRight: false }
+];
 
 // ----------------------------------------------------------------------
 
@@ -69,7 +68,7 @@ function getComparator(order, orderBy) {
 }
 
 function applySortFilter(array, comparator, query) {
-  
+  console.log(array, 'This is array')
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -99,6 +98,7 @@ export default function MyInquiries() {
   
 
   const handleRequestSort = (event, property) => {
+    console.log("event and Property", event, property)
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -106,7 +106,7 @@ export default function MyInquiries() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = filteredUsers.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -141,12 +141,13 @@ export default function MyInquiries() {
   };
 
   const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
+    setFilterName(event.target.value.toLowerCase);
+    console.log('Search this: ', filterName)
     const users = applySortFilter(allData, getComparator(order, orderBy), filterName);
         setFilteredUsers(users)
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredUsers.length) : 0;
 
 
   useEffect(()=>{
@@ -157,14 +158,14 @@ export default function MyInquiries() {
     }
 
     FetchApi.post(GET_ALL_INQUIRY, requestBody, (status, data) => {
-      if(status){
-
-        console.log("INQUIRIES::::",requestBody)
+      console.log(requestBody, ":::Request")
+      if (status) {
+        //console.log("INQUIRIES::::",requestBody)
         const inquiry = applySortFilter(data, getComparator(order, orderBy), filterName);
-        setFilteredUsers(inquiry)
-        setAllData(inquiry)
-        
-      }else{
+        setFilteredUsers(inquiry);
+        setAllData(inquiry);
+        console.log("INQUIRIES Filtered::::",allData)
+      } else {
         //some error
       }
     })
@@ -189,11 +190,11 @@ export default function MyInquiries() {
         </Stack>
 
         <Card>
-          <UserListToolbar
+          {filteredUsers > 0 ? <UserListToolbar
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
-          />
+          /> : ''}
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -202,7 +203,7 @@ export default function MyInquiries() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
+                  rowCount={filteredUsers.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
@@ -211,9 +212,21 @@ export default function MyInquiries() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { subjectID, subjectName,inquryType, status, subjectIdNO, inquryID,
-                         profile_pic,LsaExpiry,dateCreated, owner, assignee} = row;
-                        
+                      const {
+                        subjectID,
+                        subjectName,
+                        inquryType,
+                        status,
+                        subjectIdNO,
+                        inquryID,
+                        profile_pic,
+                        LsaExpiry,
+                        dateCreated,
+                        owner,
+                        assignee,
+                        assName 
+                      } = row;
+
                       const isItemSelected = selected.indexOf(subjectName) !== -1;
 
                       let caseType = "LA";
@@ -237,7 +250,7 @@ export default function MyInquiries() {
                       return (
                         <TableRow
                           hover
-                          key={inquryID}
+                          key={subjectName}
                           tabIndex={-1}
                           role="checkbox"
                           selected={isItemSelected}
@@ -272,6 +285,7 @@ export default function MyInquiries() {
                                   {caseStatus}
                           </Label>
                           </TableCell>
+                          <TableCell align="left">{assName}</TableCell>
                           <TableCell align="left">{dateCreated}</TableCell>
                           <TableCell align="left">{LsaExpiry}</TableCell>
                          
@@ -284,8 +298,7 @@ export default function MyInquiries() {
 
 
                           </TableCell>
-                         
-                        </TableRow>
+                        </TableRow> 
                       );
                     })}
                   {emptyRows > 0 && (
@@ -308,7 +321,7 @@ export default function MyInquiries() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[5, 10, 25, 50, 100]}
             component="div"
             count={filteredUsers.length}
             rowsPerPage={rowsPerPage}

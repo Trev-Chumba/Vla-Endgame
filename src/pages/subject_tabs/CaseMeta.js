@@ -11,6 +11,7 @@ import { FetchApi } from 'src/api/FetchApi';
 import { BASE_URL, UPDATE_CASE } from 'src/api/Endpoints';
 import { UserContext } from 'src/context/UserContext';
 
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -56,26 +57,27 @@ export default function CaseMeta({ details, updateProfileData }) {
 
     const alert = useAlert();
 
-    const showAlert = () => {
-        alert.success("SAVED SUCCESSFULLY")
-    }
-
-    const RegisterSchema = Yup.object().shape({
-        source: Yup.string(),
-        reasons: Yup.string(),
-        esummary: Yup.string(),
-        commissioner: Yup.string(),
-        rto: Yup.string(),
-        rfrom: Yup.string(),
-        date: Yup.string(),
-        reference: Yup.string(),
-        subject: Yup.string(),
-        objectives: Yup.string(),
-        position: Yup.string(),
-        candidateType: Yup.string(),
-        through:Yup.string()
-
-    });
+  const showAlert = () => {
+    alert.success('SAVED SUCCESSFULLY');
+  };
+  const showErrorAlert = () => {
+    alert.success('Did not save');
+  };
+  const RegisterSchema = Yup.object().shape({
+    source: Yup.string(),
+    reasons: Yup.string(),
+    esummary: Yup.string(),
+    commissioner: Yup.string(),
+    rto: Yup.string(),
+    rfrom: Yup.string(),
+    date: Yup.string(),
+    reference: Yup.string(),
+    subject: Yup.string(),
+    objectives: Yup.string(),
+    position: Yup.string(),
+    candidateType: Yup.string(),
+    through: Yup.string()
+  });
 
     const formik = useFormik({
         initialValues: {
@@ -141,22 +143,22 @@ export default function CaseMeta({ details, updateProfileData }) {
             details.commissioner = 1
         }
 
-        details.cReasons = values.reasons
-        details.cSource = values.source
-        details.esummary = values.esummary
-        details.objectives = values.objectives
-        details.userID = userData.userID
-        details.inquiryID = details.iquiryid
-        details.rto = values.rto
-        details.rfrom = values.rfrom,
-            details.date = values.from,
-            details.subject = values.subject,
-            details.reference = values.reference,
-            details.attachments = values.attachments,
-            details.position = values.position,
-            details.candidateType = values.candidateType,
-            details.through=values.through
-
+    details.cReasons = values.reasons;
+    details.cSource = values.source;
+    details.esummary = values.esummary;
+    details.objectives = values.objectives;
+    details.userID = userData.userID;
+    details.inquiryID = details.iquiryid;
+    details.rto = values.rto;
+    details.cFindings = [],
+    (details.rfrom = values.rfrom),
+      (details.date = values.from),
+      (details.subject = values.subject),
+      (details.reference = values.reference),
+      (details.attachments = values.attachments),
+      (details.position = values.position),
+      (details.candidateType = values.candidateType),
+      (details.through = values.through);
 
         console.log("SENDING", details)
 
@@ -283,62 +285,50 @@ export default function CaseMeta({ details, updateProfileData }) {
                                         </FormControl>
                                     </Stack>
 
-                                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                    <FormControl sx={{ m: 1, width: 1100 }}>
+                      <TextField fullWidth label="Internal/External" {...getFieldProps('candidateType')} />
+                    </FormControl>
+                  </Stack>
 
-                                        <FormControl sx={{ m: 1, width: 1100 }}>
-                                            <TextField
-                                                fullWidth
-                                                label="Status"
-                                                {...getFieldProps('candidateType')}
-
-                                            />
-                                        </FormControl>
-                                    </Stack>
-
-
-
-
-
-
-                                    <FormControl sx={{ m: 1, width: 1000 }}>
-                                        <TextField
-                                            fullWidth
-                                            label="Reasons for BC/VT/LSA"
-                                            multiline
-                                            rows={3}
-                                            {...getFieldProps('reasons')}
-
-                                        />
-                                    </FormControl>
-                                    <Stack>
-
-                                    </Stack>
-                                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-
-
-                                        <TextField
-                                            fullWidth
-                                            label="Exucutive Summary"
-                                            multiline
-                                            rows={3}
-                                            {...getFieldProps('esummary')}
-
-                                        />
-
-                                    </Stack>
-                                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-
-
-                                        <TextField
-                                            fullWidth
-                                            label="Objectives "
-                                            multiline
-                                            rows={3}
-                                            {...getFieldProps('objectives')}
-
-                                        />
-
-                                    </Stack>
+                  <FormControl sx={{ m: 1, width: 1000 }}>
+                    <TextField
+                      fullWidth
+                      label="Reasons for BC/VT/LSA"
+                      multiline
+                      rows={3}
+                      {...getFieldProps('reasons')}
+                    />
+                  </FormControl>
+                  <Stack></Stack>
+                    {details.inquiryType != 'Vetting' && details.inquiryType != 'Background Check' &&<Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                      <TextField
+                        fullWidth
+                        label="Executive Summary"
+                        multiline
+                        rows={3}
+                        {...getFieldProps('esummary')}
+                      />
+                    </Stack>}
+                  {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                    <TextField
+                      fullWidth
+                      label="Introduction"
+                      multiline
+                      rows={3}
+                      {...getFieldProps('introduction')}
+                    />
+                  </Stack>
+                  {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                    <TextField
+                      fullWidth
+                      label="Objectives"
+                      disabled="true"
+                      multiline
+                      rows={3}
+                      {...getFieldProps('objectives')}
+                    />
+                  </Stack> */}
 
                                     {/* 
                                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>

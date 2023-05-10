@@ -50,7 +50,8 @@ DashboardSidebar.propTypes = {
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
-
+  const userType = localStorage.getItem("userGroup")
+  //console.log("who am I", userType)
   const isDesktop = useResponsive('up', 'lg');
 
   useEffect(() => {
@@ -91,7 +92,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         }
       </UserContext.Consumer>
 
-      <NavSection navConfig={sidebarConfig} />
+      {/* if statement */}
+      <NavSection navConfig={(userType == "Intelligence Officer") ? sidebarConfig: sidebarConfig2} />
+ 
+     
       
 
       <Box sx={{ flexGrow: 1 }} />

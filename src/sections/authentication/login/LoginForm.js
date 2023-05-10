@@ -61,23 +61,23 @@ export default function LoginForm({ setValueX }) {
     },
     validationSchema: LoginSchema,
     onSubmit: (values) => {
+      setIsSubmitting(true);
+      console.log("sending ....", values)
+      FetchApi.post(LOGIN_USER, values, (status, data) => {
+        setIsSubmitting(false);
+        if(status && data.status == "1" || data.status == 1 || data.status == undefined)
+        {
+          console.log('data status', status, data.status)
+          setLoginStatus(true);
+          console.log('data status', data)
+          setUserData(data);
+          console.log(data, 'Login Data');
 
-      setIsSubmitting(true)
-
-     FetchApi.post(LOGIN_USER, values, (status, data)=>{
-
-      setIsSubmitting(false)
-
-      if(status && data.status != '0'){
-
-        setLoginStatus(true)
-
-        setUserData(data)
-        console.log(data,"Login Data")
-
-        localStorage.setItem("userData", data)
-
-        showSuccessAlert("Login Success")
+          localStorage.setItem('userData', data);
+          console.log('data status', status, data.groupName);
+          localStorage.setItem('userGroup', data.groupName);
+          console.log(localStorage.getItem('userGroup'))
+          showSuccessAlert('Login Success');
 
         setValueX(true)
 
@@ -85,15 +85,18 @@ export default function LoginForm({ setValueX }) {
         //    setUserData({})
         // }, 1000*60*5)
 
-        if(data.reports== '1' || data.reports==1){
-
-          console.log("I AM COMM")
-          navigate("/dashboard/comm")
-          localStorage.setItem("userType", "comm")
-          
-        }else{
-          localStorage.setItem("userType", "user")
-          navigate("/dashboard/app")
+          if (data.reports = 1 || data.reports == '1') {
+            //console.log('I AM COMM');
+            navigate('/dashboard/comm');
+            localStorage.setItem('userType', 'comm');
+          } else {
+            localStorage.setItem('userType', 'user');
+            navigate('/dashboard/app');
+          }
+        } else {
+          console.log('data status', status, data.status)
+          //console.log('data status', data)
+          showErrorAlert('Incorrect Username or Password');
         }
 
 
@@ -122,7 +125,7 @@ export default function LoginForm({ setValueX }) {
 
   return (
     <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form autoComplete="off" noValidate onSubmit={handleSubmit} spacing= {3}>
         <Stack spacing={3}>
           <TextField
             fullWidth
@@ -154,7 +157,7 @@ export default function LoginForm({ setValueX }) {
           />
         </Stack>
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+        {/* <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
           <FormControlLabel
             control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
             label="Remember me"
@@ -163,8 +166,8 @@ export default function LoginForm({ setValueX }) {
           <Link component={RouterLink} variant="subtitle2" to="#" underline="hover">
             Forgot password?
           </Link>
-        </Stack>
-
+        </Stack> */}
+      <Stack spacing={3} marginTop={3}>
         <LoadingButton
           fullWidth
           size="large"
@@ -174,6 +177,12 @@ export default function LoginForm({ setValueX }) {
         >
           Login
         </LoadingButton>
+        </Stack>
+        {/* <Stack bottom={0}>
+          <Text>
+            Version 1
+          </Text>
+        </Stack> */}
       </Form>
     </FormikProvider>
   );

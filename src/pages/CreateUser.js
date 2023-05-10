@@ -133,8 +133,13 @@ export default function CreateUser() {
 
         })
 
-    }
-
+      if (status) {
+        showSuccessAlert('User Saved ');
+      } else {
+        showSuccessAlert('User could not be found');
+      }
+    });
+  };
 
     const getUserGroups = () => {
 

@@ -525,7 +525,36 @@ export default function FinancesProf({ id, updateProfileData }) {
   />
 
 </Stack>
+<Stack>
+      
 
+<SunEditor
+          setOptions={{
+            buttonList: [
+              ["font", "fontSize", "formatBlock"],
+              [
+                "bold",
+                "underline",
+                "italic",
+                "strike",
+                "subscript",
+                "superscript",
+              ],
+              ["align", "horizontalRule", "list", "table"],
+              ["fontColor", "hiliteColor"],
+              ["outdent", "indent"],
+              ["undo", "redo"],
+              ["removeFormat"],
+              ["outdent", "indent"],
+              ["link"],]
+            }
+          }
+         
+          onChange = {handlesun}
+          onDrop={e => {e.preventDefault()}}
+          setContents= {accountData.remarks}
+          />
+</Stack>
 </Stack>
 
 <CardActions sx={{ marginTop: 2 }}>

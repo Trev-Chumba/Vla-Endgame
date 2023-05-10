@@ -3,10 +3,12 @@ import { BASE_URL } from './Endpoints';
 
 const headers = new Headers();
 
-headers.append("Content-Type", "application/json");
-headers.append("Authorization", "Bearer token");
+headers.append('Content-Type', 'application/json');
+headers.append('Authorization', 'Bearer token');
 
-const upHeaders = new Headers();
+// const upHeaders = new Headers();
+// upHeaders.append('multipart/form-data')
+//upHeaders.append('Authorization', 'Bearer token');
 
 
 export const FetchApi = {
@@ -29,21 +31,20 @@ export const FetchApi = {
             })
     },
 
-
-    upload : (formData, onComplete) => {
-        fetch(BASE_URL+ "/upload",{
-            method: "POST",
-            headers: upHeaders,
-            body: formData
-        })
-        .then( response => response.json())
-        .then(data => onComplete(true, data))
-        .catch(error => {
-            console.log(BASE_URL+"/upload")
-            console.log(error)
-            onComplete(false, undefined)
-        })
-    },
+  upload: (formData, onComplete) => {
+    fetch(BASE_URL + '/upload', {
+      method: 'POST',
+     // headers: {"multipart/form-data"},
+      body: formData
+    })
+      .then((response) => response.json())
+      .then((data) => onComplete(true, data))
+      .catch((error) => {
+        console.log(BASE_URL + '/upload');
+        console.log(error);
+        onComplete(false, undefined);
+      });
+  },
 
 
     get : (url,onComplete) => {

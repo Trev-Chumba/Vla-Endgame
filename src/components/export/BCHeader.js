@@ -16,8 +16,18 @@ import { Page, Text, View, Document, StyleSheet, Image,Font} from '@react-pdf/re
 
 
 export const BcHeader = (props) => {
-    const caseDetails = props.data||{}
-    console.log("CASE DETAILS HEADER",caseDetails)
+  const caseDetails = props.data || {};
+  console.log('CASE DETAILS HEADER', caseDetails);
+
+  const caseType = caseDetails.inquiryType;
+  const [caseTxt, setcaseTxt] = useState('');
+  useEffect(() => {
+    if (caseType == 'Vetting') {
+      setcaseTxt('VETTING REPORT');
+    } else {
+      setcaseTxt('BACKGROUND CHECK REPORT');
+    }
+  }, []);
 
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
@@ -47,11 +57,13 @@ today = mm + '/' + dd + '/' + yyyy;
         }
     })
 
-    return (
-        <View>
-
-            <Text style={{...styles.Text, margin: 'auto' }}> INTELLIGENCE &amp; STRATEGIC OPERATIONS DEPARTMENT</Text>
-            <Text style={{...styles.Text, margin: 'auto' }}> BACKGROUND REPORT </Text>
+  return (
+    <View>
+      <Text style={{ ...styles.Text, margin: 'auto'}}>
+        INTELLIGENCE, STRATEGIC OPERATIONS, INVESTIGATIONS &amp; 
+      </Text>
+      <Text style={{ ...styles.Text, margin: 'auto' }}>ENFORCEMENT DEPARTMENT</Text>
+      <Text style={{ ...styles.Text, margin: 'auto' }}>{caseTxt}</Text>
 
             <View style={styles.Line} />
 

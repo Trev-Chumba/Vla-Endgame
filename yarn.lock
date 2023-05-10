@@ -1825,7 +1825,7 @@
     "parse-svg-path" "^0.1.2"
     "svg-arc-to-cubic-bezier" "^3.2.0"
 
-"@react-pdf/renderer@^2.2.0":
+"@react-pdf/renderer@^2.2.0", "@react-pdf/renderer@>=2":
   "integrity" "sha512-szUKQWQ37Y56ZfQpip8dZ4gflQC1ubwRvoTghIWCFF8Ka8oG9mjI+tVBvc+cMuPsigOvUjrTLQtZvQ85EwXMGg=="
   "resolved" "https://registry.npmjs.org/@react-pdf/renderer/-/renderer-2.2.0.tgz"
   "version" "2.2.0"
@@ -3433,6 +3433,11 @@
   "integrity" "sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA=="
   "resolved" "https://registry.npmjs.org/camelcase/-/camelcase-6.3.0.tgz"
   "version" "6.3.0"
+
+"camelize@^1.0.0":
+  "integrity" "sha512-dU+Tx2fsypxTgtLoE36npi3UqcjSSMNYfkqgmoEhtZrraP5VWq0K7FkWVTYa8eMPtnU/G2txVsfdCJTn9uzpuQ=="
+  "resolved" "https://registry.npmjs.org/camelize/-/camelize-1.0.1.tgz"
+  "version" "1.0.1"
 
 "can-use-dom@^0.1.0":
   "integrity" "sha1-IsxKNKCrxDlQ9CxkEQJKP2NmtFo="
@@ -5680,7 +5685,7 @@
   dependencies:
     "function-bind" "^1.1.1"
 
-"he@^1.2.0":
+"he@^1.2.0", "he@1.2.0":
   "integrity" "sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw=="
   "resolved" "https://registry.npmjs.org/he/-/he-1.2.0.tgz"
   "version" "1.2.0"
@@ -7265,6 +7270,14 @@
   "resolved" "https://registry.npmjs.org/node-forge/-/node-forge-1.3.1.tgz"
   "version" "1.3.1"
 
+"node-html-parser@^3.3.5":
+  "integrity" "sha512-VkWDHvNgFGB3mbQGMyzqRE1i/BG7TKX9wRXC8e/v8kL0kZR/Oy6RjYxXH91K6/+m3g8iQ8dTqRy75lTYoA2Cjg=="
+  "resolved" "https://registry.npmjs.org/node-html-parser/-/node-html-parser-3.3.6.tgz"
+  "version" "3.3.6"
+  dependencies:
+    "css-select" "^4.1.3"
+    "he" "1.2.0"
+
 "node-int64@^0.4.0":
   "integrity" "sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs="
   "resolved" "https://registry.npmjs.org/node-int64/-/node-int64-0.4.0.tgz"
@@ -7322,9 +7335,9 @@
     "boolbase" "~1.0.0"
 
 "nth-check@^2.0.1":
-  "integrity" "sha512-it1vE95zF6dTT9lBsYbxvqh0Soy4SPowchj0UBGj/V6cTPnXXtQOPUbhZ6CmGzAD/rW22LQK6E96pcdJXk4A4w=="
-  "resolved" "https://registry.npmjs.org/nth-check/-/nth-check-2.0.1.tgz"
-  "version" "2.0.1"
+  "integrity" "sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w=="
+  "resolved" "https://registry.npmjs.org/nth-check/-/nth-check-2.1.1.tgz"
+  "version" "2.1.1"
   dependencies:
     "boolbase" "^1.0.0"
 
@@ -8579,6 +8592,15 @@
     "create-react-class" "^15.5.2"
     "prop-types" "^15.5.8"
     "spin.js" "2.x"
+
+"react-pdf-html@^1.1.18":
+  "integrity" "sha512-F/WIlNVsiX8QAh19VCQu3E0Z17lpPlpb3KwAUpAWU4fjhPSFaHsiaRDV+cQ104ds/rvfaq3avIqciMj8cIrzxw=="
+  "resolved" "https://registry.npmjs.org/react-pdf-html/-/react-pdf-html-1.1.18.tgz"
+  "version" "1.1.18"
+  dependencies:
+    "camelize" "^1.0.0"
+    "css-tree" "^1.1.3"
+    "node-html-parser" "^3.3.5"
 
 "react-reconciler@^0.23.0":
   "integrity" "sha512-vV0KlLimP9a/NuRcM6GRVakkmT6MKSzhfo8K72fjHMnlXMOhz9GlPe+/tCp5CWBkg+lsMUt/CR1nypJBTPfwuw=="

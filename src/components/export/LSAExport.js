@@ -89,7 +89,17 @@ export default function LSAExport(props) {
 
                 <LSAHeader data={caseDetails} />
 
-                <Text style={styles.textSubHeader}>1.0 Executive Summary</Text>
+        <Text style={styles.textSubHeader}>1.0 Executive Summary</Text>
+        <Text style={styles.textBody}>{caseDetails.esummary}</Text>
+        <Text style={styles.textSubHeader}>Narration</Text>
+        <Text style={styles.textBody}>
+           {caseDetails.narration}
+          </Text>
+        <View style={styles.table}>
+          <View style={styles.tr} wrap={false}>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Item Description</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>Amount(Ksh.)</Text>
+          </View>
 
                 <Text style={styles.textBody}>
                     {caseDetails.esummary}
@@ -763,8 +773,32 @@ export default function LSAExport(props) {
 
                 </View>
 
-
-                <Text style={styles.textSubHeader}>9.0 Assets</Text>
+          {travels.map((expense) => {
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{expense.description}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{expense.estValue}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{expense.start_date}</Text>
+                <Text style={{ ...styles.td, ...styles.textBody }}>{expense.end_date}</Text>
+                {/* <Text style={{ ...styles.td, ...styles.textBody }}>{expense.remarks}</Text> */}
+              </View>
+            );
+          })}
+        </View>
+        <Text style={styles.textSubHeader}>Remarks</Text>
+          <View style={styles.table} wrap={false}>
+             <View style={styles.tr}>
+             <Text style={{ ...styles.td, ...styles.textTableHeader }}>Remarks</Text>
+             </View>
+             {travels.map((finItem) => {
+                return(
+                  <View style={styles.tr}>
+                    <div style={styles.td}><Html stylesheet={styles}>{finItem.remarks}</Html></div> 
+                  </View>
+                )
+             })}
+          </View>
+        <Text style={styles.textSubHeader}>11.0 Assets</Text>
 
                 <View style={styles.table}>
                     <View style={styles.tr}>
