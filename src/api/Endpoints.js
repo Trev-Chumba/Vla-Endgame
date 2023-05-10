@@ -47,7 +47,7 @@ export const FIND_SUBJECT_ID="/searchMgt/find"
 export const GET_ALL_INQUIRY="/inquiryMgt/myInquries"
 export const GET_CASE_DETAILS = "/inquiryMgt/get"
 
-export const PRINT_CASE = "/printSubject/report"
+//export const PRINT_CASE = "/printSubject/report"
 
 export const TRANSFER_CASE = "/inquiryMgt/transfer"
 export const UPDATE_CASE = "/inquiryMgt/update"

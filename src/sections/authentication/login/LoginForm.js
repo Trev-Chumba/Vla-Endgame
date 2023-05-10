@@ -98,16 +98,6 @@ export default function LoginForm({ setValueX }) {
           //console.log('data status', data)
           showErrorAlert('Incorrect Username or Password');
         }
-
-
-      }else{
-
-        showErrorAlert("Incorrect Username or Password")
-
-      }
-
-
-
      })
    
 
@@ -167,7 +157,7 @@ export default function LoginForm({ setValueX }) {
             Forgot password?
           </Link>
         </Stack> */}
-      <Stack spacing={3} marginTop={3}>
+      <Stack marginTop={3}>
         <LoadingButton
           fullWidth
           size="large"

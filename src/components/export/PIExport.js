@@ -148,125 +148,121 @@ export default function PIExport(props) {
 
   return (
     <Page size="A4" style={styles.page}>
-      <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed />
+      <Image src={'/vla/static/l_head.png'} style={styles.sideHead} fixed /> 
+      <View style={styles.body}>
+          <Image style={{ marginHorizontal: 'auto', height: 70 }} src={'/vla/static/kra_logo_name.jpg'} fixed />
+                  <BcHeader />
 
+                  <Text style={styles.textSubHeader}>1.0 Reason for Background Check</Text>
 
-            <View style={styles.body}>
+                  <Text style={styles.textBody}>
+                      {caseDetails.cReasons}
+                  </Text>
 
+                  <View style={styles.table} >
+                      <View style={styles.tr}>
+                          <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+                              No
+                          </Text>
 
-                <Image style={{ marginHorizontal: 'auto', height: 70 }} src={'/vla/static/kra_logo_name.jpg'} fixed />
+                          <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+                              P/No.
+                          </Text>
 
+                          <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+                              Name
+                          </Text>
 
-                <BcHeader />
+                          <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+                              Status
+                          </Text>
 
-                <Text style={styles.textSubHeader}>1.0 Reason for Background Check</Text>
+                          <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+                              Position Applied
+                          </Text>
+                      </View>
 
-                <Text style={styles.textBody}>
-                    {caseDetails.cReasons}
-                </Text>
+                      <View style={styles.tr}>
+                          <Text style={{ ...styles.td, ...styles.textBody }}>
+                              1
+                          </Text>
 
-                <View style={styles.table} >
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            No
-                        </Text>
+                          <Text style={{ ...styles.td, ...styles.textBody }}>
+                              {bioData.idNo}
+                          </Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            P/No.
-                        </Text>
+                          <Text style={{ ...styles.td, ...styles.textBody }}>
+                              {bioData.subject_Name}
+                          </Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Name
-                        </Text>
+                          <Text style={{ ...styles.td, ...styles.textBody }}>
+                              {caseDetails.candidateStatus}
+                          </Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Status
-                        </Text>
+                          <Text style={{ ...styles.td, ...styles.textBody }}>
+                              {caseDetails.positionApplied}
+                          </Text>
+                      </View>
+                  </View>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Position Applied
-                        </Text>
-                    </View>
+                  <Text style={styles.textSubHeader}>2.0 Objective of the Vetting</Text>
 
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            1
-                        </Text>
+                  <Text style={styles.textBody}>
+                      {caseDetails.objectives}
+                  </Text>
 
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            {bioData.idNo}
-                        </Text>
+                  <Text style={styles.textSubHeader}>3.0 Findings</Text>
 
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            {bioData.subject_Name}
-                        </Text>
+                  <View style={styles.table}>
+                      <View style={styles.tr}>
+                          <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+                              No
+                          </Text>
 
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            {caseDetails.candidateStatus}
-                        </Text>
+                          <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+                              P/No.
+                          </Text>
 
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            {caseDetails.positionApplied}
-                        </Text>
-                    </View>
-                </View>
+                          <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+                              Inquiry No.
+                          </Text>
 
-                <Text style={styles.textSubHeader}>2.0 Objective of the Vetting</Text>
+                          <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+                              Name
+                          </Text>
 
-                <Text style={styles.textBody}>
-                    {caseDetails.objectives}
-                </Text>
+                          <Text style={{ ...styles.td, ...styles.textTableHeader }}>
+                              Remarks
+                          </Text>
+                      </View>
 
-                <Text style={styles.textSubHeader}>3.0 Findings</Text>
+                      {/* <View style={styles.tr}>
+                          <Text style={{ ...styles.td, ...styles.textBody }}>
+                              1
+                          </Text>
 
-                <View style={styles.table}>
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            No
-                        </Text>
+                        </View> */}
+                      </View>
+                  <Text style={styles.textSubHeader}>2.0 Preliminary Findings</Text>
+                  <Text style={styles.textBody}></Text>
 
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            P/No.
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Inquiry No.
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Name
-                        </Text>
-
-                        <Text style={{ ...styles.td, ...styles.textTableHeader }}>
-                            Remarks
-                        </Text>
-                    </View>
-
-                    <View style={styles.tr}>
-                        <Text style={{ ...styles.td, ...styles.textBody }}>
-                            1
-                        </Text>
-
-        <Text style={styles.textSubHeader}>2.0 Preliminary Findings</Text>
-        <Text style={styles.textBody}><Html stylesheet={styles}>{caseDetails.findings}</Html></Text>
-
-        <Text style={styles.textSubHeader}>3.0 Way Forward</Text>
-        <Text style={styles.textBody}>{caseDetails.remarks}</Text>           
-        <Text style={styles.textSubHeader}>4.0 Recommendation</Text>
-        <Text style={styles.textBody}>{cFinding}</Text> 
-        <Text
-          style={{
-            marginTop: 'auto',
-            marginHorizontal: 'auto',
-            fontFamily: 'Gill_Bold_Italic',
-            fontSize: 15,
-            color: 'red'
-          }}
-          fixed
-        >
-          Tulipe Ushuru, Tujitegemee!
-        </Text>
-      </View>
+                  <Text style={styles.textSubHeader}>3.0 Way Forward</Text>
+                  <Text style={styles.textBody}>{caseDetails.remarks}</Text>           
+                  <Text style={styles.textSubHeader}>4.0 Recommendation</Text>
+                  <Text style={styles.textBody}>{cFinding}</Text> 
+                  <Text
+                  style={{
+                  marginTop: 'auto',
+                  marginHorizontal: 'auto',
+                  fontFamily: 'Gill_Bold_Italic',
+                  fontSize: 15,
+                  color: 'red'
+                  }}
+                  fixed
+                  >
+                  Tulipe Ushuru, Tujitegemee!
+                  </Text>
+     </View>   
     </Page>
   );
 }

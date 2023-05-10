@@ -299,16 +299,8 @@ export default function ResidentialProfile({ id, updateProfileData }) {
 
           if (!data.subjectID) {
             showErrorAlert('CREATE USER FIRST');
-          } else {
-            setSubjectID(data.subjectID);
-
-            getProfileResidents();
-
-            setResidentialData({});
-
-            showSuccessAlert('SAVED SUCCESSFULLY');
-
-        } else {
+          } 
+           else {
           setSubjectID(data.subjectID)
    
 

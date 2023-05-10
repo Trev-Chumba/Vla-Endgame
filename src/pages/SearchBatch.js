@@ -9,7 +9,6 @@ import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 import RadioGroup from '@mui/material/RadioGroup';
 import { useAlert } from 'react-alert';
-import { useFormik, Form, FormikProvider } from 'formik';
 // material
 
 // import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -29,8 +28,6 @@ import {
   TableContainer,
   TablePagination,
   TextField,
-  Grid,
-  CardContent,
   Box
 } from '@mui/material';
 // components
@@ -40,12 +37,11 @@ import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu, } from '../sections/@dashboard/user';
-import * as Yup from 'yup';
+//
 import {UserListHead2} from '../sections/@dashboard/user/UserListHead2'
 import USERLIST from '../_mocks_/user';
-import FormControl from '@mui/material/FormControl';
 import { FetchApi } from '../api/FetchApi';
-import {GET_ALL_USERS, SEARCH_BATCH, MY_BATCH, ASSIGN_BATCH, PRINT_BATCH} from '../api/Endpoints';
+import {GET_ALL_USERS, SEARCH_BATCH, MY_BATCH, ASSIGN_BATCH} from '../api/Endpoints';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyedropper, faInfo } from '@fortawesome/free-solid-svg-icons';
 
@@ -56,7 +52,6 @@ import { UserContext } from 'src/context/UserContext';
 // import Dialog from '@mui/material/Dialog';
 import { Document } from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
-import BatchExport from 'src/components/export/BatchExport';
 var Loader = require('react-loader');
 // ----------------------------------------------------------------------
 
@@ -70,17 +65,6 @@ const TABLE_HEAD = [
 
 
 // ----------------------------------------------------------------------
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250
-    }
-  }
-};
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -126,77 +110,34 @@ export default function BatchProfiles() {
   // const [allData, setAllData] = useState([])
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [fileName, setFileName] = useState(undefined)
-  //const [caseList, setCaseList] = useState([]);
+  const [caseList, setCaseList] = useState([]);
   const [showButton, setshowButton] = useState(false)
   const [batchNo, setBatchNo] = useState('')
   const [isTrue, setIstrue] = useState(false)
   const [isNotLoading, setLoading] = useState(true)
   const [selectedUser, setSelectedUser] = useState("")
   const [dTrue, setdTrue] = useState(false)
-  const [letTrue, setletTrue] = useState(false)
   const radioGroupRef = useRef(null);
   const [users, setUsers] = useState([])
 
   const [open, setOpen] = useState(false);
-  const [report, setReport] = useState(false);
   const [count, setCount] = useState(0)
   const [exportData, setExportData] = useState({})
-  const [letterHead, setLetterHead] = useState({})
+
 
    const alert = useAlert();
-
-   const RegisterSchema = Yup.object().shape({
-    source: Yup.string(),
-    rto: Yup.string(),
-    rfrom: Yup.string(),
-    reference: Yup.string(),
-    subject: Yup.string(),
-    reasons: Yup.string(),
-    recommendation: Yup.string(),
-    position: Yup.string(),
-    candidateType: Yup.string(),
-    through: Yup.string(),
-    date: Yup.date(),
-  });
-
-   const formik = useFormik({
-    initialValues: {
-      reasons:'',
-      source: '',
-      rto: '',
-      rfrom: '',
-      reference: '',
-      date: '',
-      through:'',
-      reasons: '',
-      recommendation: ""
-    },
-    validationSchema: RegisterSchema,
-    enableReinitialize: true,
-    onSubmit: (values) => {
-      //upload any files
-
-      someFun(values)
-      setReport(true)
-     
-    }
-  });
-
-  const someFun =(values)=>
-  {
-      setLetterHead(values)
-      console.log("Letter Head report:::", letterHead)
-  }
-
-
-
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
-
+  const showErrorAlert = (message) => {
+    alert.error(message);
+  };
+  
+  const showSuccessAlert = (message) => {
+    alert.success(message);
+  };
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = USERLIST.map((n) => n.name);
@@ -205,6 +146,7 @@ export default function BatchProfiles() {
     }
     setSelected([]);
   };
+
   const handleEntering = () => {
     if (radioGroupRef.current != null) {
       radioGroupRef.current.focus();
@@ -249,39 +191,9 @@ export default function BatchProfiles() {
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  
 
 
-  useEffect(()=>{
-
-    const requestBody = {
-        subjectID:"",
-        idNo: ""
-    }
-
-    FetchApi.post(FIND_SUBJECT_ID, requestBody, (status, data) => {
-      if(status){
-        console.log(data)
-        const users = applySortFilter(data, getComparator(order, orderBy), filterName);
-        setFilteredUsers(users)
-        setAllData(users)
-        
-      }else{
-        //some error
-      }
-    })
-
-  }, []) 
-
-
-
-
-
-  let mappedList
-  const isUserNotFound = filteredUsers.length === 0;
-  const hiddenfileInput = useRef(null);
-  const handleFile  = event => {
-    hiddenfileInput.current.click();
-  };
   const changeHandler = (event) => {
     setFileName(event.target.files[0])
     Papa.parse(event.target.files[0],{
@@ -305,11 +217,12 @@ export default function BatchProfiles() {
       }));
       
       console.log('List is mapped ::', mappedList);
-      
+      setCaseList(mappedList)
+      console.log('List is mapped2 ::', caseList);
      }
 
     })
-
+   
   };
   const assignSelectedUser = () => {
 
@@ -383,9 +296,9 @@ export default function BatchProfiles() {
         batchNo: batchNo
     }
 
-    FetchApi.post(PRINT_BATCH, requestBody, (status, data) => {
+    FetchApi.post(BATCH_LIST, requestBody, (status, data) => {
       if(status){
-
+        console.log("Request for list", requestBody)
         console.log("INQUIRIES::::",data)
        // const inquiry = applySortFilter(data, getComparator(order, orderBy), filterName);
         setExportData(data)
@@ -459,7 +372,6 @@ export default function BatchProfiles() {
   }, [buttCount]) ;
 
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   const hiddenfileInput = useRef(null);
   const handleFile  = event => {
@@ -482,18 +394,18 @@ export default function BatchProfiles() {
   
   const openDiag = (e) =>
   {
-     setBatchNo(e.target.value)
+    
      setdTrue(true)
+     setBatchNo(e.target.value)
   }
   
-  // Preview batch
   const handleSelect = (event) =>
   {
-      setBatchNo(event.target.value)
+     
       console.log(".......", batchNo)
-
       setCount(count + 1)
-      setletTrue(!letTrue)
+      setOpen(!open)
+      setBatchNo(event.target.value)
   }
 
   return (
@@ -534,106 +446,26 @@ export default function BatchProfiles() {
         <Dialog
           sx={{ '& .MuiDialog-paper': { width: '80%', height: '100%' } }}
           maxWidth="xl"
-          open={report}>
+          open={open}>
 
           <DialogContent>
 
             <PDFViewer width='100%' height='100%'>
               <Document>
 
-                <BatchExport data={exportData} letterH={letterHead} />
+                <BcAndVtExPort data={exportData} caseData={exportData} />
 
               </Document>
             </PDFViewer>
 
           </DialogContent>
           <DialogActions>
-            <Button autoFocus onClick={() => setReport(false)}>
+            <Button autoFocus onClick={() => setOpen(false)}>
               Cancel
             </Button>
           </DialogActions>
 
         </Dialog>
-
-
-                {/*  Letter Head Dialog*/}
-        <Dialog 
-          sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
-          maxWidth="sm"
-          TransitionProps={{ onEntering: handleEntering }}
-          open={letTrue}>
-         <DialogTitle>Report Header</DialogTitle>
-          <DialogContent dividers>
-          <FormikProvider value={formik}>
-              <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <Grid container spacing={2} sx={{ width: '100%' }}>
-                  <Grid item md={12}>
-                    <Card sx={{ width: '100%', paddingBottom: 3 }}>
-                      <CardContent>
-                        <Stack spacing={3}>
-                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                            <FormControl sx={{ m: 1, width: 1100 }}>
-                              <TextField fullWidth label="To" {...getFieldProps('rto')} />
-                            </FormControl>
-                          </Stack>
-
-                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                            <FormControl sx={{ m: 1, width: 1100 }}>
-                              <TextField fullWidth label="Thro'" {...getFieldProps('through')} />
-                            </FormControl>
-                          </Stack>
-                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                            <FormControl sx={{ m: 1, width: 1100 }}>
-                              <TextField fullWidth label="From" {...getFieldProps('rfrom')} />
-                            </FormControl>
-                          </Stack>
-
-                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                            <FormControl sx={{ m: 1, width: 1100 }}>
-                              <TextField fullWidth label="Reference" {...getFieldProps('reference')} />
-                            </FormControl>
-                          </Stack>
-
-                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                            <FormControl sx={{ m: 1, width: 1100 }}>
-                            <TextField
-                              fullWidth
-                              label="Reasons for BC/VT/LSA"
-                              multiline
-                              rows={3}
-                              {...getFieldProps('reasons')}
-                    />
-                            </FormControl>
-                          </Stack>
-
-                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                            <FormControl sx={{ m: 1, width: 1100 }}>
-                            <TextField
-                              fullWidth
-                              label="Recommendation"
-                              multiline
-                              rows={3}
-                              {...getFieldProps('recommendation')}
-                            />
-                            </FormControl>
-                          </Stack>
-                          </Stack>
-                        </CardContent>
-                      </Card>
-                     </Grid>
-                   </Grid>
-                 </Form>
-               </FormikProvider>
-              </DialogContent>
-             <DialogActions>
-            <Button autoFocus onClick={()=>setletTrue(false)}>
-              Cancel
-            </Button>
-            <Button onClick={()=>handleSubmit()}>Confirm</Button>
-          </DialogActions>
-        </Dialog>
-
-          {/* Ends here */}
 
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -661,6 +493,12 @@ export default function BatchProfiles() {
                      <TextField
                      fullWidth
                         label="Input Batch no"
+                        type='text'
+                        onChange={
+                          (e) => {
+                            setBatchNo(e.target.value);
+                        }
+                        }
                       />
                     </Box>
                     <div>
@@ -699,7 +537,7 @@ export default function BatchProfiles() {
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <UserListHead
+                <UserListHead2
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
@@ -772,7 +610,7 @@ export default function BatchProfiles() {
                           </TableCell>
                           <TableCell>
                           <Button 
-                            value = {row.batchNo}
+                          value = {row.batchNo}
                            onClick={handleSelect}
                           > 
                           <FontAwesomeIcon icon={faEyedropper} />
@@ -820,37 +658,7 @@ export default function BatchProfiles() {
 
 
 
-                const UserItem = (props) => {
-
-                  const { firstName, lastName, staffNo, userGroup, department, userid } = props.user
-                  const setSelection = props.setSelection
-                  const checked = props.checked
-                
-                
-                  const handleClick = () => {
-                
-                    setSelection(userid);
-                
-                  }
-                
-                  return (
-                    <Stack id={userid} direction="row"
-                      onClick={() => handleClick()}
-                      justifyContent="space-between"
-                      alignItems="center"
-                
-                      sx={{
-                        height: 50, borderBottom: [0.5, 'solid', '#f0f8ff']
-                      }}
-                    >
-                      <Typography
-                
-                      >{firstName + " " + lastName + " - " + department}</Typography>
-                      <Checkbox checked={checked} />
-                    </Stack>
-                
-                  )
-                }
+                };
 
 
                 const UserItem = (props) => {
@@ -884,5 +692,4 @@ export default function BatchProfiles() {
                 
                   )
                 }
-
 

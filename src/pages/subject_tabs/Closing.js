@@ -409,7 +409,7 @@ console.log('Ne case det', details,userData.userID, details.status, details.assi
                       </FormControl> */}
                     </Stack>
                   )}
-
+                  
                   {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     <FormControl sx={{ m: 1, width: 1000 }}>
                       <InputLabel id="findings-multiple-checkbox-label">
@@ -479,7 +479,7 @@ console.log('Ne case det', details,userData.userID, details.status, details.assi
                 onDrop={e => {e.preventDefault()}}
                 setContents= {details.findings}
                 /> */}
-                  </Stack>
+                  {/* </Stack> */}
                 { details.inquiryType == 'Lifestyle Audit' && (
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     <TextField
@@ -506,7 +506,7 @@ console.log('Ne case det', details,userData.userID, details.status, details.assi
                         renderValue={(selected) => selected.join(', ')}
                         MenuProps={MenuProps}
                       >
-                        {recomentation.map((name) => (
+                        {reccomendations.map((name) => (
                           <MenuItem key={name} value={name}>
                             <Checkbox checked={personName.indexOf(name) > -1} />
                             <ListItemText primary={name} />
