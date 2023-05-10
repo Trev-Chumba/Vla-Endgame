@@ -505,7 +505,7 @@ export default function MyCases() {
                         <TableCell align="right">
                           <Button 
                           value = {row.batchNo}
-                           onClick={handleSelect}
+                           onClick={()=>handleSelect()}
                           > {open ? <FontAwesomeIcon icon={faArrowUp} />: <FontAwesomeIcon icon={faArrowDown} />}</Button>
                           </TableCell>
                       </TableRow>
