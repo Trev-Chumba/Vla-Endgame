@@ -24,7 +24,7 @@ const sidebarConfig2 = [
         icon: getIcon('eva:person-fill')
       }, 
       {
-        title : 'Search Batch',
+        title : 'New Batch',
         path : '/dashboard/search-batch',
         icon: getIcon('eva:people-fill')
       },
@@ -38,46 +38,57 @@ const sidebarConfig2 = [
         path : '/dashboard/all-profiles',
         icon: getIcon('eva:person-fill')
       },
+      {
+        title: 'Batch Profiles',
+        path: '/dashboard/my-cases',
+        icon: getIcon('eva:person-add-fill')
+      },
     
     ]
   },
 
+  // {
+  //   header : "INQUIRIES",
+  //   items : [
+  //     {
+  //       title: 'My Inquiries',
+  //       path: '/dashboard/my-inquiries',
+  //       icon: getIcon('eva:shopping-bag-fill')
+  //     },
+  //     // {
+  //     //   title: 'blog',
+  //     //   path: '/dashboard/blog',
+  //     //   icon: getIcon('eva:file-text-fill')
+  //     // },
+  //     // {
+  //     //   title: 'login',
+  //     //   path: '/login',
+  //     //   icon: getIcon('eva:lock-fill')
+  //     // },
+  //   ]
+  // }, 
+
   {
-    header : "INQUIRIES",
+    header : "CASES",
     items : [
       {
-        title: 'My Inquiries',
+        title: 'My Cases',
         path: '/dashboard/my-inquiries',
         icon: getIcon('eva:shopping-bag-fill')
       },
-      // {
-      //   title: 'blog',
-      //   path: '/dashboard/blog',
-      //   icon: getIcon('eva:file-text-fill')
-      // },
-      // {
-      //   title: 'login',
-      //   path: '/login',
-      //   icon: getIcon('eva:lock-fill')
-      // },
-    ]
-  }, 
 
-  // {
-  //   header : "CASES",
-  //   items : [
-  //     {
-  //       title: 'My Cases',
-  //       path: '/dashboard/my-cases',
-  //       icon: getIcon('eva:person-add-fill')
-  //     },
-  //     // {
-  //     //   title: 'Not found',
-  //     //   path: '/404',
-  //     //   icon: getIcon('eva:alert-triangle-fill')
-  //     // }
-  //   ]
-  // },
+      {
+        title: 'Completed Cases',
+        path: '/dashboard/case-history',
+        icon: getIcon('eva:list-fill'),
+      },
+      // {
+      //   title: 'Not found',
+      //   path: '/404',
+      //   icon: getIcon('eva:alert-triangle-fill')
+      // }
+    ]
+  },
 
   {
     header : "TASKS",
@@ -87,14 +98,10 @@ const sidebarConfig2 = [
         path: '/dashboard/my-tasks',
         icon: getIcon('eva:list-fill'),
       },
-    
-      // {
-      //   title: 'Not found',
-      //   path: '/404',
-      //   icon: getIcon('eva:alert-triangle-fill')
-      // }
+        
     ]
   },
+
 
   {
     header : "USER MANAGEMENT",
@@ -113,10 +120,21 @@ const sidebarConfig2 = [
         title: 'Access Management',
         path: '/dashboard/access-management',
         icon: getIcon('eva:alert-triangle-fill')
-      }
+      },
+     
     ]
   },
 
+  {
+    header : "SYSTEM",
+    items : [
+      {
+        title: 'Audit Trail',
+        path: '/dashboard/audit-trail',
+        icon: getIcon('eva:alert-triangle-outline')
+      }
+    ]
+  }
 ]
 
 export default sidebarConfig2;

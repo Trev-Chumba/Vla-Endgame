@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
+//import '@fontsource/noto-sans-georgian';
 import Georgia from '../../fonts/Georgia.ttf';
 import georgiab from '../../fonts/georgiab.ttf';
+import { fontFamily } from '@mui/system';
+import { blue } from '@mui/material/colors';
 
 Font.register({
   family: 'Georgia',
@@ -21,7 +24,6 @@ Font.register({
     }
   ]
 });
-
 export const chunkSubstr = (str, size) => {
   const numChunks = Math.ceil(str.length / size);
   const chunks = new Array(numChunks);
@@ -40,8 +42,22 @@ Font.registerHyphenationCallback((word) => {
     return [word];
   }
 });
-export const LSAHeader = (props) => {
+
+// //   /home/Muntaz/Documents/work/icase/src/fonts/georgia/NotoSansGeorgian-VariableFont.ttf
+
+export const BatchHeader = (props) => {
   const caseDetails = props.data || {};
+  console.log('CASE DETAILS HEADER', caseDetails);
+
+//   const caseType = caseDetails.inquiryType;
+//   const [caseTxt, setcaseTxt] = useState('');
+//   useEffect(() => {
+//     if (caseType == 'Vetting') {
+//       setcaseTxt('VETTING REPORT');
+//     } else {
+//       setcaseTxt('BACKGROUND CHECK REPORT');
+//     }
+//   }, []);
 
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, '0');
@@ -49,10 +65,6 @@ export const LSAHeader = (props) => {
   var yyyy = today.getFullYear();
 
   today = mm + '/' + dd + '/' + yyyy;
-
-  // const caseData = props.data.caseDetails || []
-
-  const date = Date();
 
   const styles = StyleSheet.create({
     Logo: {
@@ -76,28 +88,32 @@ export const LSAHeader = (props) => {
 
   return (
     <View>
-      <Text style={{ ...styles.Text, margin: 'auto' }}>
-        {' '} 
-        INTELLIGENCE, STRATEGIC OPERATIONS, INVESTIGATIONS &amp; ENFORCEMENT DEPARTMENT
+      <Text style={{ ...styles.Text, margin: 'auto'}}>
+        INTELLIGENCE, STRATEGIC OPERATIONS, INVESTIGATIONS &amp; 
       </Text>
-      <Text style={{ ...styles.Text, margin: 'auto' }}> LIFESTYLE AUDIT REPORT </Text>
+      <Text style={{ ...styles.Text, margin: 'auto' }}>ENFORCEMENT DEPARTMENT</Text>
+      <Text style={{ ...styles.Text, margin: 'auto' }}>VETTING REPORT</Text>
 
       <View style={styles.Line} />
-      <Text style={styles.Text}>TO :{caseDetails.cSource}</Text>
+
+      <Text style={styles.Text}>TO :{caseDetails.rto}</Text>
+      {/* <Text>{'\n'}</Text> */}
+      {/* <Text style={styles.Text}>THRO' :{caseDetails.through}</Text> */}
       {caseDetails.through == '' ? null : (
         <Text style={styles.Text}>THRO': {caseDetails.through}</Text>
       )}
-      <Text style={styles.Text}>FROM : {caseDetails.subject} </Text>
+      {/* <Text>{'\n'}</Text> */}
+      <Text style={styles.Text}>FROM : {caseDetails.rfrom} </Text>
+      {/* <Text>{'\n'}</Text> */}
       <Text style={styles.Text}>DATE : {today} </Text>
       <Text style={styles.Text}>REF : {caseDetails.reference} </Text>
+      {/* <Text>{'\n'}</Text> */}
 
       <View style={styles.Line} />
 
-      <Text style={styles.Text}>
-        INVESTIGATION REPORT ON ALLEGATIONS OF BEING IN POSSESSION OF UNEXPLAINED WEALTH BY{' '}
-      </Text>
+      <Text style={styles.Text}>RE : VETTING FOR CANDIDATES</Text>
       <Text>{'\n'}</Text>
-      <Text style={styles.Text}>HOD REGISTER NO -INQUIRY NO . : {caseDetails.caseNo} </Text>
+      <Text style={styles.Text}>INQUIRY NO : </Text>
 
       <View style={styles.Line} />
     </View>

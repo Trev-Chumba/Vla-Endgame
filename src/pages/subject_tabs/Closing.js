@@ -79,11 +79,11 @@ const findings2 = [
   'Inconclusive report due to missing Background check authorization form'
 ];
 
-const vettingTypes = 
-[
+const vettingTypes = [
+  
   {
     label: 'Promotion',
-    value: 'Promotion',
+    value: 'Promotion'
   },
   {
     value: 'Deployment',
@@ -108,9 +108,8 @@ const vettingTypes =
   {
     value: 'Conversions',
     label: 'Conversions'
-  },
-  
-]
+  }
+];
 
 export default function Closing({ details, updateProfileData }) {
   //Multiselect checkbox
@@ -122,6 +121,12 @@ export default function Closing({ details, updateProfileData }) {
   const [caseData, setCaseData] = React.useState(caseD)
  // const [caseT, setCaseT] = React.useState(false)
   const { userData } = useContext(UserContext);
+  const radioGroupRef = React.useRef(null);
+  const [save, setSave] = useState(false)
+  const [rev, setRev] = useState(false)
+  const [findings, setFindings] = useState('')
+  
+ console.log('Ne case det', details,userData.userID, details.status, details.assignee, details.recomentation,)
 
   const handleChangeRec = (event) => {
     const {
@@ -176,6 +181,7 @@ export default function Closing({ details, updateProfileData }) {
     cFindings: Yup.string(),
     findings: Yup.string(),
     forward: Yup.string(),
+    narration: Yup.string(),
     introduction: Yup.string()
   });
 
@@ -296,7 +302,7 @@ console.log('Ne case det', details,userData.userID, details.status, details.assi
     console.log("heree", personName)
     details.recomentation = values.recomentation;
     details.findings = findings;
-    details.remarks = values.remarks;
+    // details.remarks = values.remarks;
     details.userID = userData.userID;
     details.status = 3;
     details.inquiryID = details.iquiryid;
@@ -397,10 +403,12 @@ console.log('Ne case det', details,userData.userID, details.status, details.assi
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                       <TextField
                         fullWidth
+                        defaultValue= "Choose"
                         select
                         label="Type of Vetting"
                         {...getFieldProps('type')}
                       >
+                        <MenuItem disabled value = "Choose">Choose Vetting type</MenuItem>
                         {vettingTypes.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
@@ -408,7 +416,7 @@ console.log('Ne case det', details,userData.userID, details.status, details.assi
                         ))}
                       </TextField>
 
-                      <FormControl sx={{ m: 1, width: 1000 }}>
+                      {/* <FormControl sx={{ m: 1, width: 1000 }}>
                         <InputLabel id="findings-multiple-checkbox-label">
                           Summary of Findings
                         </InputLabel>
@@ -429,7 +437,7 @@ console.log('Ne case det', details,userData.userID, details.status, details.assi
                             </MenuItem>
                           ))}
                         </Select>
-                      </FormControl>
+                      </FormControl> */}
                     </Stack>
                   )}
 
@@ -456,7 +464,7 @@ console.log('Ne case det', details,userData.userID, details.status, details.assi
                         ))}
                       </Select>
                     </FormControl>
-                  </Stack>
+                  </Stack> */}
                   <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     {/* <TextField
                       fullWidth
@@ -502,7 +510,7 @@ console.log('Ne case det', details,userData.userID, details.status, details.assi
                 onDrop={e => {e.preventDefault()}}
                 setContents= {details.findings}
                 /> */}
-                  {/* </Stack> */}
+                  </Stack>
                 { details.inquiryType == 'Lifestyle Audit' && (
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     <TextField
@@ -538,6 +546,7 @@ console.log('Ne case det', details,userData.userID, details.status, details.assi
                       </Select>
                     </FormControl>
                   </Stack>
+
                   {details.inquiryType =="Vetting" || details.inquiryType == "Preliminary Investigation" && <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     <TextField
                       fullWidth
@@ -547,6 +556,7 @@ console.log('Ne case det', details,userData.userID, details.status, details.assi
                       {...getFieldProps('forward')}
                     />
                   </Stack>}
+
 
                   <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     <TextField

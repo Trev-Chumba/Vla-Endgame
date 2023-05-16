@@ -51,11 +51,12 @@ export const BcHeader = (props) => {
 
   const caseType = caseDetails.inquiryType;
   const [caseTxt, setcaseTxt] = useState('');
+  console.log('CASE Type HEADER', caseType);
   useEffect(() => {
-    if (caseType == 'Vetting') {
+    if (caseType === 'Vetting') {
       setcaseTxt('VETTING REPORT');
     } else {
-      setcaseTxt('BACKGROUND REPORT');
+      setcaseTxt('BACKGROUND CHECK REPORT');
     }
   }, []);
 
@@ -88,10 +89,10 @@ export const BcHeader = (props) => {
 
   return (
     <View>
-      <Text style={{ ...styles.Text }}>
-        {' '}
-        INTELLIGENCE, STRATEGIC OPERATIONS, INVESTIGATIONS &amp; ENFORCEMENT
+      <Text style={{ ...styles.Text, margin: 'auto'}}>
+        INTELLIGENCE, STRATEGIC OPERATIONS, INVESTIGATIONS &amp; 
       </Text>
+      <Text style={{ ...styles.Text, margin: 'auto' }}>ENFORCEMENT DEPARTMENT</Text>
       <Text style={{ ...styles.Text, margin: 'auto' }}>{caseTxt}</Text>
 
       <View style={styles.Line} />

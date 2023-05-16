@@ -1,6 +1,7 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
 import { useState, useEffect } from 'react';
+//import { BcHeader } from './BCHeader';
 import Georgia from '../../fonts/Georgia.ttf';
 import georgiab from '../../fonts/georgiab.ttf';
 import gillItalic from '../../fonts/GillSansz.otf';
@@ -8,7 +9,7 @@ import { red } from '@mui/material/colors';
 import { unset, wrap } from 'lodash';
 import { Hidden } from '@mui/material';
 import { BatchHeader } from './BatchHeader';
-import { BcHeader } from './BCHeader';
+import Html from 'react-pdf-html';
 
 Font.register({
   family: 'Georgia',
@@ -55,25 +56,19 @@ Font.registerHyphenationCallback((word) => {
   }
 });
 
-export default function BcAndVtExPort(props) {
+export default function BatchExport(props) {
   const [cFinding, setCfind] = React.useState()
-  const bioData = props.data.bio || {};
-  const caseDetails = props.data.caseDetails || {};
+  const bioData = props.letterH || {};
+  const exData = props.data.letterH
+  const exData2 = props.data
+  const caseDetails = props.data || [];
   const caseType = caseDetails.inquiryType;
-  console.log("::Case Details All", caseDetails, caseType)
+  console.log("::Case Details All", caseDetails, bioData)
+  console.log("::Case Details letter", bioData)
   const [caseTxt, setcaseTxt] = useState('');
   
-  let find = JSON.parse(caseDetails.cFindings)
-  let find2
- if(find) 
- {let find2 = find.map(element => ({
-    element
-  }));}
-  else
-  {
+  
 
-  }
-  console.log(find2)
   useEffect(() => {
     if (caseType == 'Vetting') {
       setcaseTxt('Vetting');
@@ -163,8 +158,12 @@ export default function BcAndVtExPort(props) {
     textbody2: {
       fontFamily: 'Georgia',
       fontSize: 12,
-    }
+    },
 
+    textbody3: {
+      fontFamily: 'Georgia',
+      fontSize: 10,
+    }
   });
 
   return (
@@ -200,10 +199,10 @@ export default function BcAndVtExPort(props) {
         >
           ISO 9001:2015 CERTIFIED
         </Text>
-        <BcHeader data={caseDetails} />
-        console.log("Export",caseDetails)
-        <Text style={styles.textSubHeader}>1.0 Reason for {caseTxt} Check</Text>
-        <Text style={styles.textBody}>{caseDetails.cReasons}</Text>
+        <BatchHeader data={bioData} />
+        {/* console.log("Export",caseDetails) */}
+        <Text style={styles.textSubHeader}>1.0 Reason for Check</Text>
+        <Text style={styles.textBody}>{bioData.reasons}</Text>
         <View style={styles.table}>
           <View style={styles.tr}>
             {/* <Text style={{ ...styles.td, ...styles.textTableHeader }}>No</Text> */}
@@ -215,18 +214,25 @@ export default function BcAndVtExPort(props) {
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>POSITION APPLIED</Text>
           </View>
 
-          <View style={styles.tr}>
-            <Text style={{ ...styles.td1, ...styles.textBody }}>1</Text>
-            <Text style={{ ...styles.td2, ...styles.textBody }}>{bioData.idNo}</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.subject_Name}</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.candidateType}</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.position}</Text>
-          </View>
+          {caseDetails && caseDetails.map((cases, index) => {
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td1, ...styles.textBody }}>{index + 1}</Text>
+
+              
+                <Text style={{ ...styles.td2, ...styles.textBody }}>{cases.idNo}</Text>
+
+                <Text style={{ ...styles.td, ...styles.textBody }}>{cases.subjectName}</Text>
+
+                <Text style={{ ...styles.td, ...styles.textBody }}>{cases.candidateType}</Text>
+
+                <Text style={{ ...styles.td, ...styles.textBody }}>{cases.position}</Text>
+              </View>
+            );
+          })}
         </View>
-        <Text style={styles.textSubHeader}>2.0 Objective of the {caseTxt} Check</Text>
-        <Text style={styles.textBody}>{caseDetails.objectives}</Text>
-        {caseTxt == 'Vetting' ? (
-          <Text style={styles.textBody}>
+        <Text style={styles.textSubHeader}>2.0 Objective of the  Check</Text>
+        <Text style={styles.textBody}>
             2.1 Review information in the KRA integrity records to establish whether there are
             adverse reports, ongoing or concluded investigations with respect to compliance with the
             KRA Code of conduct.
@@ -235,48 +241,44 @@ export default function BcAndVtExPort(props) {
               2.2 Review KRA tax records to establish whether the officer and associates complied
               with relevant Tax laws.
             </Text>
+            <Text>{'\n'}</Text>
             <Text style={styles.textBody}>
               2.3 Review & report any other information that may be relevant in assessing conduct of
               the officer.
             </Text>
           </Text>
-        ) : (
-          <Text style={styles.textBody}>
-            2.1 Review integrity of the candidate by evaluating information provided through filled
-            background check consent form and through other sources.
-            <Text>{'\n'}</Text>
-            <Text style={styles.textBody}>
-              2.2 Review KRA tax records to establish whether the candidate and associates have
-              complied with relevant Tax laws.
-            </Text>
-            <Text>{'\n'}</Text>
-            <Text style={styles.textBody}>
-              2.3 Review & report any other information provided by other agencies that may be
-              relevant in assessing the conduct of the candidate
-            </Text>
-          </Text>
-        )}
         <Text style={styles.textBody}></Text>
         <Text style={styles.textSubHeader}>3.0 Findings</Text>
-        <View style={styles.table}>
+        <View style={styles.table} wrap={false}>
           <View style={styles.tr}>
             <Text style={{ ...styles.td1, ...styles.textTableHeader }}>S/NO</Text>
             <Text style={{ ...styles.td2, ...styles.textTableHeader }}>ID NO.</Text>
             <Text style={{ ...styles.td, ...styles.textTableHeader }}>INQUIRY NO.</Text>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>NAME OF APPLICANT</Text>
-            <Text style={{ ...styles.td, ...styles.textTableHeader }}>REMARKS</Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>NAME </Text>
+            <Text style={{ ...styles.td, ...styles.textTableHeader }}>SANCTION/INTEGRITY ISSUES</Text>
           </View>
 
-          <View style={styles.tr}>
-            <Text style={{ ...styles.td1, ...styles.textBody }}>1</Text>
-            <Text style={{ ...styles.td2, ...styles.textBody }}>{bioData.idNo}</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.caseNo} </Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>{bioData.subject_Name}</Text>
-            <Text style={{ ...styles.td, ...styles.textBody }}>{caseDetails.remarks}</Text>
-          </View>
+          {caseDetails &&  caseDetails.map((cases, index) => {
+            return (
+              <View style={styles.tr}>
+                <Text style={{ ...styles.td1, ...styles.textBody }}>{index + 1}</Text>
+
+              
+                <Text style={{ ...styles.td2, ...styles.textBody }}>{cases.idNo}</Text>
+
+                <Text style={{ ...styles.td, ...styles.textBody }}>{cases.caseNo}</Text>
+
+                <Text style={{ ...styles.td, ...styles.textBody }}>{cases.subjectName}</Text>
+
+                <Text style={{ ...styles.td, ...styles.textbody3 }}>{cases.remarks}</Text>
+                
+              </View>
+            );
+          })}
         </View>
         <Text style={styles.textSubHeader}>4.0 Recommendation</Text>
-        {find  && <Text>{find.map(find => <Text style={{...styles.td, ...styles.textBody}}>{ find} {"\n"}</Text>)}</Text>}
+        <Text style={styles.textBody}>{bioData.recommendation}</Text>
+        {/* <Text>{find.map(find => <Text style={{...styles.td, ...styles.textBody}}></Text>)}</Text> */}
         {/* <Image style={{ width: 100 }} src={'/vla/static/footer.png'} /> */}
         {/* <Image
           style={{

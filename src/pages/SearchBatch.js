@@ -1,10 +1,15 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { Link as RouterLink, useRoutes } from 'react-router-dom';
 import Papa from 'papaparse';
-
-
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Dialog from '@mui/material/Dialog';
+import RadioGroup from '@mui/material/RadioGroup';
+import { useAlert } from 'react-alert';
+import { useFormik, Form, FormikProvider } from 'formik';
 // material
 
 // import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -24,6 +29,8 @@ import {
   TableContainer,
   TablePagination,
   TextField,
+  Grid,
+  CardContent,
   Box
 } from '@mui/material';
 // components
@@ -33,29 +40,47 @@ import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu, } from '../sections/@dashboard/user';
-//
+import * as Yup from 'yup';
 import {UserListHead2} from '../sections/@dashboard/user/UserListHead2'
 import USERLIST from '../_mocks_/user';
+import FormControl from '@mui/material/FormControl';
 import { FetchApi } from '../api/FetchApi';
-import { FIND_SUBJECT_ID, EXPORT_PROFILE } from '../api/Endpoints';
+import {GET_ALL_USERS, SEARCH_BATCH, MY_BATCH, ASSIGN_BATCH, PRINT_BATCH} from '../api/Endpoints';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyedropper, faInfo } from '@fortawesome/free-solid-svg-icons';
 
-import { faInfo } from '@fortawesome/free-solid-svg-icons';
-
+import { UserContext } from 'src/context/UserContext';
+// import DialogTitle from '@mui/material/DialogTitle';
+// import DialogContent from '@mui/material/DialogContent';
+// import DialogActions from '@mui/material/DialogActions';
+// import Dialog from '@mui/material/Dialog';
+import { Document } from '@react-pdf/renderer';
+import { PDFViewer } from '@react-pdf/renderer';
+import BatchExport from 'src/components/export/BatchExport';
+var Loader = require('react-loader');
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Subject Name', alignRight: false },
-  { id: 'company', label: 'ID Number', alignRight: false },
-  { id: 'role', label: 'Email', alignRight: false },
-  { id: 'isVerified', label: 'Phone Number', alignRight: false },
-  { id: 'status', label: 'Gender', alignRight: false },
+  { id: 'bID', label: 'Batch ID', alignRight: false },
+  { id: 'Status', label: 'Status', alignRight: false },
+  { id: 'date', label: 'Date Created', alignRight: false },
+
 
    ];
 
 
 // ----------------------------------------------------------------------
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250
+    }
+  }
+};
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -95,15 +120,76 @@ export default function BatchProfiles() {
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [allData,setAllData]=useState([])
-
+  const [allData,setAllData]=useState([]);
+  const { userData } = useContext(UserContext);
+  const [buttCount, setButtCount] = useState(0)
   // const [allData, setAllData] = useState([])
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [fileName, setFileName] = useState(undefined)
   const [caseList, setCaseList] = useState([]);
   const [showButton, setshowButton] = useState(false)
   const [batchNo, setBatchNo] = useState('')
-  
+  const [isTrue, setIstrue] = useState(false)
+  const [isNotLoading, setLoading] = useState(true)
+  const [selectedUser, setSelectedUser] = useState("")
+  const [dTrue, setdTrue] = useState(false)
+  const [letTrue, setletTrue] = useState(false)
+  const radioGroupRef = useRef(null);
+  const [users, setUsers] = useState([])
+
+  const [open, setOpen] = useState(false);
+  const [report, setReport] = useState(false);
+  const [count, setCount] = useState(0)
+  const [exportData, setExportData] = useState({})
+  const [letterHead, setLetterHead] = useState({})
+
+   const alert = useAlert();
+
+   const RegisterSchema = Yup.object().shape({
+    source: Yup.string(),
+    rto: Yup.string(),
+    rfrom: Yup.string(),
+    reference: Yup.string(),
+    subject: Yup.string(),
+    reasons: Yup.string(),
+    recommendation: Yup.string(),
+    position: Yup.string(),
+    candidateType: Yup.string(),
+    through: Yup.string(),
+    date: Yup.date(),
+  });
+
+   const formik = useFormik({
+    initialValues: {
+      reasons:'',
+      source: '',
+      rto: '',
+      rfrom: '',
+      reference: '',
+      date: '',
+      through:'',
+      reasons: '',
+      recommendation: ""
+    },
+    validationSchema: RegisterSchema,
+    enableReinitialize: true,
+    onSubmit: (values) => {
+      //upload any files
+
+      someFun(values)
+      setReport(true)
+     
+    }
+  });
+
+  const someFun =(values)=>
+  {
+      setLetterHead(values)
+      console.log("Letter Head report:::", letterHead)
+  }
+
+
+
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -126,6 +212,14 @@ export default function BatchProfiles() {
     setSelected([]);
   };
 
+  const handleEntering = () => {
+    if (radioGroupRef.current != null) {
+      radioGroupRef.current.focus();
+    }
+
+  };
+
+  
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
@@ -181,7 +275,11 @@ export default function BatchProfiles() {
       //results.data = _.pick(results.data , [ 'Id'])
       
       console.log('List1 is ::', results.data);
-      mappedList = results.data.map(element => ({Id: element.Id}));
+      mappedList = results.data.map(element => ({
+        id: element.Id,
+        type: element.Subject_Type,
+        reason: element.Reason
+      }));
       
       console.log('List is mapped ::', mappedList);
       setCaseList(mappedList)
@@ -191,41 +289,166 @@ export default function BatchProfiles() {
     })
    
   };
-  const BatchInfo = {
-    batchNo: batchNo,
-    data: caseList
-  };
+  const assignSelectedUser = () => {
+
+    setdTrue(false)
+
+    const postBody = {
+      batchNo:batchNo,
+      userID: userData.userID,
+      assignee: selectedUser
+    }
+
+    console.log("BODY", postBody)
+
+    tranferCase(postBody)
+
+  }
+
+  const tranferCase = (postBody) =>
+  {
+    console.log(postBody)
+    FetchApi.post(ASSIGN_BATCH, postBody, (status, data) => {
+      console.log(data, postBody, status)
+      if(status && data.massage == "transfered successfully")
+      {
+        showSuccessAlert("Case Assigned Successfully")
+        postBody.inquryID = postBody.inquiryID
+        setCaseData(postBody)
+        changeLabel(postBody.status)
+      } 
+      else
+      {
+        showErrorAlert("Failed")
+      }
+    })
+  }
   
+  useEffect(() => {
+
+    getUsers()
+
+  }, [])
+
+  const getUsers = () => 
+  {
+    const requestBody = {
+      
+      userID: userData.userID,
+     
+    }
+    
+     FetchApi.post(GET_ALL_USERS, requestBody, (status, data) => {
+
+      console.log("User Data", data)
+      console.log(requestBody,"Request Body")
+
+      if (status) {
+
+        setUsers(data)
+        console.log("Lets see",  users)
+      } else {
+        //some error
+      }
+    })
+
+  }
 
   useEffect(()=>{
 
     const requestBody = {
-        subjectID:"",
-        idNo: ""
+        userID:userData.userID,
+        batchNo: batchNo
     }
 
-    FetchApi.post(FIND_SUBJECT_ID, requestBody, (status, data) => {
+    FetchApi.post(PRINT_BATCH, requestBody, (status, data) => {
       if(status){
-        console.log(data)
-        const users = applySortFilter(data, getComparator(order, orderBy), filterName);
-        setFilteredUsers(users)
-        setAllData(users)
+
+        console.log("INQUIRIES::::",data)
+       // const inquiry = applySortFilter(data, getComparator(order, orderBy), filterName);
+        setExportData(data)
+        //setAllData(data)
         
       }else{
         //some error
       }
     })
 
-  }, []) ;
+  }, [count]) 
+
+
+  const searchBatch =()=>{
+    setLoading(false)
+
+
+    const requestBody = {
+        subjectID:"",
+        idNo: ""
+    }
+
+    const BatchInfo = {
+      batchNo: batchNo,
+      userID: userData.userID,
+      data: caseList
+    };
+    
+    FetchApi.post(SEARCH_BATCH, BatchInfo, (status, data) => {
+      console.log("sending", BatchInfo)
+      if(status){
+        console.log('Nonsensical Info', status, data)
+
+        showSuccessAlert('Uploaded succesfully');
+
+        setButtCount(buttCount+1)
+      }else{
+        //some error
+        setButtCount(buttCount+1)
+        console.log("::::Response", data, status)
+        showErrorAlert('Sorry could not upload')
+        
+      }
+      setLoading(true)
+    })
+    
+  };
+
+  useEffect(()=>{
+  
+    const requestBody = {
+        userID:userData.userID,
+      
+    }
+
+    
+
+    FetchApi.post(MY_BATCH, requestBody, (status, data) => {
+      if(status){
+        
+        console.log(data)
+       // const batches = applySortFilter(data, getComparator(order, orderBy), filterName);
+        setFilteredUsers(data)
+        console.log("Filtered", data)
+        setAllData(data)
+        
+      }else{
+        //some error
+      }
+    })
+  }, [buttCount]) ;
+
+
+  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+
   const hiddenfileInput = useRef(null);
   const handleFile  = event => {
     hiddenfileInput.current.click();
   };
   const checkSubmit = () =>
   {
+    setButtCount(buttCount+1)
     if(caseList && batchNo)
-    {
-      console.log('List is mapped2 ::', BatchInfo);
+    {  //console.log('List is mapped2 ::', BatchInfo);
+      setIstrue(true) 
     }
     else{
       showErrorAlert('Please make an attachment and provide a ref no as batch number')
@@ -235,11 +458,162 @@ export default function BatchProfiles() {
   const isUserNotFound = filteredUsers.length === 0;
   
   
+  const openDiag = (e) =>
+  {
+     setBatchNo(e.target.value)
+     setdTrue(true)
+  }
   
-  
+  // Preview batch
+  const handleSelect = (event) =>
+  {
+      setBatchNo(event.target.value)
+      console.log(".......", batchNo)
+
+      setCount(count + 1)
+      setletTrue(!letTrue)
+  }
+
   return (
     <Page title="KRA VLA | Search Batch">
       <Container>
+      <Dialog
+          sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
+          maxWidth="sm"
+          TransitionProps={{ onEntering: handleEntering }}
+          open={dTrue}
+        >
+          <DialogTitle>Select User to Assign</DialogTitle>
+          <DialogContent dividers>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              value={selectedUser}
+              onChange={(event) => setSelectedUser(event.target.value)}
+              name="radio-buttons-group"
+            >
+              {users.map((option) => (
+                // <FormControlLabel value={option.userid} control={<Radio />}
+                //   label={option.firstName + " " + option.lastName + " - " + option.department} />
+
+                <UserItem user={option} checked={selectedUser == option.userid} setSelection={setSelectedUser} />
+
+              ))}
+            </RadioGroup>
+
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={() => setdTrue(false)}>
+              Cancel
+            </Button>
+            <Button onClick={() => assignSelectedUser()}>Confirm</Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog
+          sx={{ '& .MuiDialog-paper': { width: '80%', height: '100%' } }}
+          maxWidth="xl"
+          open={report}>
+
+          <DialogContent>
+
+            <PDFViewer width='100%' height='100%'>
+              <Document>
+
+                <BatchExport data={exportData} letterH={letterHead} />
+
+              </Document>
+            </PDFViewer>
+
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={() => setReport(false)}>
+              Cancel
+            </Button>
+          </DialogActions>
+
+        </Dialog>
+
+
+                {/*  Letter Head Dialog*/}
+        <Dialog 
+          sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
+          maxWidth="sm"
+          TransitionProps={{ onEntering: handleEntering }}
+          open={letTrue}>
+         <DialogTitle>Report Header</DialogTitle>
+          <DialogContent dividers>
+          <FormikProvider value={formik}>
+              <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                <Grid container spacing={2} sx={{ width: '100%' }}>
+                  <Grid item md={12}>
+                    <Card sx={{ width: '100%', paddingBottom: 3 }}>
+                      <CardContent>
+                        <Stack spacing={3}>
+                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                            <FormControl sx={{ m: 1, width: 1100 }}>
+                              <TextField fullWidth label="To" {...getFieldProps('rto')} />
+                            </FormControl>
+                          </Stack>
+
+                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                            <FormControl sx={{ m: 1, width: 1100 }}>
+                              <TextField fullWidth label="Thro'" {...getFieldProps('through')} />
+                            </FormControl>
+                          </Stack>
+                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                            <FormControl sx={{ m: 1, width: 1100 }}>
+                              <TextField fullWidth label="From" {...getFieldProps('rfrom')} />
+                            </FormControl>
+                          </Stack>
+
+                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                            <FormControl sx={{ m: 1, width: 1100 }}>
+                              <TextField fullWidth label="Reference" {...getFieldProps('reference')} />
+                            </FormControl>
+                          </Stack>
+
+                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                            <FormControl sx={{ m: 1, width: 1100 }}>
+                            <TextField
+                              fullWidth
+                              label="Reasons for BC/VT/LSA"
+                              multiline
+                              rows={3}
+                              {...getFieldProps('reasons')}
+                    />
+                            </FormControl>
+                          </Stack>
+
+                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                            <FormControl sx={{ m: 1, width: 1100 }}>
+                            <TextField
+                              fullWidth
+                              label="Recommendation"
+                              multiline
+                              rows={3}
+                              {...getFieldProps('recommendation')}
+                            />
+                            </FormControl>
+                          </Stack>
+                          </Stack>
+                        </CardContent>
+                      </Card>
+                     </Grid>
+                   </Grid>
+                 </Form>
+               </FormikProvider>
+              </DialogContent>
+             <DialogActions>
+            <Button autoFocus onClick={()=>setletTrue(false)}>
+              Cancel
+            </Button>
+            <Button onClick={()=>handleSubmit()}>Confirm</Button>
+          </DialogActions>
+        </Dialog>
+
+          {/* Ends here */}
+
+
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Search Batch
@@ -252,11 +626,11 @@ export default function BatchProfiles() {
           >
             New Profile
           </Button> */}
-          {batchNo && caseList.length>0 && 
+          {/* {batchNo && caseList.length>0 && 
           <Button variant="contained"
           sx={{ background: '#303F9F' }}
           // onClick={() => setOpen(true)}
-        >Assign User</Button>}
+        >Assign User</Button>} */}
         </Stack>
 
         <Card>
@@ -298,13 +672,13 @@ export default function BatchProfiles() {
                     ) : (
                       <Typography>No attachment added</Typography>
                     )}
-                      <Button
+                      {caseList.length>0 && batchNo && isNotLoading && <Button
                           variant="contained"
                           sx={{ marginRight: 2, background: '#00B23A' }}
-                         onClick={checkSubmit}
+                         onClick={()=>{searchBatch();}}
                         >
                           Upload batch
-                        </Button>
+                        </Button>}
                     </Stack>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -318,18 +692,43 @@ export default function BatchProfiles() {
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
-                <TableBody>
+               <TableBody>
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { subjectID, subject_Name, idNo, email, 
-                        tel1, profile_pic, gender } = row;
-                      const isItemSelected = selected.indexOf(subject_Name) !== -1;
+                      const { batchNo, status, dateCreated,} = row;
+                      const isItemSelected = selected.indexOf(batchNo) !== -1;
+
+                      let caseStatus = 'Open';
+                      let caseLabelType = 'success';
+
+                      switch (status) {
+                        case 'Open':
+                          caseLabelType = 'success';
+                          break;
+                        case 'In Progress':
+                         
+                          caseLabelType = 'info';
+                          break;
+                        case 'In Review':
+                        
+                          caseLabelType = 'primary';
+                          break;
+                        case 'Complete':
+                        
+                          caseLabelType = 'error';
+                          break;
+                        
+                        case 'Re-Opened':
+                    
+                          caseLabelType = 'info';
+                          break;
+                      }
 
                       return (
                         <TableRow
                           hover
-                          key={subjectID}
+                          key={batchNo}
                           tabIndex={-1}
                           role="checkbox"
                           selected={isItemSelected}
@@ -338,38 +737,30 @@ export default function BatchProfiles() {
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={isItemSelected}
-                              onChange={(event) => handleClick(event, subject_Name)}
+                        
                             />
                           </TableCell>
-                          <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={subject_Name} src={profile_pic} />
-                              <Typography variant="subtitle2" noWrap>
-                                {subject_Name}
-                              </Typography>
-                            </Stack>
+                      
+                          <TableCell align="left">{batchNo}</TableCell>
+                          <TableCell align="left">
+                            <Label variant="ghost" color={caseLabelType}>
+                              {status}
+                            </Label>
                           </TableCell>
-                          <TableCell align="left">{idNo}</TableCell>
-                          <TableCell align="left">{email}</TableCell>
-                          <TableCell align="left">{tel1}</TableCell>
-                          <TableCell align="left">{gender}
-                          
-                            {/* <Label
-                              variant="ghost"
-                              color={(status === 'banned' && 'error') || 'success'}
-                            >
-                              {sentenceCase(status)}
-                            </Label> */}
-                          </TableCell>
-
-
-
+                          <TableCell align="left">{dateCreated}</TableCell>
                           <TableCell align="right">
-                          <RouterLink to={"/dashboard/profile/SP/"+idNo}>
-                            <FontAwesomeIcon icon={faEye}/>
-                          </RouterLink>
-
-
+                          <Button variant="text"
+                          value = {row.batchNo}
+                           onClick={openDiag}
+                          >Assign User</Button>
+                          </TableCell>
+                          <TableCell>
+                          <Button 
+                            value = {row.batchNo}
+                           onClick={handleSelect}
+                          > 
+                          <FontAwesomeIcon icon={faEyedropper} />
+                          </Button>
                           </TableCell>
                         </TableRow>
                       );
@@ -406,6 +797,7 @@ export default function BatchProfiles() {
 
        
       </Container>
+      <Loader loaded={isNotLoading} />
     </Page>
   );
 
@@ -413,4 +805,37 @@ export default function BatchProfiles() {
 
 
                 };
+
+
+                const UserItem = (props) => {
+
+                  const { firstName, lastName, staffNo, userGroup, department, userid } = props.user
+                  const setSelection = props.setSelection
+                  const checked = props.checked
+                
+                
+                  const handleClick = () => {
+                
+                    setSelection(userid);
+                
+                  }
+                
+                  return (
+                    <Stack id={userid} direction="row"
+                      onClick={() => handleClick()}
+                      justifyContent="space-between"
+                      alignItems="center"
+                
+                      sx={{
+                        height: 50, borderBottom: [0.5, 'solid', '#f0f8ff']
+                      }}
+                    >
+                      <Typography
+                
+                      >{firstName + " " + lastName + " - " + department}</Typography>
+                      <Checkbox checked={checked} />
+                    </Stack>
+                
+                  )
+                }
 

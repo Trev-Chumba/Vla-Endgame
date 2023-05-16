@@ -460,6 +460,7 @@ export default function Expenses({ id, updateProfileData }) {
                       }
                     
           onChange = {handlesun}
+          onDrop={e => {e.preventDefault()}}
           setContents= {expenseData.remarks}
           />
 

@@ -121,6 +121,9 @@ export default function SubjectProfilePage() {
 
   const [fieldsToAmment, setFieldsToAmment] = useState([])
 
+  const [reRemark, setRevRemark] =  useState("")
+
+
   const [ammendDesc, setAmmendDesc] = useState("")
 
   const [exportData, setExportData] = useState({})
@@ -132,6 +135,8 @@ export default function SubjectProfilePage() {
 
   let caseStatus = "Open"; let caseLabelType = "success";
 
+  const officerdata = localStorage.getItem('userGroup');
+  console.log(officerdata, 'choose')
   if (id) {
 
     const idSplit = id.split(":")
@@ -209,7 +214,7 @@ export default function SubjectProfilePage() {
       if (status) {
 
         setUsers(data)
-
+        console.log("Lets see",  users)
       } else {
         //some error
       }
@@ -348,7 +353,7 @@ export default function SubjectProfilePage() {
       userID: userData.userID
     }
 
-    console.log("BODY", postBody)
+    //console.log("BODY", postBody)
 
     tranferCase(postBody, false)
 
@@ -398,18 +403,19 @@ export default function SubjectProfilePage() {
     FetchApi.post(TRANSFER_CASE, postBody, (status, data) => {
       console.log(data)
 
-      if (status && data.status) {
+      if (status && data.status) { 
         showSuccessAlert("Ammendment Request sent")
         postBody.inquryID = postBody.inquiryID
         setCaseData(postBody)
         changeLabel(postBody.status)
-        
+        console.log(fieldsToAmment, "Important")
         fieldsToAmment.forEach(task => {
-
+          
+          console.log(task, "Important 2")
           task.assignee = postBody.recipientID
           task.creator = userData.userID
           task.inquiryID = postBody.inquiryID
-
+          task.remarks = reRemark
           FetchApi.post(CREATE_TASK, task, (status, data) => {
             console.log("TASK RESP", data)
           })
@@ -515,12 +521,12 @@ export default function SubjectProfilePage() {
                     <TextareaAutosize
                       minRows={2}
                       style={{ width: '100%', padding: 10 }}
-                      placeholder='Notes'
+                      placeholder='Recommendation'
                       onChange={(event) => {
 
-                        fieldsToAmment[index].description = event.target.value
-                        setFieldsToAmment(fieldsToAmment)
-
+                        //fieldsToAmment[index].description = event.target.value
+                        setRevRemark(event.target.value)
+                          {console.log(fieldsToAmment)}
 
                       }}
                     />
@@ -663,7 +669,7 @@ export default function SubjectProfilePage() {
                   <>
 
                     {
-                      caseData.status != "3" && caseData.owner == userData.userID &&
+                      caseData.status != "3" && officerdata != "I.O" &&
                       <Button variant="contained"
                         sx={{ background: '#303F9F' }}
                         onClick={() => setOpen(true)}
@@ -674,7 +680,7 @@ export default function SubjectProfilePage() {
 
                     {
 
-                      caseData.owner == userData.userID && caseD.status == "3" &&
+                      caseData.assigneee != userData.userID && caseD.status == "3" &&
                       <Button variant="contained"
                         sx={{ background: '#1e90ff', marginLeft: 2 }}
                         onClick={() => setAmmendDialogOpen(true)}
@@ -692,14 +698,14 @@ export default function SubjectProfilePage() {
                   }
                 
 
-
+{/* 
                     {
                       caseData.status != "3" && caseData.assigneee == userData.userID &&
                       <Button variant="contained"
                         sx={{ marginLeft: 2, background: '#20b2aa' }}
                         onClick={() => setConfirmSubmitOpen(true)}
                       >Submit For Review</Button>
-                    }
+                    } */}
 
 
                   </>

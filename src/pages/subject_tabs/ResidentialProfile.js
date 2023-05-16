@@ -255,6 +255,7 @@ export default function ResidentialProfile({ id, updateProfileData }) {
 
         FetchApi.upload(formData, (status, data) => {
           if (status) {
+            console.log("what i'm sending",formData, status, data)
             const fileUrl = BASE_URL + '/' + data.url;
             values.attachments = fileUrl;
 
@@ -275,6 +276,7 @@ export default function ResidentialProfile({ id, updateProfileData }) {
 
   const setSubjectResidence = (values) => {
     console.log('VALUES:::', values);
+   
     FetchApi.post(
       residentialData.res_INFO_ID ? UPDATE_RESIDENTIAL : SET_RESIDENTIAL,
       values,

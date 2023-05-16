@@ -5,7 +5,10 @@ const headers = new Headers();
 headers.append('Content-Type', 'application/json');
 headers.append('Authorization', 'Bearer token');
 
-const upHeaders = new Headers();
+// const upHeaders = new Headers();
+// upHeaders.append('multipart/form-data')
+//upHeaders.append('Authorization', 'Bearer token');
+
 
 export const FetchApi = {
   post: (url, body, onComplete) => {
@@ -30,7 +33,7 @@ export const FetchApi = {
   upload: (formData, onComplete) => {
     fetch(BASE_URL + '/upload', {
       method: 'POST',
-      headers: upHeaders,
+     // headers: {"multipart/form-data"},
       body: formData
     })
       .then((response) => response.json())

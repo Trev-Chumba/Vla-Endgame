@@ -50,12 +50,18 @@ sidebarConfig1 =  [
     },
   
     {
-      header : "INQUIRIES",
+      header : "CASES",
       items : [
         {
-          title: 'My Inquiries',
+          title: 'My Cases',
           path: '/dashboard/my-inquiries',
           icon: getIcon('eva:shopping-bag-fill')
+        },
+
+        {
+          title: 'Completed Cases',
+          path: '/dashboard/case-history',
+          icon: getIcon('eva:list-fill'),
         },
         // {
         //   title: 'blog',
@@ -95,13 +101,11 @@ sidebarConfig1 =  [
           icon: getIcon('eva:list-fill'),
         },
       
-        // {
-        //   title: 'Not found',
-        //   path: '/404',
-        //   icon: getIcon('eva:alert-triangle-fill')
-        // }
+       
       ]
     },
+
+
   
     
       // {

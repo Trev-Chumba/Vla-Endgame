@@ -1,8 +1,8 @@
 const DEV_API = 'http://10.153.1.65:8099';
 const PROD_API = 'http://10.160.8.92:8099';
-const LOCAL_API = 'http://127.0.0.1:8099';
+const LOCAL_API = 'http://localhost:8099';
 const IP = 'http://192.168.22.41:8099';
-//const LOCAL_API = 'http://192.168.137.20:8099';
+const LOCAL_API2 = 'http://192.168.0.108:8099';
 
 export const BASE_URL = PROD_API;
 
@@ -49,6 +49,7 @@ export const GET_ALL_INQUIRY = '/inquiryMgt/myInquries';
 export const GET_CASE_DETAILS = '/inquiryMgt/get';
 
 export const PRINT_CASE = '/printSubject/report';
+export const PRINT_BATCH = '/printSubject/mreport'
 
 export const TRANSFER_CASE = '/inquiryMgt/transfer';
 export const UPDATE_CASE = '/inquiryMgt/update';
@@ -86,3 +87,11 @@ export const UPDATE_TAXES = '/taxInfo/update';
 export const SET_DECLARATIONS = '/propertyMgt/setDeclarations';
 export const GET_DECLARATIONS = '/propertyMgt/getDeclarations';
 export const UPDATE_DECLARATIONS = '/propertyMgt/updateDeclarations';
+
+export const SEARCH_BATCH = '/searchMgt/batch';
+export const MY_BATCH = '/searchMgt/myBatch';
+export const ASSIGN_BATCH = '/searchMgt/assignBatch';
+export const BATCH_LIST = '/searchMgt/batchList';
+export const OPEN_INDIVIDUAL_CASES = '/searchMgt/bulkAssign'
+export const MY_COMPLETED_CASES ='/inquiryMgt/myClosed'
+export const AUDIT_TRAIL = '/userMgt/alltrail'

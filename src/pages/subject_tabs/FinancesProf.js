@@ -547,6 +547,7 @@ export default function FinancesProf({ id, updateProfileData }) {
           }
           
           onChange = {handlesun}
+          onDrop={e => {e.preventDefault()}}
           setContents= {accountData.remarks}
           />
 </Stack>

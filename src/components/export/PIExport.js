@@ -6,6 +6,14 @@ import georgiab from '../../fonts/georgiab.ttf';
 import { PiHeader } from './PIHeader';
 import gillItalic from '../../fonts/GillSansz.otf';
 
+import ReactHtmlParser from 'react-html-parser'
+import Html from 'react-pdf-html';
+import "suneditor/dist/css/suneditor.min.css";
+import "../../../../vla-test/node_modules/suneditor/dist/css/suneditor.min.css";
+import '../../../src/index.css'
+import HtmlParser from 'react-html-parser';
+import { parseJSON } from 'date-fns';
+
 Font.register({
   family: 'Georgia',
   fonts: [
@@ -36,8 +44,22 @@ Font.register({
 export default function PIExport(props) {
   const bioData = props.data.bio || {};
   const caseDetails = props.data.caseDetails;
+  const [cFinding, setCfinding] = React.useState([])
   console.log('CaseDets::', caseDetails);
   console.log('CaseDets2::', bioData);
+  //console.log('CaseDets2::', caseDetails.cFindings);
+  // setCfinding(caseDetails.cFindings.map(element => ({
+  //   rec: element,
+  // })));
+  try {
+    arr = JSON.parse(caseDetails.cFindings);
+    console.log(' JSON array parsed successfully');
+  } catch (err) {
+    console.log(' invalid JSON provided', err);
+    // report error
+  }
+
+  console.log(cFinding, "Help here")
   const styles = StyleSheet.create({
     page: {
       flexDirection: 'row',
@@ -57,25 +79,33 @@ export default function PIExport(props) {
     },
 
     textSubHeader: {
-      fontSize: 13,
+      fontSize: 12,
       marginVertical: 10,
-      fontFamily: 'Georgia_bold',
-      fontWeight: 'demibold'
+      fontFamily: 'Georgia_bold'
     },
 
     textTableHeader: {
-      fontSize: 15,
-      fontWeight: 'demibold',
+      fontSize: 12,
       fontFamily: 'Georgia_bold'
     },
 
     textBody: {
       fontWeight: 'normal',
+      fontFamily: 'Georgia',
+      fontSize: 12
+    },
+    textBody2: {
+      fontWeight: 'normal',
+      fontFamily: 'Georgia',
       fontSize: 12,
-      fontFamily: 'Georgia'
+      border: 1,
+      display:'flex',
+      flexDirection: 'column',
+      width: '100%'
     },
 
     table: {
+      maxWidth: '100%',
       width: '100%',
       display: 'flex',
       flexDirection: 'column',
@@ -94,9 +124,43 @@ export default function PIExport(props) {
       borderColor: 'gray',
       borderWidth: 1,
       padding: 5,
-      width: '20%'
+      flex: 1
+    },
+    td451: {
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 5,
+      flex: 1,
+      flexDirection: 'column',
+    },
+
+    td1: {
+      flexDirection: 'row',
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 5,
+      width: '10%'
+    },
+
+    td2: {
+      flexDirection: 'row',
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 5,
+      //width: '10%'
+      width: '15%'
+    },
+
+    td2a: {
+      flexDirection: 'row',
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 5,
+      //width: '10%'
+      width: '35%'
     }
   });
+
 
   return (
     <Page size="A4" style={styles.page}>
@@ -176,16 +240,12 @@ export default function PIExport(props) {
         </Text>
 
         <Text style={styles.textSubHeader}>2.0 Preliminary Findings</Text>
-        <Text style={styles.textBody}>{caseDetails.findings}</Text>
+        <Text style={styles.textBody}><Html stylesheet={styles}>{caseDetails.findings}</Html></Text>
 
-        <Text style={styles.textSubHeader}>2.0 Way Forward</Text>
+        <Text style={styles.textSubHeader}>3.0 Way Forward</Text>
         <Text style={styles.textBody}>{caseDetails.remarks}</Text>           
-        <Text style={styles.textSubHeader}>3.0 Recommendation</Text>
-        
-        <Text style={styles.textBody}>{caseDetails.recomentation}</Text>
-        
-        <Text style={styles.textSubHeader}>4.0 Findings</Text>
-        <Text style={styles.textBody}>{caseDetails.findings}</Text>
+        <Text style={styles.textSubHeader}>4.0 Recommendation</Text>
+        <Text style={styles.textBody}>{cFinding}</Text> 
         <Text
           style={{
             marginTop: 'auto',

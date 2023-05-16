@@ -9,6 +9,7 @@ import { FetchApi } from 'src/api/FetchApi';
 import { BASE_URL, UPDATE_CASE } from 'src/api/Endpoints';
 import { UserContext } from 'src/context/UserContext';
 
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -50,7 +51,9 @@ export default function CaseMeta({ details, updateProfileData }) {
   const showAlert = () => {
     alert.success('SAVED SUCCESSFULLY');
   };
-
+  const showErrorAlert = () => {
+    alert.success('Did not save');
+  };
   const RegisterSchema = Yup.object().shape({
     source: Yup.string(),
     reasons: Yup.string(),
@@ -125,6 +128,7 @@ export default function CaseMeta({ details, updateProfileData }) {
     details.userID = userData.userID;
     details.inquiryID = details.iquiryid;
     details.rto = values.rto;
+    details.cFindings = [],
     (details.rfrom = values.rfrom),
       (details.date = values.from),
       (details.subject = values.subject),
@@ -234,7 +238,7 @@ export default function CaseMeta({ details, updateProfileData }) {
 
                   <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     <FormControl sx={{ m: 1, width: 1100 }}>
-                      <TextField fullWidth label="Status" {...getFieldProps('candidateType')} />
+                      <TextField fullWidth label="Internal/External" {...getFieldProps('candidateType')} />
                     </FormControl>
                   </Stack>
 
@@ -248,15 +252,15 @@ export default function CaseMeta({ details, updateProfileData }) {
                     />
                   </FormControl>
                   <Stack></Stack>
-                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                    <TextField
-                      fullWidth
-                      label="Executive Summary"
-                      multiline
-                      rows={3}
-                      {...getFieldProps('esummary')}
-                    />
-                  </Stack>
+                    {details.inquiryType != 'Vetting' && details.inquiryType != 'Background Check' &&<Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                      <TextField
+                        fullWidth
+                        label="Executive Summary"
+                        multiline
+                        rows={3}
+                        {...getFieldProps('esummary')}
+                      />
+                    </Stack>}
                   {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                     <TextField
                       fullWidth

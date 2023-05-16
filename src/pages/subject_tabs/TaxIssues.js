@@ -35,6 +35,10 @@ import SearchNotFound from 'src/components/SearchNotFound';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
+import SunEditor from "suneditor-react";
+import "suneditor/dist/css/suneditor.min.css";
+import "../../../../vla-test/node_modules/suneditor/dist/css/suneditor.min.css";
+import ReactHtmlParser from 'react-html-parser';
 
 
 
@@ -97,7 +101,7 @@ export default function TaxIssues({ id, updateProfileData }) {
   const [otherResidents, setOtherResidents] = useState(taxes)
 
   const [taxesData, setTaxesData] = useState({})
-
+  const [remark, setremark] = useState('');
   const [attachments, setAttachment] = useState(undefined)
   const { userData } = useContext(UserContext)
   const [userID, setUserID] = useState(userData.userID)
@@ -235,7 +239,7 @@ export default function TaxIssues({ id, updateProfileData }) {
       description: taxesData.description || "",
       estValue: taxesData.estValue || "",
       attachments: taxesData.attachments || "",
-      remarks: taxesData.remarks || "",
+     // remarks: taxesData.remarks || "",
       taxpayer: taxesData.taxpayer || "",
       incomeTax: taxesData.incomeTax || "",
       vat: taxesData.vat || "",
@@ -252,6 +256,7 @@ export default function TaxIssues({ id, updateProfileData }) {
 
       values.subjectID = subjectID
       values.userID = userID
+      values.remarks = remark
       values.taxID = taxesData.taxID;
 
 
@@ -316,6 +321,14 @@ export default function TaxIssues({ id, updateProfileData }) {
     })
   }
 
+  const handlesun = (content) => {
+    
+    console.log(content, 'sun log content');
+
+    setremark(content);
+    
+  };
+
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
   const isUserNotFound = filteredUsers.length === 0;
 
@@ -344,7 +357,76 @@ export default function TaxIssues({ id, updateProfileData }) {
                   <CardContent>
                     <Stack spacing={3}>
 
-                      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                    <Stack>
+      
+
+      <SunEditor
+                setOptions={{
+                 
+                  buttonList: [
+                    ["font", "fontSize", "formatBlock"],
+                    [
+                      "bold",
+                      "underline",
+                      "italic",
+                      "strike",
+                      "subscript",
+                      "superscript",
+                    ],
+                    ["align", "horizontalRule", "list", "table"],
+                    ["fontColor", "hiliteColor"],
+                    ["outdent", "indent"],
+                    ["undo", "redo"],
+                    ["removeFormat"],
+                    ["outdent", "indent"],
+                    ["link"]],
+      
+                    attributesWhitelist: {
+                      table: "style",
+                      tbody: "style",
+                      thead: "style",
+                      tr: "style",
+                      td: "style"
+                    }
+                  
+                  }
+                  
+                }
+                
+                onChange = {handlesun}
+                onDrop={e => {e.preventDefault()}}
+                setContents= {taxesData.remarks}
+                />
+      </Stack>
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                        <TextField
+                            fullWidth
+                            label="Total"
+                            {...getFieldProps('estValue')}
+                            error={Boolean(touched.estValue && errors.estValue)}
+                            helperText={touched.estValue && errors.estValue}
+                          />
+                          <TextField
+                            fullWidth
+                            label="Year"
+                            {...getFieldProps('year')}
+                            error={Boolean(touched.year && errors.year)}
+                            helperText={touched.year && errors.year}
+                          />
+                            <Button
+                            fullWidth
+                            component="label"
+                            variant='outlined'
+                          >
+                            Add Attachment
+                            <input
+                              type="file"
+                              hidden
+                              onChange={(event) => setAttachment(event.target.files)} />
+
+                          </Button>
+                      </Stack>
+                      {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                         <TextField
                           fullWidth
                           label="KRA Pin"
@@ -454,10 +536,10 @@ export default function TaxIssues({ id, updateProfileData }) {
 
                         />
 
-                      </Stack>
+                      </Stack>*/}
 
 
-                    </Stack>
+                    </Stack> 
 
 
                     <CardActions sx={{ marginTop: 2 }}>

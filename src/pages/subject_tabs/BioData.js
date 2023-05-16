@@ -8,7 +8,8 @@ import {
   MenuItem,
   Stack,
   TextField,
-  Container
+  Container,
+  Typography
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
@@ -69,6 +70,7 @@ export default function BioData({
   const [confirmVettingOpen, setConfirmVettingOpen] = useState(false);
   const [confirmPiOpen, setConfirmPiOpen] = useState(false);
   const [confirmLsaOpen, setConfirmLsaOpen] = useState(false);
+  const [attachment,  setAttachment] = useState(undefined)
 
   ////////////////////////////////////////////////
   // const convertToJscriptDate(()=>{})
@@ -474,6 +476,11 @@ export default function BioData({
                           onChange={(event) => setAttachment(event.target.files)}
                         />
                       </Button>
+                      {attachment ? (
+                      <Typography>{attachment[0].name}</Typography>
+                    ) : (
+                      <Typography>No attachment added</Typography>
+                    )}
                     </Stack>
 
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>

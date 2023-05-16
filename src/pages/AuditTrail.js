@@ -29,7 +29,7 @@ import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 //
 import USERLIST from '../_mocks_/user';
 import { FetchApi } from '../api/FetchApi';
-import { GET_ALL_INQUIRY } from '../api/Endpoints';
+import {AUDIT_TRAIL} from '../api/Endpoints';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from 'src/context/UserContext';
@@ -38,12 +38,14 @@ import Label from '../components/Label';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'subjectName', label: 'Subject Name', alignRight: false },
-  { id: 'inquryType', label: 'Type', alignRight: false },
-  { id: 'status', label: 'status', alignRight: false },
-  { id: 'assName', label: 'Assignee Name', alignRight: false },
-  { id: 'dateCreated', label: 'Creation date', alignRight: false },
-  { id: 'LsaExpiry', label: 'Expiry Date', alignRight: false }
+  { id: 'auditID', label: 'Audit ID', alignRight: false },
+  { id: 'typusere', label: 'User', alignRight: false },
+  { id: 'action', label: 'Action', alignRight: false },
+  { id: 'impacted', label: 'Impacted', alignRight: false },
+  { id: 'ip', label: 'IP', alignRight: false },
+  { id: 'command', label: 'Command', alignRight: false },
+  { id: 'dateCreated', label: 'Date Created', alignRight: false },
+  
 ];
 
 // ----------------------------------------------------------------------
@@ -65,7 +67,6 @@ function getComparator(order, orderBy) {
 }
 
 function applySortFilter(array, comparator, query) {
-  console.log(array, 'This is array')
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -82,7 +83,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function MyInquiries() {
+export default function AuditTrail() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -96,7 +97,6 @@ export default function MyInquiries() {
   const [filteredUsers, setFilteredUsers] = useState([]);
 
   const handleRequestSort = (event, property) => {
-    console.log("event and Property", event, property)
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -104,7 +104,7 @@ export default function MyInquiries() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = filteredUsers.map((n) => n.name);
+      const newSelecteds = USERLIST.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -139,30 +139,27 @@ export default function MyInquiries() {
   };
 
   const handleFilterByName = (event) => {
-    setFilterName(event.target.value.toLowerCase);
+    setFilterName(event.target.value);
     console.log('Search this: ', filterName)
     const users = applySortFilter(allData, getComparator(order, orderBy), filterName);
     setFilteredUsers(users);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredUsers.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
   useEffect(() => {
     const requestBody = {
       userID: userData.userID
     };
 
-    FetchApi.post(GET_ALL_INQUIRY, requestBody, (status, data) => {
-      console.log(requestBody, ":::Request")
+    FetchApi.post(AUDIT_TRAIL, requestBody, (status, data) => {
       if (status) {
-        console.log("INQUIRIES::::",data)
+        //console.log("INQUIRIES::::",requestBody)
         const inquiry = applySortFilter(data, getComparator(order, orderBy), filterName);
-        const filt = inquiry.filter(obj => {
-          return obj.status != "4"
-        })
-        setFilteredUsers(filt);
-        setAllData(filt);
-        console.log("INQUIRIES Filtered::::",allData)
+        console.log("Audit DAta", data)
+        setFilteredUsers(inquiry);
+        setAllData(inquiry);
+        //console.log("INQUIRIES Filtered::::",allData)
       } else {
         //some error
       }
@@ -172,20 +169,20 @@ export default function MyInquiries() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="KRA VLA| My Inquiries">
+    <Page title="KRA VLA| Audit Trail">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            My inquiries
+            Audit
           </Typography>
         </Stack>
 
         <Card>
-          {filteredUsers > 0 ? <UserListToolbar
+          <UserListToolbar
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
-          /> : ''}
+          />
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -194,7 +191,7 @@ export default function MyInquiries() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={filteredUsers.length}
+                  rowCount={USERLIST.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
@@ -204,94 +201,56 @@ export default function MyInquiries() {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       const {
-                        subjectID,
-                        subjectName,
-                        inquryType,
-                        status,
-                        subjectIdNO,
-                        inquryID,
+                        auditID,
+                        user,
+                        action,
+                        impacted,
+                        ip,
+                        command,
                         profile_pic,
                         LsaExpiry,
                         dateCreated,
                         owner,
-                        assignee,
-                        assName 
+                        assignee
                       } = row;
 
-                      const isItemSelected = selected.indexOf(subjectName) !== -1;
-
-                      let caseType = 'LA';
-
-                      switch (inquryType) {
-                        case 'Background Check':
-                          caseType = 'BC';
-                          break;
-                        case 'Preliminary Investigation':
-                          caseType = 'PI';
-                          break;
-                        case 'Vetting':
-                          caseType = 'VT';
-                          break;
-                      }
-
-                      let caseStatus = 'Open';
-                      let caseLabelType = 'success';
-
-                      switch (status) {
-                        case '2':
-                          caseStatus = 'In Progress';
-                          caseLabelType = 'info';
-                          break;
-                        case '3':
-                          caseStatus = 'In Review';
-                          caseLabelType = 'primary';
-                          break;
-                        case '4':
-                          caseStatus = 'Complete';
-                          caseLabelType = 'error';
-                          break;
-                        case '5':
-                          caseStatus = 'Re-Opened';
-                          caseLabelType = 'info';
-                          break;
-                      }
+                      const isItemSelected = selected.indexOf(auditID) !== -1;
 
                       return (
                         <TableRow
                           hover
-                          key={subjectName}
+                          key={auditID}
                           tabIndex={-1}
                           role="checkbox"
                           selected={isItemSelected}
                           aria-checked={isItemSelected}
                         >
-                          <TableCell padding="checkbox">
+                          {/* <TableCell padding="checkbox">
                             <Checkbox
                               checked={isItemSelected}
                               onChange={(event) => handleClick(event, subjectName)}
                             />
-                          </TableCell>
+                          </TableCell> */}
                           <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
+                            {/* <Stack direction="row" alignItems="center" spacing={2}>
                               <Avatar alt={subjectName} src={profile_pic} />
                               <Typography variant="subtitle2" noWrap>
                                 {subjectName}
                               </Typography>
-                            </Stack>
+                            </Stack> */}
                           </TableCell>
 
-                          <TableCell align="left">{inquryType}</TableCell>
+                          <TableCell align="left">{auditID}</TableCell>
 
                           <TableCell align="left">
-                            <Label variant="ghost" color={caseLabelType}>
-                              {caseStatus}
-                            </Label>
+                            {user}
                           </TableCell>
-                          <TableCell align="left">{assName}</TableCell>
+                          <TableCell align="left">{action}</TableCell>
+                          <TableCell align="left">{impacted}</TableCell>
+                          <TableCell align="left">{ip}</TableCell>
+                          <TableCell align="left">{command}</TableCell>
                           <TableCell align="left">{dateCreated}</TableCell>
-                          <TableCell align="left">{LsaExpiry}</TableCell>
-
-                          <TableCell>
+                          {/* <TableCell>
                             <RouterLink
                               to={
                                 '/dashboard/view-case/' +
@@ -310,8 +269,8 @@ export default function MyInquiries() {
                             >
                               <FontAwesomeIcon icon={faEye} />
                             </RouterLink>
-                          </TableCell>
-                        </TableRow> 
+                          </TableCell> */}
+                        </TableRow>
                       );
                     })}
                   {emptyRows > 0 && (
@@ -334,7 +293,7 @@ export default function MyInquiries() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25, 50, 100]}
+            rowsPerPageOptions={[5, 10, 25, 50]}
             component="div"
             count={filteredUsers.length}
             rowsPerPage={rowsPerPage}

@@ -66,13 +66,14 @@ export default function LoginForm({ setValueX }) {
         if ((status && data.status == '1') || data.status == 1 || data.status == undefined) {
           //console.log('data status', status, data.status);
           setLoginStatus(true);
-          //console.log('data status', data)
+          console.log('data status', data)
           setUserData(data);
-          //console.log(data, 'Login Data');
+          console.log(data, 'Login Data');
 
           localStorage.setItem('userData', data);
+          console.log('data status', status, data.groupName);
           localStorage.setItem('userGroup', data.groupName);
-
+          console.log(localStorage.getItem('userGroup'))
           showSuccessAlert('Login Success');
 
           setValueX(true);
@@ -81,7 +82,7 @@ export default function LoginForm({ setValueX }) {
           //    setUserData({})
           // }, 1000*60*5)
 
-          if (data.reports == 1 || data.reports == '1') {
+          if (data.reports = 1 || data.reports == '1') {
             //console.log('I AM COMM');
             navigate('/dashboard/comm');
             localStorage.setItem('userType', 'comm');
@@ -90,7 +91,7 @@ export default function LoginForm({ setValueX }) {
             navigate('/dashboard/app');
           }
         } else {
-          //console.log('data status', status, data.status)
+          console.log('data status', status, data.status)
           //console.log('data status', data)
           showErrorAlert('Incorrect Username or Password');
         }
@@ -106,7 +107,7 @@ export default function LoginForm({ setValueX }) {
 
   return (
     <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form autoComplete="off" noValidate onSubmit={handleSubmit} spacing= {3}>
         <Stack spacing={3}>
           <TextField
             fullWidth
@@ -138,7 +139,7 @@ export default function LoginForm({ setValueX }) {
           />
         </Stack>
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+        {/* <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
           <FormControlLabel
             control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
             label="Remember me"
@@ -147,8 +148,8 @@ export default function LoginForm({ setValueX }) {
           <Link component={RouterLink} variant="subtitle2" to="#" underline="hover">
             Forgot password?
           </Link>
-        </Stack>
-
+        </Stack> */}
+      <Stack spacing={3} marginTop={3}>
         <LoadingButton
           fullWidth
           size="large"
@@ -158,6 +159,12 @@ export default function LoginForm({ setValueX }) {
         >
           Login
         </LoadingButton>
+        </Stack>
+        {/* <Stack bottom={0}>
+          <Text>
+            Version 1
+          </Text>
+        </Stack> */}
       </Form>
     </FormikProvider>
   );

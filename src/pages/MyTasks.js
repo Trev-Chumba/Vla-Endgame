@@ -147,10 +147,10 @@ export default function MyTasks() {
 
     FetchApi.post(GET_MY_TASKS, requestBody, (status, data) => {
       if (status) {
-        //console.log('TASKS request body::::', requestBody);
+        console.log('TASKS request body::::', data);
         const task = applySortFilter(data, getComparator(order, orderBy), filterName);
         setFilteredUsers(task);
-        //console.log('TASKS::::', data);
+        console.log('TASKS::::', data);
       } else {
         //some error
       }
@@ -161,7 +161,7 @@ export default function MyTasks() {
         //console.log('INQUIRIES (tasks) request body::::', requestBody);
         const inquiry = applySortFilter(data, getComparator(order, orderBy), filterName);
         setAllData(inquiry);
-        //console.log('INQUIRIES from tasks::::', data);
+        console.log('INQUIRIES from tasks::::', data, status);
       } else {
         //some error
       }
@@ -222,6 +222,7 @@ export default function MyTasks() {
                         assignee,
                         taskID,
                         inquryType,
+                        remarks,
                         description
                       } = row;
                       const isItemSelected = selected.indexOf(subjectName) !== -1;
@@ -272,10 +273,10 @@ export default function MyTasks() {
                           aria-checked={isItemSelected}
                         >
                           <TableCell padding="checkbox">
-                            {/* <Checkbox
+                            <Checkbox
                               checked={isItemSelected}
                               onChange={(event) => handleClick(event, description)}
-                            /> */}
+                            />
                           </TableCell>
                           <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
@@ -287,7 +288,7 @@ export default function MyTasks() {
 
                           <TableCell align="left">{inquryType}</TableCell>
                           <TableCell align="left">{caseStatus}</TableCell>
-                          <TableCell align="left">{description}</TableCell>
+                          <TableCell align="left">{remarks}</TableCell>
 
                           <TableCell>
                             <RouterLink

@@ -114,9 +114,9 @@ export default function CreateUser() {
       console.log(data);
 
       if (status) {
-        showSuccessAlert('User Saved Success');
+        showSuccessAlert('User Saved ');
       } else {
-        showSuccessAlert('User Saved Success');
+        showSuccessAlert('User could not be found');
       }
     });
   };
