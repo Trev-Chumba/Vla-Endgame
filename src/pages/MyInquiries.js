@@ -292,7 +292,7 @@ export default function MyInquiries() {
                           <TableCell align="left">{LsaExpiry}</TableCell>
 
                           <TableCell>
-                            <RouterLink
+                           { status != "3"  && <RouterLink
                               to={
                                 '/dashboard/view-case/' +
                                 caseType +
@@ -309,7 +309,7 @@ export default function MyInquiries() {
                               }
                             >
                               <FontAwesomeIcon icon={faEye} />
-                            </RouterLink>
+                            </RouterLink>}
                           </TableCell>
                         </TableRow> 
                       );

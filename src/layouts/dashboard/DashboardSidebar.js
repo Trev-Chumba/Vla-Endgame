@@ -103,7 +103,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       </UserContext.Consumer>
 
       {/* if statement */}
-      <NavSection navConfig={(userType == "Intelligence Officer") ? sidebarConfig: sidebarConfig2} />
+      <NavSection navConfig={(userType === "IO") ? sidebarConfig: sidebarConfig2} />
  
      
       

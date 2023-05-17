@@ -212,12 +212,24 @@ export default function MyCases() {
       }
     })
   }
-
+  const [allchecked, setAllchecked] = useState(false)
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = batchList.map((n) => n.name);
-      setSelected(newSelecteds);
+      const newSelecteds = batchList.map((n) => n.subjectID);
+      setAllchecked(!allchecked)
+      if(!allchecked)
+      {
+        //console.log("lenghts", newSelecteds.length, batchList.length)
+        setSelected([])
+      }
+      else
+      {
+        console.log("lenghts", newSelecteds.length, batchList.length)
+      
+      setSelected([...newSelecteds]);
+     
       return;
+      }
     }
     setSelected([]);
   };
@@ -284,7 +296,7 @@ export default function MyCases() {
     setBatchNum(event.target.value)
     console.log(".......", batchNum)
     setCount(count + 1)
-    setOpen((prev) => ({ ...prev, [batchNum]: !prev[batchNum] }))
+    setOpen(!open)
 }
 
   useEffect(()=>{
@@ -507,14 +519,14 @@ export default function MyCases() {
                           <Button 
                           value = {row.batchNo}
                            onClick={handleSelect}
-                          > {open[batchNo] ? <FontAwesomeIcon icon={faArrowUp} />: <FontAwesomeIcon icon={faArrowDown} />}</Button>
+                          > {open ? <FontAwesomeIcon icon={faArrowUp} />: <FontAwesomeIcon icon={faArrowDown} />}</Button>
                           </TableCell>
                       </TableRow>
 
 
                     <TableRow>
                     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }}>
-                      <Collapse in={open} timeout="auto" hidden={!open} unmountOnExit>
+                      <Collapse in={open} timeout="auto"  unmountOnExit>
                         
                           {/* <Typography variant="h6" gutterBottom component="div">
                             Batch List
@@ -525,7 +537,7 @@ export default function MyCases() {
                               order={order}
                               orderBy={orderBy}
                               headLabel={Table_head2}
-                              rowCount={20}
+                              rowCount={batchList.length}
                               numSelected={selected.length}
                               onRequestSort={handleRequestSort}
                               onSelectAllClick={handleSelectAllClick}

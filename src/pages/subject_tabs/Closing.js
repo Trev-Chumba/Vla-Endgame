@@ -373,7 +373,7 @@ console.log('Ne case det', details,userData.userID, details.status, details.assi
           <Grid item md={12}>
             <Card sx={{ width: '100%', paddingBottom: 3 }}>
               <CardHeader
-                title="Findings"
+                //title="Findings"
                 // action={
                 //     <>
                 //         <Button variant="contained"

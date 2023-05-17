@@ -58,7 +58,7 @@ export default function CompletedTasks(props) {
       <DetailsWrapperStyle>
       <Typography variant="h3">{fShortenNumber(props.total)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Completed Tasks
+        Completed Cases
       </Typography>
       </DetailsWrapperStyle>
     </RootStyle>
