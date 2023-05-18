@@ -296,7 +296,7 @@ export default function MyCases() {
     setBatchNum(event.target.value)
     console.log(".......", batchNum)
     setCount(count + 1)
-    setOpen(!open)
+   
 }
 
   useEffect(()=>{
@@ -518,15 +518,15 @@ export default function MyCases() {
                         <TableCell align="right">
                           <Button 
                           value = {row.batchNo}
-                           onClick={handleSelect}
-                          > {open ? <FontAwesomeIcon icon={faArrowUp} />: <FontAwesomeIcon icon={faArrowDown} />}</Button>
+                           onClick={(event)=> [setOpen((prev) => ({ ...prev, [row.batchNo]: !prev[row.batchNo] })), handleSelect(event)]}
+                          > {open[batchNo]? <FontAwesomeIcon icon={faArrowUp} />: <FontAwesomeIcon icon={faArrowDown} />}</Button>
                           </TableCell>
                       </TableRow>
 
 
                     <TableRow>
                     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }}>
-                      <Collapse in={open} timeout="auto"  unmountOnExit>
+                      <Collapse in={open[row.batchNo]} timeout="auto" hidden = {!open[row.batchNo]} unmountOnExit>
                         
                           {/* <Typography variant="h6" gutterBottom component="div">
                             Batch List
@@ -557,7 +557,9 @@ export default function MyCases() {
                               {batchList.map((historyRow) => {
                                 const isItemSelected2 = selected.indexOf(historyRow.subjectID) !==-1
                                return(
-                                <TableRow key={historyRow.subjectID} sx={{ visibility: open ? 'visible' : 'collapse' }}>
+                                <TableRow key={historyRow.subjectID} 
+                                // sx={{ visibility: open ? 'visible' : 'collapse' }}
+                                >
                                 <TableCell padding="checkbox">
                                   <Checkbox
                                     checked={isItemSelected2}
