@@ -51,7 +51,7 @@ export default function Router() {
         { path: 'comm', element: <CommDashboard /> },
         { path: 'search-batch', element: <BatchProfiles /> },
         { path: 'case-history', element: <CaseHistory /> },
-        { path: 'audit-trail', element: <AuditTrail /> }
+        { path: 'audit-trail', element: <AuditTrail /> },
         { path: 'my-assignments', element: <MyAssignments /> }
 
       ]
