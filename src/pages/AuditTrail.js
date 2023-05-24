@@ -76,7 +76,7 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.subjectName.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) => _user.action.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
 
@@ -85,11 +85,11 @@ function applySortFilter(array, comparator, query) {
 
 export default function AuditTrail() {
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
+  const [order, setOrder] = useState('desc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('subjectName');
+  const [orderBy, setOrderBy] = useState('dateCreated');
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const [allData, setAllData] = useState([]);
   const { userData } = useContext(UserContext);
 
@@ -100,11 +100,16 @@ export default function AuditTrail() {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
+    if(isAsc)
+    {
+      console.log("OrderBy:  ",order)
+    }
+    
   };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = filterName.map((n) => n.auditID);
       setSelected(newSelecteds);
       return;
     }
@@ -130,10 +135,12 @@ export default function AuditTrail() {
   };
 
   const handleChangePage = (event, newPage) => {
+   
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
+    
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -145,7 +152,7 @@ export default function AuditTrail() {
     setFilteredUsers(users);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredUsers.length) : 0;
 
   useEffect(() => {
     const requestBody = {
@@ -159,7 +166,7 @@ export default function AuditTrail() {
         console.log("Audit DAta", data)
         setFilteredUsers(inquiry);
         setAllData(inquiry);
-        //console.log("INQUIRIES Filtered::::",allData)
+        //console.log("INQUIRIES Filtered::::",filteredUsers.length)
       } else {
         //some error
       }
@@ -177,7 +184,16 @@ export default function AuditTrail() {
           </Typography>
         </Stack>
 
-        <Card>
+        <Card
+          // sx={{
+          //   width: {
+          //     sx: 1.0, // 100%
+          //     sm: 350,
+          //     md: 500,
+          //     lg: 1150
+          //   },
+          // }}
+        >
           <UserListToolbar
             numSelected={selected.length}
             filterName={filterName}
@@ -185,13 +201,13 @@ export default function AuditTrail() {
           />
 
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
+            <TableContainer sx={{ minWidth: 1000 }}>
               <Table>
                 <UserListHead
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
+                  rowCount={filteredUsers.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
@@ -293,7 +309,7 @@ export default function AuditTrail() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25, 50]}
+            rowsPerPageOptions={[ 25, 50, 100]}
             component="div"
             count={filteredUsers.length}
             rowsPerPage={rowsPerPage}

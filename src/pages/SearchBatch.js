@@ -146,46 +146,48 @@ export default function BatchProfiles() {
    const alert = useAlert();
 
    const RegisterSchema = Yup.object().shape({
-    source: Yup.string(),
-    rto: Yup.string(),
-    rfrom: Yup.string(),
-    reference: Yup.string(),
-    subject: Yup.string(),
-    reasons: Yup.string(),
-    recommendation: Yup.string(),
-    position: Yup.string(),
-    candidateType: Yup.string(),
-    through: Yup.string(),
-    date: Yup.date(),
+    bsource: Yup.string(),
+    bto: Yup.string(),
+    bfrom: Yup.string(),
+    bbreference: Yup.string(),
+    bsubject: Yup.string(),
+    breasons: Yup.string(),
+    brecommendation: Yup.string(),
+    bposition: Yup.string(),
+    bcandidateType: Yup.string(),
+    bthrough: Yup.string(),
+    bdate: Yup.date(),
   });
 
    const formik = useFormik({
     initialValues: {
-      reasons:'',
-      source: '',
-      rto: '',
-      rfrom: '',
-      reference: '',
-      date: '',
-      through:'',
-      reasons: '',
-      recommendation: ""
+      breasons:'',
+      bsource: '',
+      bto: '',
+      bfrom: '',
+      breference: '',
+      bdate: '',
+      bthrough:'',
+      breasons: '',
+      brecommendation: ""
     },
     validationSchema: RegisterSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
       //upload any files
-
+      
       someFun(values)
       setReport(true)
-     
+
     }
   });
 
   const someFun =(values)=>
   {
-      setLetterHead(values)
+      setCount(count + 1)
       console.log("Letter Head report:::", letterHead)
+      setLetterHead(values)
+      
   }
 
 
@@ -358,12 +360,13 @@ export default function BatchProfiles() {
 
     const requestBody = {
         userID:userData.userID,
-        batchNo: batchNo
+        batchNo: batchNo,
+       batchLetterHead: letterHead
     }
 
     FetchApi.post(PRINT_BATCH, requestBody, (status, data) => {
       if(status){
-
+        console.log("Request Body Print::", requestBody)
         console.log("INQUIRIES::::",data)
        // const inquiry = applySortFilter(data, getComparator(order, orderBy), filterName);
         setExportData(data)
@@ -469,8 +472,6 @@ export default function BatchProfiles() {
   {
       setBatchNo(event.target.value)
       console.log(".......", batchNo)
-
-      setCount(count + 1)
       setletTrue(!letTrue)
   }
 
@@ -551,24 +552,24 @@ export default function BatchProfiles() {
                         <Stack spacing={3}>
                           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                             <FormControl sx={{ m: 1, width: 1100 }}>
-                              <TextField fullWidth label="To" {...getFieldProps('rto')} />
+                              <TextField fullWidth label="To" {...getFieldProps('bto')} />
                             </FormControl>
                           </Stack>
 
                           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                             <FormControl sx={{ m: 1, width: 1100 }}>
-                              <TextField fullWidth label="Thro'" {...getFieldProps('through')} />
+                              <TextField fullWidth label="Thro'" {...getFieldProps('bthrough')} />
                             </FormControl>
                           </Stack>
                           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                             <FormControl sx={{ m: 1, width: 1100 }}>
-                              <TextField fullWidth label="From" {...getFieldProps('rfrom')} />
+                              <TextField fullWidth label="From" {...getFieldProps('bfrom')} />
                             </FormControl>
                           </Stack>
 
                           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                             <FormControl sx={{ m: 1, width: 1100 }}>
-                              <TextField fullWidth label="Reference" {...getFieldProps('reference')} />
+                              <TextField fullWidth label="Reference" {...getFieldProps('breference')} />
                             </FormControl>
                           </Stack>
 
@@ -579,7 +580,7 @@ export default function BatchProfiles() {
                               label="Reasons for BC/VT/LSA"
                               multiline
                               rows={3}
-                              {...getFieldProps('reasons')}
+                              {...getFieldProps('breasons')}
                     />
                             </FormControl>
                           </Stack>
@@ -591,7 +592,7 @@ export default function BatchProfiles() {
                               label="Recommendation"
                               multiline
                               rows={3}
-                              {...getFieldProps('recommendation')}
+                              {...getFieldProps('brecommendation')}
                             />
                             </FormControl>
                           </Stack>

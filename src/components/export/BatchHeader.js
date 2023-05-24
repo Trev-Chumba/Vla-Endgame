@@ -96,17 +96,17 @@ export const BatchHeader = (props) => {
 
       <View style={styles.Line} />
 
-      <Text style={styles.Text}>TO :{caseDetails.rto}</Text>
+      <Text style={styles.Text}>TO :{caseDetails.bto}</Text>
       {/* <Text>{'\n'}</Text> */}
       {/* <Text style={styles.Text}>THRO' :{caseDetails.through}</Text> */}
       {caseDetails.through == '' ? null : (
-        <Text style={styles.Text}>THRO': {caseDetails.through}</Text>
+        <Text style={styles.Text}>THRO': {caseDetails.bthrough}</Text>
       )}
       {/* <Text>{'\n'}</Text> */}
-      <Text style={styles.Text}>FROM : {caseDetails.rfrom} </Text>
+      <Text style={styles.Text}>FROM : {caseDetails.bfrom} </Text>
       {/* <Text>{'\n'}</Text> */}
       <Text style={styles.Text}>DATE : {today} </Text>
-      <Text style={styles.Text}>REF : {caseDetails.reference} </Text>
+      <Text style={styles.Text}>REF : {caseDetails.breference} </Text>
       {/* <Text>{'\n'}</Text> */}
 
       <View style={styles.Line} />

@@ -124,10 +124,15 @@ export default function MyCases() {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [batchList, setBatchList] = useState([])  
   const [batchNum, setBatchNum] = useState('')
+  const [selectedRowData, setSelectedRowData] = useState({});
+
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
+    // console.log("Order and property", orderBy, property, order)
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
+    // console.log("Order and property2::", orderBy, property, order,)
   };
   const alert = useAlert();
 
@@ -267,7 +272,7 @@ export default function MyCases() {
         setFilteredUsers(users)
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredUsers.length) : 0;
 
 
   useEffect(()=>{
@@ -291,12 +296,12 @@ export default function MyCases() {
 
   }, []) 
 
-  const handleSelect = (event) =>
+  const handleSelect = (rowDta) =>
 {
-    setBatchNum(event.target.value)
+    setBatchNum(rowDta.batchNo)
     console.log(".......", batchNum)
     setCount(count + 1)
-   
+    setOpen(!open)
 }
 
   useEffect(()=>{
@@ -308,7 +313,7 @@ export default function MyCases() {
 
     FetchApi.post(BATCH_LIST, requestBody, (status, data) => {
       if(status){
-
+        console.log("Reequest", requestBody)
         console.log("INQUIRIES::::",data)
        const inquiry = applySortFilter(data, getComparator(order, orderBy), filterName);
         setBatchList(inquiry)
@@ -405,11 +410,11 @@ export default function MyCases() {
         </Stack>
 
         <Card>
-          <UserListToolbar
+          {/* <UserListToolbar
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
-          />
+          /> */}
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }} component={Paper}>
@@ -419,8 +424,8 @@ export default function MyCases() {
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
                   rowCount={USERLIST.length}
-                  numSelected={selected.length}
-                  onRequestSort={handleRequestSort}
+                  numSelected={0}
+                  onRequestSort={""}
                   onSelectAllClick={""}
                 />
                 <TableBody>
@@ -458,9 +463,50 @@ export default function MyCases() {
 
 
                       return (
-                      <TableRow>
-                          <Toolbar
+                        <>
+                      <TableRow
+                      hover
+                      key={batchNo}
+                      //tabIndex={-1}
+                     // role="checkbox"
+                      selected={isItemSelected}
+                      aria-checked={isItemSelected}
+                      >
+                     
+                        {/* <TableRow
+                      > */}
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={isItemSelected}
+                       />
+                        </TableCell>
+                    
+                        <TableCell align="left">{batchNo}</TableCell>
+                        <TableCell align="left">
+                          <Label variant="ghost" color={caseLabelType}>
+                            {status}
+                          </Label>
+                        </TableCell>
+                        <TableCell align="left">{dateCreated}</TableCell>
+                      
+                        <TableCell align="right">
+                          <Button 
+                          value = {row.batchNo}
+                           onClick={()=> handleSelect(row)}
+                          > {open && batchNo === row.batchNo? <FontAwesomeIcon icon={faArrowUp} />: <FontAwesomeIcon icon={faArrowDown} />}</Button>
+                          </TableCell>
+                      {/* </TableRow> */}
+                      </TableRow>
+                    <TableRow >
+                    <TableCell style={{ paddingBottom: 0, paddingTop: 0, }}>
+                      <Collapse in={open && batchNo === row.batchNo} timeout="auto" unmountOnExit>
+                        
+                          {/* <Typography variant="h6" gutterBottom component="div">
+                            Batch List
+                          </Typography> */}
+                           <Toolbar
                               sx={{
+                                width: '100%',
                                 pl: { sm: 2 },
                                 pr: { xs: 1, sm: 1 },
                                 ...(selected.length > 0 && {
@@ -471,7 +517,7 @@ export default function MyCases() {
                             >
                               {selected.length > 0 ? (
                                 <Typography
-                                  sx={{ flex: '0 1 10%' }}
+                                  sx={{ flex: '0 1 90%' }}
                                   color="inherit"
                                   variant="subtitle1"
                                   component="div"
@@ -493,45 +539,9 @@ export default function MyCases() {
                                
                               }
                             </Toolbar>
-                        <TableRow
-                        hover
-                        key={batchNo}
-                        //tabIndex={-1}
-                        role="checkbox"
-                        selected={isItemSelected}
-                        aria-checked={isItemSelected}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            checked={isItemSelected}
-                       />
-                        </TableCell>
-                    
-                        <TableCell align="left">{batchNo}</TableCell>
-                        <TableCell align="left">
-                          <Label variant="ghost" color={caseLabelType}>
-                            {status}
-                          </Label>
-                        </TableCell>
-                        <TableCell align="left">{dateCreated}</TableCell>
                       
-                        <TableCell align="right">
-                          <Button 
-                          value = {row.batchNo}
-                           onClick={(event)=> [setOpen((prev) => ({ ...prev, [row.batchNo]: !prev[row.batchNo] })), handleSelect(event)]}
-                          > {open[batchNo]? <FontAwesomeIcon icon={faArrowUp} />: <FontAwesomeIcon icon={faArrowDown} />}</Button>
-                          </TableCell>
-                      </TableRow>
-
-
-                    <TableRow>
-                    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }}>
-                      <Collapse in={open[row.batchNo]} timeout="auto" hidden = {!open[row.batchNo]} unmountOnExit>
-                        
-                          {/* <Typography variant="h6" gutterBottom component="div">
-                            Batch List
-                          </Typography> */}
-                          <Table size="small" aria-label="purchases">
+                          <Table size="small" aria-label="list-batch">
+                         
                           
                             <UserListHead
                               order={order}
@@ -553,13 +563,15 @@ export default function MyCases() {
                                
                               {/* </TableRow> */} 
                            
-                            <TableBody>
+                            <TableBody   style={{width: '100%'}}>
                               {batchList.map((historyRow) => {
                                 const isItemSelected2 = selected.indexOf(historyRow.subjectID) !==-1
                                return(
                                 <TableRow key={historyRow.subjectID} 
                                 // sx={{ visibility: open ? 'visible' : 'collapse' }}
+                                style={{width: '100%'}}
                                 >
+                                  
                                 <TableCell padding="checkbox">
                                   <Checkbox
                                     checked={isItemSelected2}
@@ -581,11 +593,11 @@ export default function MyCases() {
                                ) })}
                             </TableBody>
                           </Table>
-                   
+            
                       </Collapse>
                     </TableCell>
                   </TableRow>
-                      </TableRow>
+                  </>
                       );
                     })}
                   {emptyRows > 0 && (

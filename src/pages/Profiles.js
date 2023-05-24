@@ -294,7 +294,7 @@ export default function SubjectProfiles() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[5, 10, 25, 100]}
             component="div"
             count={filteredUsers.length}
             rowsPerPage={rowsPerPage}

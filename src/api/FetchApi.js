@@ -22,6 +22,7 @@ export const FetchApi = {
       .then((response) => response.json())
       .then((data) => {
         onComplete(true, data);
+      
       })
       .catch((error) => {
         console.log(BASE_URL + url);
