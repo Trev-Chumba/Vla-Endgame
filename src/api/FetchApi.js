@@ -5,9 +5,11 @@ const headers = new Headers();
 headers.append('Content-Type', 'application/json');
 headers.append('Authorization', 'Bearer token');
 
+
 // const upHeaders = new Headers();
 // upHeaders.append('multipart/form-data')
 //upHeaders.append('Authorization', 'Bearer token');
+
 
 
 export const FetchApi = {
